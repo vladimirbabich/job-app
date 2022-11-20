@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import TabJobsScreen from './src/screens/TabJobsScreen';
-import TabJobsScreen2 from './src/screens/TabJobsScreen2';
 import TabMenuScreen from './src/screens/TabMenuScreen';
 import TabNewJobScreen from './src/screens/TabNewJobScreen';
 import TabRegistrationScreen from './src/screens/TabRegistrationScreen';
