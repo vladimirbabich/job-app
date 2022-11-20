@@ -5,18 +5,19 @@ import Job from '../components/Job';
 import { Gallery } from '../components/Gallery';
 
 import { getNumberFromPercent } from '../support-features/supportFunctions';
+import { Overlay } from '../components/Overlay';
 
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 // alert(`w:${windowWidth}, h:${windowHeight}`)
 //component sizes
-const mainImage = {
+const mainImageSize = {
   w: getNumberFromPercent(windowWidth, 90),
   h: getNumberFromPercent(windowHeight, 50)
 };
 
-const scroll = {
+const scrollSize = {
   w: getNumberFromPercent(windowWidth, 90),
   h: getNumberFromPercent(windowHeight, 5)
 };
@@ -41,6 +42,16 @@ export default function TabJobsScreen() {
       startDate: "02.12.2022",
       deadline: "",
       media: [
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
+        "https://placeimg.com/640/480/any",
         "https://placeimg.com/640/480/any",
         "https://placeimg.com/640/480/any",
         "https://placeimg.com/640/480/any",
@@ -100,21 +111,15 @@ export default function TabJobsScreen() {
   }
 
   useEffect(() => {
-    getDataFromServer();
+    getDataFromServer();//placeholder for now
   }, []);
+
   useEffect(() => {
     console.log('openedJobId:' + openedJobId);
   }, [openedJobId]);
 
   function toggleGalleryView(jobId) {
-    // console.log('before state: ' + openedJobId);
-    
     setOpenedJobId(jobId);
-    
-console.log(`%cw:${mainImage.w} - ${windowWidth}`, 'color:blue')
-console.log(`%ch:${mainImage.h} - ${windowHeight}`, 'color:purple')
-    // console.log('after state: ' + openedJobId);
-
   }
 
 
@@ -122,9 +127,9 @@ console.log(`%ch:${mainImage.h} - ${windowHeight}`, 'color:purple')
   let data2 = [];
   //get data from server, and make job component for each task
   let isPromiseFulfilled = false;
-  // console.dir(data)
+
   if (!true) return <Text>Загрузка...</Text>;
-  // console.log(data.length)
+
   if (data.length == 0 && isPromiseFulfilled) {
     return (
       <View>
@@ -133,39 +138,21 @@ console.log(`%ch:${mainImage.h} - ${windowHeight}`, 'color:purple')
       </View>
     );
   }
-
+function showOverlayIfNeeded(){
   if (openedJobId > -1) {
     let jobIndexInData = testData.map(el => {
       return el.jobID
     }).indexOf(openedJobId);
-
-    // console.log('%cjobIndexInData:' + jobIndexInData, "color:green");
-
-    return (
-      <View style={styles.container}>
-
-        <TouchableOpacity style={styles.overlay} onPress={() => { setOpenedJobId(-1) }}>
-          <TouchableOpacity style={styles.mainImage} activeOpacity={1}>
-            {console.log('%copenedJobId: ' + jobIndexInData, 'color:green')}
-            {console.dir(testData[jobIndexInData])}
-            <Gallery media={testData[jobIndexInData].media} styles={galleryStyle} />
-          </TouchableOpacity>
-        </TouchableOpacity>
-        {testData.map((el => {
-          return <Job job={el} key={el.jobID} toggleGalleryView={toggleGalleryView} styles={previewStyle} />;
-        }))}
-        {/* <View style={styles.shade}></View> */}
-      </View>
-    );
+    return <Overlay galleryStyle={galleryStyle} data={testData} jobIndexInData={jobIndexInData} toggleGalleryView={toggleGalleryView} />
   }
-
+}
 
   return (
     <View style={styles.container}>
+      {showOverlayIfNeeded()}
       {testData.map((el => {
-        return <Job job={el} key={el.jobID} toggleGalleryView={toggleGalleryView} styles={previewStyle}/>;
+        return <Job job={el} key={el.jobID} toggleGalleryView={toggleGalleryView} styles={previewStyle} />;
       }))}
-      {/* <View style={styles.shade}></View> */}
     </View>
   );
 }
@@ -194,27 +181,24 @@ const previewStyle = StyleSheet.create({
 const galleryStyle = StyleSheet.create({
   mainImg: {
     margin: 'auto',
-    height: mainImage.h,
-    width: mainImage.w, 
+    height: mainImageSize.h,
+    width: mainImageSize.w,
     backgroundColor: 'purple',
     zIndex: 2,
   },
   scroll: {
-    height: scroll.h,
-    width: scroll.w,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    zIndex: 101,
-    // margin: '1%',
+    height: scrollSize.h,
+    width: scrollSize.w,
   },
   preview: {
-    height: scroll.h,
+    height: scrollSize.h,
     width: 50,
     marginHorizontal: '0.4%',
     flexDirection: 'row',
     zIndex: 191,
   },
 });
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',
@@ -222,40 +206,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.9)',
-    zIndex: 100,
-  },
   preview: {
     margin: '1%',
     height: 100,
     width: 100,
     backgroundColor: 'white',
     zIndex: 2,
-  },
-  gallery: {
-    margin: 'auto',
-    height: mainImage.h,
-    width: mainImage.w, 
-    backgroundColor: 'purple',
-    zIndex: 2,
-  },
-  mainImage: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'green',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '50%',
-    height: mainImage.h,
-    width: mainImage.w,
-
   },
   img: {
     height: 'inherit',
@@ -271,20 +227,6 @@ const styles = StyleSheet.create({
     zIndex: 2,
     // marginBottom: '100%',
     // width: 250,
-  },
-  scroll: {
-    height: scroll.h,
-    width: scroll.w,
-    flexDirection: 'row',
-    zIndex: 101,
-    // margin: '1%',
-  },
-  smallImg: {
-    height: 50,
-    width: 50,
-    marginHorizontal: '0.4%',
-    flexDirection: 'row',
-    zIndex: 191,
   },
   title: {
     fontSize: 20,

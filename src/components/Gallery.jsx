@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Pressable, StyleSheet, Image, TouchableOpacity, TextInput, View, Text } from 'react-native';
-import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
+import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, TextInput, View, Text } from 'react-native';
 
-
+/* props
+  styles - contains 3 stylesheet objects:
+  mainImg
+  scroll
+  preview
+*/
 
 export function Gallery(props) {
-  console.log('%c: ' + props,'color:red')
-  console.dir( props)
   const { media } = props;
-  console.log('media: ' + media + ' |')
-  if (!media || (typeof media == 'string' && media.length > 0)) {
-    console.log('undefined')
+  if (!media || (typeof media == 'string' && media.length == 0)) {
     return <Image
       style={props.styles.mainImg}
       source={{
@@ -18,24 +18,16 @@ export function Gallery(props) {
       }}
     />;
   }
-  // return <Text>HUUHUHUH</Text>;
-  if (typeof media == 'string') {
-    console.log('%cstring', 'color:green')
-     let img = <Image
+  else if (typeof media == 'string') {
+    return <Image
       style={props.styles.mainImg}
       source={{
         uri: media,
       }}
-    />;
-   console.log('%c!!!huis!!!', 'color:red')
-   console.dir(img.defaultSource)
-
-    return img;
+    />;;
 
   }
-  if (media instanceof Array) {
-    console.log('array')
-
+  else if (media instanceof Array) {
     return (
       <View>
         <Image
@@ -44,32 +36,28 @@ export function Gallery(props) {
             uri: media[0],
           }}
         />
-        <View style={props.styles.scroll}>
-          {media.map((el) => {
-            return <Image
+        <FlatList
+          // style={props.styles.scroll}
+          data={media}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+            width: props.styles.scroll.width
+          }}
+          horizontal={true}
+          renderItem={({ item }) => (
+            <Image
               style={props.styles.preview}
               source={{
-                uri: el,
+                uri: item,
               }}
-            />
-          })}
-        </View>
+            />)}
+          keyExtractor={(item, index) => index}
+        />
       </View>
     );
   }
+  else {
+    console.error('unpredicted type of job.media');
+  }
 }
-
-
-const styles = StyleSheet.create({
-  pointsLine: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 10,
-    zIndex: 3,
-  },
-  points: {
-    height: 10,
-    width: 10,
-    zIndex: 3,
-  },
-});
