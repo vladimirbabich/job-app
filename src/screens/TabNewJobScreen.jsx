@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 
 import MenuField from '../components/MenuField';
+// import axios from 'axios';
 
 export default function TabNewJobScreen() {
+  //fields values: name, description for user, necessarity
   let fields = [
-    ['phone', 'Номер телефона'],
-    ['clientName', 'ФИО клиента'],
-    ['clientAddress', 'Адрес клиента'],
-    ['workList', 'Список запрашиваемых работ'],
-    ['deadline', 'Приемлемая дата завершения работ'],
-    ['extraInfo', 'Дополнительная информация'],
-    ['price', 'Сумма']
+    ['phone', 'Номер телефона', true],
+    ['clientName', 'ФИО клиента', true],
+    ['clientAddress', 'Адрес клиента', true],
+    ['workList', 'Список запрашиваемых работ', true],
+    ['deadline', 'Приемлемая дата завершения работ', false],
+    ['price', 'Сумма', false]
   ];
+  const [newJobData, setNewJobData] = useState({});
+  // fields.map(()=>{
+
+  // })
+
+  const handleJobData = ({ target }, name) => {
+    setNewJobData((prev) => ({
+      ...prev,
+      [name]: target.value
+    }))
+  }
+  useEffect(() => {
+    console.log('%cnewJobData:', 'color:green; font-size: 15px');
+    console.dir(newJobData);
+  }, [newJobData]);
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     // let result = await ImagePicker.launchImageLibraryAsync({
@@ -27,26 +44,24 @@ export default function TabNewJobScreen() {
     //   alert(result.uri);
     // }
   };
-  const createTask = async () => {
-    console.dir(arguments[0].navigation.navigate("Jobs"));
+  const createNewJob = async (data) => {
 
   }
 
   const testF = async () => {
     alert('test');
   };
-  
+
   return (
     <View style={styles.container}>
-      {/* <TestForm style={styles.testForm} className="test-form"/> */}
       <Text style={styles.title}>Заполните данные:</Text>
       {fields.map((el) => {
-        return <MenuField field={el}/>
+        return <MenuField key={el[0]} field={el} onChange={(e, name) => handleJobData(e, name)} />
       })}
       <Pressable style={styles.btn} onPress={pickImage}>
         <Text>Добавить фото/видео</Text>
       </Pressable>
-      <Pressable style={styles.btn} onPress={createTask}>
+      <Pressable style={styles.btn} onPress={(e) => { createNewJob(newJobData) }}>
         <Text>Создать задачу</Text>
       </Pressable>
 

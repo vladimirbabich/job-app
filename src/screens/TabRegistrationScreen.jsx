@@ -29,7 +29,7 @@ export default function TabRegistrationScreen() {
       <Text style={styles.title}>Пройдите регистрацию, чтобы найти клиентов или исполнителей:</Text>
       <View style={styles.wrapper}>
         <Text style={styles.label}>ФИО</Text>
-        <Text style={styles.necessery}>*</Text>
+        <Text style={styles.necessary}>*</Text>
       </View>
       <TextInput style={styles.input}
         onChange={(e) => { setName(e.target.value) }}
@@ -38,7 +38,7 @@ export default function TabRegistrationScreen() {
       />
       <View style={styles.wrapper}>
         <Text style={styles.label}>Номер телефона</Text>
-        <Text style={styles.necessery}>*</Text>
+        <Text style={styles.necessary}>*</Text>
       </View>
       <TextInput style={styles.input}
         onChange={(e) => { setPhone(e.target.value) }}
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderWidth: 1,
   },
-  necessery: {
+  necessary: {
     fontSize: 20,
     color: 'red',
   },
