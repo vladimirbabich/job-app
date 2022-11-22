@@ -3,31 +3,29 @@ import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, Dimen
 
 import { getNumberFromPercent } from '../support-features/supportFunctions';
 import { Gallery } from './Gallery';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-// alert(`w:${windowWidth}, h:${windowHeight}`)
+
 //component sizes
 const mainImageSize = {
   w: getNumberFromPercent(windowWidth, 90),
   h: getNumberFromPercent(windowHeight, 50)
 };
-/* props
-  styles - contains 3 stylesheet objects:
-  mainImg
-  scroll
-  preview
-*/
 
 export function Overlay(props) {
-  const { data, jobIndexInData, galleryStyle, toggleGalleryView } = props;
-  
+  const { data, openedJobId, galleryStyle, toggleGalleryView } = props;
+
+  let jobIndexInData = data.map(el => {
+    return el.jobID
+  }).indexOf(openedJobId);
 
   return (
     <TouchableOpacity style={styles.overlay} onPress={() => { toggleGalleryView(-1) }}>
       <TouchableOpacity style={styles.mainImageBlock} activeOpacity={1}>
-        {console.log('%copenedJobId: ' + jobIndexInData, 'color:green')}
-        {console.dir(data[jobIndexInData])}
-        <Gallery media={data[jobIndexInData].media} styles={galleryStyle} />
+        {/* {console.log('%copenedJobId: ' + jobIndexInData, 'color:green')} */}
+        {/* {console.dir(data[jobIndexInData])} */}
+        <Gallery media={data[jobIndexInData].media} />
       </TouchableOpacity>
     </TouchableOpacity>
   )

@@ -1,12 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, TextInput, View, Text } from 'react-native';
 import { GalleryStyleContext } from '../screens/TabJobsScreen'
-/* props
-  styles - contains 3 stylesheet objects:
-  mainImg
-  scroll
-  preview
-*/
 
 export function Gallery(props) {
   const { media } = props;
@@ -28,7 +22,7 @@ export function Gallery(props) {
       source={{
         uri: media,
       }}
-    />;;
+    />;
 
   }
   else if (media instanceof Array) {
@@ -41,7 +35,6 @@ export function Gallery(props) {
           }}
         />
         <FlatList
-          // style={props.styles.scroll}
           data={media}
           contentContainerStyle={{
             flexGrow: 1,

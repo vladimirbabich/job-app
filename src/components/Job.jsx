@@ -13,7 +13,7 @@ export default function Job(props) {
     props.job.workList;
   const [workListUI, setWorkListUI] = useState(tempWL);
   const { job } = props;
-  
+
 
   const deadlineJSX = job.deadline ?
     <Text style={styles.deadline} >Выполнить до: {job.deadline}</Text> :
@@ -55,13 +55,11 @@ export default function Job(props) {
         </View>
       </View>
       <View style={styles.middle}>
-        <TouchableOpacity style={styles.gallery} onPress={() => { 
+        <TouchableOpacity style={styles.gallery} onPress={() => {
           console.dir(props)
           props.toggleGalleryView(props.job.jobID)
         }}>
-          {/* {image} */}
-
-          <Gallery media={job.media} key={job.jobID} styles={props.styles}/>
+          <Gallery media={job.media} key={job.jobID} />
         </TouchableOpacity>
         <View style={styles.description}>
           <Text style={styles.workList} >{workListUI}</Text>

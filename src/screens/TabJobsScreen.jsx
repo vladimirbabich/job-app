@@ -140,29 +140,24 @@ export default function TabJobsScreen() {
       </View>
     );
   }
-  function showOverlayIfNeeded(openedJobId) {
-    if (openedJobId > -1) {
-      let jobIndexInData = testData.map(el => {
-        return el.jobID
-      }).indexOf(openedJobId);
-      return (
-        <GalleryStyleContext.Provider value={galleryStyle}>
-          <Overlay data={testData} jobIndexInData={jobIndexInData} toggleGalleryView={toggleGalleryView} />
-        </GalleryStyleContext.Provider>
-      )
-    }
+  function showOverlay(openedJobId) {
+    return (
+      <GalleryStyleContext.Provider value={galleryStyle}>
+        <Overlay data={testData} openedJobId={openedJobId} toggleGalleryView={toggleGalleryView} />
+      </GalleryStyleContext.Provider>
+    )
   }
 
   return (
     <View style={styles.container}>
-      {showOverlayIfNeeded(openedJobId)}
-      {testData.map((el => {
-        return (
-          <GalleryStyleContext.Provider value={previewStyle}>
+      {(openedJobId > -1) ? showOverlay(openedJobId) : null}
+      <GalleryStyleContext.Provider value={previewStyle}>
+        {testData.map((el => {
+          return (
             <Job job={el} key={el.jobID} toggleGalleryView={toggleGalleryView} />
-          </GalleryStyleContext.Provider>
-        )
-      }))}
+          )
+        }))}
+      </GalleryStyleContext.Provider>
     </View>
   );
 }
