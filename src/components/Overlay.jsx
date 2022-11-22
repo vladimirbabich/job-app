@@ -20,6 +20,7 @@ const mainImageSize = {
 
 export function Overlay(props) {
   const { data, jobIndexInData, galleryStyle, toggleGalleryView } = props;
+  
 
   return (
     <TouchableOpacity style={styles.overlay} onPress={() => { toggleGalleryView(-1) }}>

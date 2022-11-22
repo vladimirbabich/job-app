@@ -9,7 +9,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <TabNewJobScreen />
+      <TabJobsScreen />
     </View>
   );
 }

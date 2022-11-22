@@ -22,6 +22,7 @@ const scrollSize = {
   h: getNumberFromPercent(windowHeight, 5)
 };
 
+
 export default function TabJobsScreen() {
 
   const [data, setData] = useState([]);
@@ -123,6 +124,7 @@ export default function TabJobsScreen() {
   }
 
 
+
   // f().then(alert); // 1
   let data2 = [];
   //get data from server, and make job component for each task
@@ -138,20 +140,28 @@ export default function TabJobsScreen() {
       </View>
     );
   }
-function showOverlayIfNeeded(){
-  if (openedJobId > -1) {
-    let jobIndexInData = testData.map(el => {
-      return el.jobID
-    }).indexOf(openedJobId);
-    return <Overlay galleryStyle={galleryStyle} data={testData} jobIndexInData={jobIndexInData} toggleGalleryView={toggleGalleryView} />
+  function showOverlayIfNeeded(openedJobId) {
+    if (openedJobId > -1) {
+      let jobIndexInData = testData.map(el => {
+        return el.jobID
+      }).indexOf(openedJobId);
+      return (
+        <GalleryStyleContext.Provider value={galleryStyle}>
+          <Overlay data={testData} jobIndexInData={jobIndexInData} toggleGalleryView={toggleGalleryView} />
+        </GalleryStyleContext.Provider>
+      )
+    }
   }
-}
 
   return (
     <View style={styles.container}>
-      {showOverlayIfNeeded()}
+      {showOverlayIfNeeded(openedJobId)}
       {testData.map((el => {
-        return <Job job={el} key={el.jobID} toggleGalleryView={toggleGalleryView} styles={previewStyle} />;
+        return (
+          <GalleryStyleContext.Provider value={previewStyle}>
+            <Job job={el} key={el.jobID} toggleGalleryView={toggleGalleryView} />
+          </GalleryStyleContext.Provider>
+        )
       }))}
     </View>
   );
@@ -178,6 +188,7 @@ const previewStyle = StyleSheet.create({
     zIndex: 3,
   },
 });
+
 const galleryStyle = StyleSheet.create({
   mainImg: {
     margin: 'auto',
@@ -238,3 +249,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
+
+
+
+export const GalleryStyleContext = React.createContext(galleryStyle);

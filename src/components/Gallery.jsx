@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, TextInput, View, Text } from 'react-native';
-
+import { GalleryStyleContext } from '../screens/TabJobsScreen'
 /* props
   styles - contains 3 stylesheet objects:
   mainImg
@@ -10,9 +10,13 @@ import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, TextI
 
 export function Gallery(props) {
   const { media } = props;
+
+  const style = useContext(GalleryStyleContext);
+  // console.log(style);
+
   if (!media || (typeof media == 'string' && media.length == 0)) {
     return <Image
-      style={props.styles.mainImg}
+      style={style.mainImg}
       source={{
         uri: 'https://upload.wikimedia.org/wikipedia/commons/3/31/ProhibitionSign2.svg',
       }}
@@ -20,7 +24,7 @@ export function Gallery(props) {
   }
   else if (typeof media == 'string') {
     return <Image
-      style={props.styles.mainImg}
+      style={style.mainImg}
       source={{
         uri: media,
       }}
@@ -31,7 +35,7 @@ export function Gallery(props) {
     return (
       <View>
         <Image
-          style={props.styles.mainImg}
+          style={style.mainImg}
           source={{
             uri: media[0],
           }}
@@ -42,12 +46,12 @@ export function Gallery(props) {
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: 'center',
-            width: props.styles.scroll.width
+            width: style.scroll.width
           }}
           horizontal={true}
           renderItem={({ item }) => (
             <Image
-              style={props.styles.preview}
+              style={style.preview}
               source={{
                 uri: item,
               }}
