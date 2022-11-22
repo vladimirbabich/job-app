@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import TabJobsScreen from './src/screens/TabJobsScreen';
-import TabMenuScreen from './src/screens/TabMenuScreen';
-import TabNewJobScreen from './src/screens/TabNewJobScreen';
-import TabRegistrationScreen from './src/screens/TabRegistrationScreen';
+import TabJobsScreen from './src/client/screens/TabJobsScreen';
+import TabMenuScreen from './src/client/screens/TabMenuScreen';
+import TabNewJobScreen from './src/client/screens/TabNewJobScreen';
+import TabRegistrationScreen from './src/client/screens/TabRegistrationScreen';
 
 export default function App() {
   return (
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    margin:0,
-    padding:0
+    margin: 0,
+    padding: 0
   },
 });

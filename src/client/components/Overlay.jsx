@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, Dimensions, TextInput, View, Text } from 'react-native';
 
-import { getNumberFromPercent } from '../support-features/supportFunctions';
+import { getNumberFromPercent } from '../../support-features/supportFunctions';
 import { Gallery } from './Gallery';
 
 const windowWidth = Dimensions.get('window').width;

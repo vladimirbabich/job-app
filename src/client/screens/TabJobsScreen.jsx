@@ -4,7 +4,7 @@ import { Button, Pressable, Image, ScrollView, StyleSheet, TouchableOpacity, Tex
 import Job from '../components/Job';
 import { Gallery } from '../components/Gallery';
 
-import { getNumberFromPercent } from '../support-features/supportFunctions';
+import { getNumberFromPercent } from '../../support-features/supportFunctions';
 import { Overlay } from '../components/Overlay';
 
 
