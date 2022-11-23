@@ -45,7 +45,7 @@ export default function TabNewJobScreen() {
     // }
   };
   const createNewJob = async (data) => {
-
+    
   }
 
   const testF = async () => {

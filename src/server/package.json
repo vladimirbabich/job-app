@@ -10,9 +10,10 @@
   "author": "Vladimir Babich",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemon": "^2.0.20",
-    "postgresql": "^0.0.1",
+    "pg": "^8.8.0",
     "sequelize": "^6.25.7"
   }
 }
