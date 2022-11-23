@@ -1,0 +1,18 @@
+{
+  "name": "job-server",
+  "version": "0.0.1",
+  "description": "server for job app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "Vladimir Babich",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "postgresql": "^0.0.1",
+    "sequelize": "^6.25.7"
+  }
+}
