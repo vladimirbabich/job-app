@@ -24,11 +24,13 @@ const Job = sequelize.define('job', {
   price: { type: DataTypes.STRING },
   createdAt: { type: DataTypes.DATE },
   updatedAt: { type: DataTypes.DATE },
+  status: { type: DataTypes.STRING },
 });
 const Media = sequelize.define('media', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  fileName: { type: DataTypes.STRING },
-  url: { type: DataTypes.STRING, unique: true },
+  fileName: { type: DataTypes.STRING, unique: true },
+  originalName: { type: DataTypes.STRING },
+
 });
 
 User.hasMany(Job)

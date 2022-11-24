@@ -1,6 +1,7 @@
 node_modules/
 .expo/
 .expo-shared/
+static/
 assets/
 dist/
 npm-debug.*

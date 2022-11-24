@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import * as ImagePicker from 'expo-image-picker';
 import { Button, Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 
 import MenuField from '../components/MenuField';
@@ -32,20 +33,23 @@ export default function TabNewJobScreen() {
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    // let result = await ImagePicker.launchImageLibraryAsync({
-    //   mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //   allowsEditing: true,
-    //   aspect: [4, 3],
-    //   quality: 1,
-    // });
-    // console.log(result);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.dir(result);
 
-    // if (!result.cancelled) {
-    //   alert(result.uri);
-    // }
+    if (!result.cancelled) {
+      for (let el in result) {
+        console.log(el);
+      }
+      console.dir('%c' + result.fileName, 'color:red');
+    }
   };
   const createNewJob = async (data) => {
-    
+
   }
 
   const testF = async () => {

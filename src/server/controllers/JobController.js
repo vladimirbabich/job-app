@@ -1,5 +1,6 @@
 const { Job } = require('../models/models')
-const ApiError = require('../error/ApiError')
+const ApiError = require('../error/ApiError');
+const { json } = require('sequelize');
 
 class JobController {
   async create(req, res) {
@@ -31,7 +32,10 @@ class JobController {
 
   }
   async getAll(req, res) {
-
+    const jobs = await Job.findAll();
+    // console.log(jobs)
+    console.dir(jobs)
+    return res.json(jobs);
   }
 }
 
