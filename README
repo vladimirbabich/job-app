@@ -1,2 +1,8 @@
 Portfolio project about finding/posting offline-freelance jobs. For example - repair pc, mount split-system etc.
-Used libraries: React-Native...
+Used libraries:
+- react
+- react-native
+- expo
+- express
+- postgreSQL
+- sequelize

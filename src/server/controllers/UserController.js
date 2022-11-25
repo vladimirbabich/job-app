@@ -11,6 +11,19 @@ class UserController {
 
     return res.json(user);
   }
+
+  async update(req,res){
+    // const { rate, ratedUserId, userId } = req.query;
+    req.query
+    // const oldDate = await Rating.findOne({ where: { ratedUserId: ratedUserId, userId: userId } });
+    // // return res.json(oldRating)
+    // const rating = await Rating.update(
+    //   { rate },
+    //   { where: { id: oldRating.id } }
+    // )
+    // return res.json(rating);
+
+  }
   async login(req, res) {
 
   }

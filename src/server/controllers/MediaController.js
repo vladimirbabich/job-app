@@ -38,6 +38,21 @@ class MediaController {
       next(ApiError.badRequest(e.message));
     }
   }
+
+  async lazyCreate(req, res, next) {
+    try {
+      const { jobId, fileName, originalName } = req.query;
+      console.log(req.query)
+      const media = await Media.create({ fileName, jobId, originalName })
+      return res.json(media);
+
+
+    } catch (e) {
+      console.log('hiu')
+      next(ApiError.badRequest(e.message));
+    }
+  }
+
   async get(req, res) {
 
   }

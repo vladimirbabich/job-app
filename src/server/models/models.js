@@ -5,10 +5,12 @@ const User = sequelize.define('user', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING },
   email: { type: DataTypes.STRING, unique: true },
-  phone: { type: DataTypes.INTEGER, unique: true },
-  pass: { type: DataTypes.STRING, unique: true },
+  phone: { type: DataTypes.STRING, unique: true },
+  pass: { type: DataTypes.STRING},
   createdAt: { type: DataTypes.DATE },
   updatedAt: { type: DataTypes.DATE },
+  avgRating: { type: DataTypes.FLOAT, defaultValue: -1.0 },
+
 });
 const Rating = sequelize.define('rating', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -24,7 +26,8 @@ const Job = sequelize.define('job', {
   price: { type: DataTypes.STRING },
   createdAt: { type: DataTypes.DATE },
   updatedAt: { type: DataTypes.DATE },
-  status: { type: DataTypes.STRING },
+  status: { type: DataTypes.STRING, defaultValue: 'pending' },
+  //other statuses: 'waitClientResponse', 'inWork', 'done'
 });
 const Media = sequelize.define('media', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
