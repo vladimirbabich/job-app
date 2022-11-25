@@ -43,7 +43,7 @@ User.hasMany(Rating)
 Rating.belongsTo(User)
 
 Job.hasMany(Media)
-Media.belongsTo(Job)
+Media.belongsTo(Job, {foreignKey: 'jobId'})
 
 module.exports = {
   User,

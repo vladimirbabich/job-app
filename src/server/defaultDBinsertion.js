@@ -25,9 +25,10 @@ let query = {
   url: 'http://localhost:7000/api/job/'
 }
 // urlArray.map(query => {
-console.dir(data.medias);
+// console.dir(data.medias);
 
 // })
+
 insertInDB(data, 'users', urlArray[0]);
 insertInDB(data, 'jobs', urlArray[2]);
 insertInDB(data, 'medias', urlArray[3]);

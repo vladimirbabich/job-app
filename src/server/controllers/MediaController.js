@@ -6,6 +6,7 @@ const { Media } = require('../models/models')
 class MediaController {
   async create(req, res, next) {
     try {
+      console.log('juiujuiju')
       const { jobId } = req.body;
       const { file } = req.files;
       console.dir(file)
@@ -34,7 +35,7 @@ class MediaController {
       }
 
     } catch (e) {
-      console.log('hiu')
+      console.log('hiu2')
       next(ApiError.badRequest(e.message));
     }
   }
@@ -43,6 +44,10 @@ class MediaController {
     try {
       const { jobId, fileName, originalName } = req.query;
       console.log(req.query)
+      console.log('jobId: ' + jobId)
+      console.log('fileName: ' + fileName)
+      console.log('originalName: ' + originalName)
+      
       const media = await Media.create({ fileName, jobId, originalName })
       return res.json(media);
 

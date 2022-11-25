@@ -74,13 +74,13 @@ const data = {
     ],
     ratings: [
         {
-            ratedUserId: 12, rate: 5, userId: 3,
+            ratedUserId: 1, rate: 5, userId: 3,
         },
         {
-            ratedUserId: 12, rate: 3, userId: 2,
+            ratedUserId: 1, rate: 3, userId: 2,
         },
         {
-            ratedUserId: 12, rate: 2, userId: 1,
+            ratedUserId: 1, rate: 2, userId: 1,
         },
         {
             ratedUserId: 3, rate: 5, userId: 1,
