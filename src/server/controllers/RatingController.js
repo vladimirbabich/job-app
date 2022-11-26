@@ -26,7 +26,12 @@ class RatingController {
 
   async update(req, res) {
     const { rate, ratedUserId, userId } = req.query;
-    const oldRating = await Rating.findOne({ where: { ratedUserId: ratedUserId, userId: userId } });
+    const oldRating = await Rating.findOne({
+      where: {
+        ratedUserId: ratedUserId,
+        userId: userId
+      }
+    });
     // return res.json(oldRating)
     const rating = await Rating.update(
       { rate },
@@ -37,26 +42,17 @@ class RatingController {
     return res.json(rating);
   }
 
-  async updateAll(req, res) {//get avg of types for every user an
-    const { userId } = req.query
-    // console.log(userId);
-
-    const rates = await Rating.findAll({
+  async get(req, res) {
+    //get this users rates(userId)
+    //then if user already rate ratedUserId -> update, else -> create
+    const { userId, ratedUserId } = req.query;
+    const rating = await Rating.findOne({
       where: {
-        ratedUserId: userId
+        userId: userId,
+        ratedUserId: ratedUserId
       }
-    });
-    console.log('rates: ' + rates);
-    const initialValue = 0;
-    const sum = rates.reduce((accumulator, el) => {
-      console.log('accumulator: ' + accumulator);
-      console.log('el: ' + el.rate);
-      return accumulator + el.rate;
-    }, initialValue)
-    console.log('sum: ' + sum);
-
-    const avg = (sum / rates.length).toFixed(2);
-    return res.json(avg);
+    })
+    return res.json(rating)
   }
 }
 
