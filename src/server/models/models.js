@@ -6,10 +6,11 @@ const User = sequelize.define('user', {
   name: { type: DataTypes.STRING },
   email: { type: DataTypes.STRING, unique: true },
   phone: { type: DataTypes.STRING, unique: true },
-  pass: { type: DataTypes.STRING},
+  pass: { type: DataTypes.STRING },
   createdAt: { type: DataTypes.DATE },
   updatedAt: { type: DataTypes.DATE },
   avgRating: { type: DataTypes.FLOAT, defaultValue: -1.0 },
+  photo: { type: DataTypes.STRING },
 
 });
 const Rating = sequelize.define('rating', {
@@ -43,7 +44,7 @@ User.hasMany(Rating)
 Rating.belongsTo(User)
 
 Job.hasMany(Media)
-Media.belongsTo(Job, {foreignKey: 'jobId'})
+Media.belongsTo(Job, { foreignKey: 'jobId' })
 
 module.exports = {
   User,

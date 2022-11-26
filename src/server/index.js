@@ -20,7 +20,9 @@ app.use(errorHandler);
 const start = async () => {
   try {
     await sequelize.authenticate();
+    await sequelize.drop();
     await sequelize.sync();
+    console.log("All tables dropped!");
     app.listen(PORT, () => console.log('server started on: ' + PORT))
     // await sequelize.close();
   } catch (e) {

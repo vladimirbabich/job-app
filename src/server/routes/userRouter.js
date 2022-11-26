@@ -2,9 +2,9 @@ const Router = require('express');
 const router = new Router();
 const userController = require('../controllers/UserController');
 
-router.post('/registration', userController.registration);
-router.post('/login', userController.login);
-router.get('/update', userController.update);
-router.get('/auth', userController.check);
+router.post('/registration', userController.registration);//ok
+router.get('/update', userController.update);//ok but change to update photo
+router.get('/login', userController.login);//ok but need to learn how to really login in app
+router.get('/auth', userController.check);//will learn about proper way to do that
 
 module.exports = router

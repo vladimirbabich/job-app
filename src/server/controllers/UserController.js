@@ -3,28 +3,57 @@ const { User } = require('../models/models')
 
 class UserController {
   async registration(req, res) {
-
-    // console.log(req.body)
     const { name, email, phone, pass } = req.body;
+    // const fixedEmail = email.toLowerCase();
+    // const fixedPhone = phone.replace(/\D+/g, '');
     const createdAt = new Date();
-    const user = await User.create({ name, email, phone, pass, createdAt, updatedAt: createdAt })
 
+    const user = await User.create({
+      name,
+      email,
+      phone,
+      pass,
+      createdAt,
+      updatedAt: createdAt
+    })
     return res.json(user);
   }
 
-  async update(req,res){
-    // const { rate, ratedUserId, userId } = req.query;
-    req.query
-    // const oldDate = await Rating.findOne({ where: { ratedUserId: ratedUserId, userId: userId } });
-    // // return res.json(oldRating)
-    // const rating = await Rating.update(
-    //   { rate },
-    //   { where: { id: oldRating.id } }
-    // )
-    // return res.json(rating);
+  async update(req, res) {
+    const query = req.query;
+    // req.query
+    // const columnNames = await
+    const queryObj = {};
+    for (const el in query) {
+      for (let key in User.rawAttributes) {
+        if (key == el) {
+          queryObj[el] = query[el];
+        }
+      }
+    }
+
+    const updatedAt = new Date();
+    const user = await User.update(
+      { queryObj, updatedAt },
+      { where: { id: query.id } }
+    )
+    return res.json(user);
 
   }
-  async login(req, res) {
+  async login(req, res, next) {
+    const { pass, phoneOrEmail } = req.query;
+
+    let userId = await User.findOne({ where: { phone: phoneOrEmail } });
+    if (!userId)
+      userId = await User.findOne({ where: { email: phoneOrEmail } });
+    if (!userId)
+      return next(ApiError.invalidArgumentException('User with this name or email not found, check name'))
+    if (pass == userId.pass) {
+      // login
+      return res.json(userId);
+    }
+    return next(ApiError.unauthorized('Wrong password'))
+
 
   }
   async check(req, res, next) {

@@ -2,9 +2,8 @@ const Router = require('express')
 const router = new Router();
 const jobController = require('../controllers/JobController')
 
-router.post('/', jobController.create);
-// router.post('/', jobController.update);
-// router.get('/', jobController.get);
-router.get('/', jobController.getAll);
+router.post('/', jobController.create);//ok
+router.post('/update', jobController.update);//ok
+router.get('/', jobController.getAll);//ok
 
 module.exports = router

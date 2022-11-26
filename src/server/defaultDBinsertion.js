@@ -29,12 +29,19 @@ let query = {
 
 // })
 
-insertInDB(data, 'users', urlArray[0]);
-insertInDB(data, 'jobs', urlArray[2]);
-insertInDB(data, 'medias', urlArray[3]);
-insertInDB(data, 'ratings', urlArray[1]);
+//drop all tables
+// await sequelize.drop();
+// console.log("All tables dropped!");
 
-
+new Promise(function (resolve, reject) {
+  resolve(insertInDB(data, 'users', urlArray[0]))
+}).then(new Promise(function (resolve, reject) {
+  resolve(insertInDB(data, 'jobs', urlArray[2]));
+})).then(new Promise(function (resolve, reject) {
+  resolve(insertInDB(data, 'ratings', urlArray[1]));
+})).then(new Promise(function (resolve, reject) {
+  resolve(insertInDB(data, 'medias', urlArray[3]));
+}));
 function insertInDB(data, array, query) {
   data[array].map(el => {
     if (query.http == 'post') {

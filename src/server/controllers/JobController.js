@@ -26,15 +26,27 @@ class JobController {
     return res.json(job);
   }
   async update(req, res) {
+    const bodyObj = {};
+    const body = req.body;
+    for (const el in body) {
+      for (let key in Job.rawAttributes) {
+        if (key == el) {
+          if (key == 'id' || key == 'userId') continue;
+          bodyObj[el] = req.body[el];
+        }
+      }
+    }
 
+    const updatedAt = new Date();
+    const job = await Job.update(
+      { ...bodyObj, updatedAt },
+      { where: { id: body.id } }
+    )
+    return res.json(job);
   }
-  async get(req, res) {
 
-  }
   async getAll(req, res) {
     const jobs = await Job.findAll();
-    // console.log(jobs)
-    console.dir(jobs)
     return res.json(jobs);
   }
 }
