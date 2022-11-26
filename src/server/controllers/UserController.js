@@ -3,7 +3,7 @@ const { User } = require('../models/models')
 
 class UserController {
   async registration(req, res) {
-    const { name, email, phone, pass } = req.body;
+    const { name, email, phone, about, pass } = req.body;
     // const fixedEmail = email.toLowerCase();
     // const fixedPhone = phone.replace(/\D+/g, '');
     const createdAt = new Date();
@@ -12,6 +12,7 @@ class UserController {
       name,
       email,
       phone,
+      about,
       pass,
       createdAt,
       updatedAt: createdAt

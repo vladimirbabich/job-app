@@ -48,8 +48,8 @@ class RatingController {
     const { userId, ratedUserId } = req.query;
     const rating = await Rating.findOne({
       where: {
-        userId: userId,
-        ratedUserId: ratedUserId
+        userId,
+        ratedUserId
       }
     })
     return res.json(rating)

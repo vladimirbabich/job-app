@@ -11,6 +11,7 @@ const User = sequelize.define('user', {
   updatedAt: { type: DataTypes.DATE },
   avgRating: { type: DataTypes.FLOAT, defaultValue: -1.0 },
   photo: { type: DataTypes.STRING },
+  about: { type: DataTypes.TEXT }
 
 });
 const Rating = sequelize.define('rating', {
