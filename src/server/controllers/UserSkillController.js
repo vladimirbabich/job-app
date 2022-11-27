@@ -21,13 +21,17 @@ class UserSkillController {
   }
 
   async delete(req, res) {
-    const { userId, skillId } = req.body;
+    const { userId, skillId } = req.query;
+    // return res.json({ userId, skillId })
     const delSkill = await UserSkill.destroy(
       { where: { userId, skillId } });
+    // const delSkill = await UserSkill.findOne(
+    //   { where: { userId, skillId } });
     return res.json(delSkill)
   }
 
   async getAll(req, res) {//for userId
+    const { userId } = req.query
     const skills = await UserSkill.findAll({ where: { userId } });
     return res.json(skills)
   }
