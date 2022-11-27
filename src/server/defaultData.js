@@ -1,29 +1,51 @@
 const creationDate = new Date();
 const data = {
+    skills: [
+        { name: 'установка кондиционеров' },
+        { name: 'ремонт кондиционеров' },
+        { name: 'ремонт авто' },
+        { name: 'уборка дома' },
+        { name: 'ремонт дома' },
+        { name: 'покраска' },
+    ],
     users: [
         {
             name: 'Joe',
             email: 'joe@gmail.com',
-            phone: '324s3252asssd32фыв0',
+            phone: '805939427832',
             pass: '1234576',
             createdAt: creationDate,
-            updatedAt: creationDate
+            updatedAt: creationDate,
+            photo: 'https://this-person-does-not-exist.com/img/avatar-933dd9b723822fb8024b3bf53da5f952.jpg',
+            about: 'Lorefohofh sf hosdf hosfhj eio iwio fjiwe',
         },
         {
-            name: 'Frasnk',
+            name: 'Frank',
             email: 'frank@gmail.com',
             phone: '93792939123',
             pass: 'passsw',
             createdAt: creationDate,
-            updatedAt: creationDate
+            updatedAt: creationDate,
+            photo: 'https://this-person-does-not-exist.com/img/avatar-dc36b0ff73457c21e8aae414698a4dea.jpg',
+            about: 'Lorefohofh sf hosdf hosfhj eiosadop asjdo japsd jasdja spd jaspd asopd jaso dpjaso dopasdj oaps djasp djopa sjdasopd jaospd japso jdopsa jdopas jdpoa sjdop sajd o sadjpjasopd jasopdj opsajdopas japsojdopas joapsjd paosdk p[qwjf[ afjofj a[ jopawefj poajf p[aofoj pa sda!]]]] iwio fjiwe',
         },
         {
             name: 'Anna',
             email: 'anna@gmail.com',
-            phone: '98787987',
+            phone: '98787911111',
             pass: 'gdfgdg',
             createdAt: creationDate,
-            updatedAt: creationDate
+            updatedAt: creationDate,
+            photo: 'https://this-person-does-not-exist.com/img/avatar-1e66d7b7139169d41a5f87a4af102e74.jpg',
+            about: '12345',
+        },
+        {
+            name: 'Ingrid',
+            email: 'ingrid@gmail.com',
+            phone: '12345678901',
+            pass: 'weakpass',
+            createdAt: creationDate,
+            updatedAt: creationDate,
         },
     ],
     jobs: [
@@ -73,19 +95,19 @@ const data = {
         },
     ],
     ratings: [
-        {
-            ratedUserId: 1, rate: 5, userId: 3,
-        },
-        {
-            ratedUserId: 1, rate: 3, userId: 2,
-        },
-        {
-            ratedUserId: 1, rate: 2, userId: 1,
-        },
-        {
-            ratedUserId: 3, rate: 5, userId: 1,
-        }
-    ]
+        { rate: 1, userId: 1, ratedJobId: 2 },
+        { rate: 5, userId: 1, ratedJobId: 3 },
+        { rate: 1, userId: 1, ratedUserId: 1 },
+        { rate: 3, userId: 2, ratedUserId: 3 },
+        { rate: 4, userId: 3, ratedUserId: 1 },
+    ],
+    userSkills: [
+        { userId: 1, skillId: 2 },
+        { userId: 1, skillId: 1 },
+        { userId: 2, skillId: 2 },
+        { userId: 2, skillId: 3 },
+        { userId: 2, skillId: 4 },
+    ],
 }
 
 module.exports = data;

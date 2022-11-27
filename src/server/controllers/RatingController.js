@@ -2,57 +2,53 @@ const ApiError = require('../error/ApiError')
 const { Rating } = require('../models/models')
 const { User } = require('../models/models')
 
-async function updateUserRating(ratedUserId) {
-  const ratedUserRates = await Rating.findAll({ where: { ratedUserId: ratedUserId } })
-  let sumOfRates = 0;
-  for (const key in ratedUserRates) {
-    sumOfRates += ratedUserRates[key].rate;
-  }
-  const avg = (sumOfRates / ratedUserRates.length).toFixed(2);
-
-  const ratedUser = await User.update(
-    { avgRating: avg },
-    { where: { id: ratedUserId } })
-}
 class RatingController {
   async create(req, res) {
-    console.log('hui')
-    const { rate, ratedUserId, userId } = req.body;
-    const rating = await Rating.create({ rate, ratedUserId, userId })
-
-    updateUserRating(ratedUserId);
-    return res.json(rating);
+    try {
+      const { rate, userId, ratedJobId, ratedUserId } = req.body;
+      if (ratedJobId) {
+        const rating = await Rating.create({ rate, userId, ratedJobId });
+        return res.json(rating);
+      }
+      if (ratedUserId) {
+        const rating = await Rating.create({ rate, userId, ratedUserId });
+        return res.json(rating);
+      }
+      return next(ApiError.invalidArgumentException('no [rated Id] was requested'));
+    } catch (e) {
+      return console.log(e);
+    }
   }
 
-  async update(req, res) {
-    const { rate, ratedUserId, userId } = req.query;
-    const oldRating = await Rating.findOne({
-      where: {
-        ratedUserId: ratedUserId,
-        userId: userId
+  async update(req, res, next) {
+    try {
+      const queryObj = {};
+      for (const el in req.query) {
+        for (let key in Rating.rawAttributes) {
+          if (key == el) {
+            if (key == 'id') continue;
+            queryObj[el] = req.query[el];
+          }
+        }
       }
-    });
-    // return res.json(oldRating)
-    const rating = await Rating.update(
-      { rate },
-      { where: { id: oldRating.id } }
-    )
-
-    updateUserRating(ratedUserId);
-    return res.json(rating);
+      // return res.json(req.query.id);
+      // console.log(req)
+      const rating = await Rating.update(
+        { ...queryObj },
+        { where: { id: req.query.id } }
+      )
+      return res.json(rating);
+    }
+    catch (e) {
+      return next(ApiError.invalidArgumentException(e));
+    }
   }
 
-  async get(req, res) {
-    //get this users rates(userId)
-    //then if user already rate ratedUserId -> update, else -> create
-    const { userId, ratedUserId } = req.query;
-    const rating = await Rating.findOne({
-      where: {
-        userId,
-        ratedUserId
-      }
-    })
-    return res.json(rating)
+  async getJobRates(req, res) {
+
+  }
+  async getUserRates(req, res) {
+
   }
 }
 

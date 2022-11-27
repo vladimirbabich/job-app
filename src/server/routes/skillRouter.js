@@ -3,8 +3,8 @@ const router = new Router();
 
 const skillController = require('../controllers/SkillController')
 
-router.post('/', skillController.create);//
+router.post('/', skillController.create);//ok
 router.get('/update', skillController.update);//
-router.get('/', skillController.getAll);//
+router.get('/getall', skillController.getAll);//
 
 module.exports = router

@@ -1,14 +1,14 @@
+console.log('asdasd')
 const axios = require('axios')
 const data = require('./defaultData');
-
 const urlArray = [
   {
     http: 'post',
-    url: 'http://localhost:7000/api/user/registration'
+    url: 'http://localhost:7000/api/skill'
   },
   {
     http: 'post',
-    url: 'http://localhost:7000/api/rating'
+    url: 'http://localhost:7000/api/user/registration'
   },
   {
     http: 'post',
@@ -18,30 +18,46 @@ const urlArray = [
     http: 'get',
     url: 'http://localhost:7000/api/media/lazy'
   },
+  {
+    http: 'post',
+    url: 'http://localhost:7000/api/rating'
+  },
+  {
+    http: 'post',
+    url: 'http://localhost:7000/api/userskill'
+  },
 ]
 const creationDate = new Date();
-let query = {
-  http: 'post',
-  url: 'http://localhost:7000/api/job/'
+testDB();
+function testDB() {
+  console.log("testDB");
+  new Promise(function (resolve, reject) {
+    insertInDB(data, 'skills', urlArray[0])
+    console.log('done skills')
+    resolve()
+  }).then(new Promise(function (resolve, reject) {
+    insertInDB(data, 'users', urlArray[1])
+    console.log('done users')
+    resolve();
+  })).then(new Promise(function (resolve, reject) {
+    insertInDB(data, 'jobs', urlArray[2])
+    console.log('done jobs')
+    resolve();
+  })).then(new Promise(function (resolve, reject) {
+    insertInDB(data, 'medias', urlArray[3])
+    console.log('done medias')
+    resolve();
+  })).then(new Promise(function (resolve, reject) {
+    insertInDB(data, 'ratings', urlArray[4])
+    console.log('done ratings')
+    resolve();
+  })).then(new Promise(function (resolve, reject) {
+    insertInDB(data, 'userSkills', urlArray[5])
+    console.log('done userSkills')
+    resolve();
+  }));
 }
-// urlArray.map(query => {
-// console.dir(data.medias);
 
-// })
-
-//drop all tables
-// await sequelize.drop();
-// console.log("All tables dropped!");
-
-new Promise(function (resolve, reject) {
-  resolve(insertInDB(data, 'users', urlArray[0]))
-}).then(new Promise(function (resolve, reject) {
-  resolve(insertInDB(data, 'jobs', urlArray[2]));
-})).then(new Promise(function (resolve, reject) {
-  resolve(insertInDB(data, 'ratings', urlArray[1]));
-})).then(new Promise(function (resolve, reject) {
-  resolve(insertInDB(data, 'medias', urlArray[3]));
-}));
 function insertInDB(data, array, query) {
   data[array].map(el => {
     if (query.http == 'post') {
@@ -49,7 +65,7 @@ function insertInDB(data, array, query) {
         ...el
       })
         .then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch(function (error) {
           console.log(error);
@@ -73,3 +89,5 @@ function insertInDB(data, array, query) {
     }
   })
 }
+
+module.exports = testDB

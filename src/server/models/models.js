@@ -10,7 +10,8 @@ const User = sequelize.define('user', {
   createdAt: { type: DataTypes.DATE },
   updatedAt: { type: DataTypes.DATE },
   avgRating: { type: DataTypes.FLOAT, defaultValue: -1.0 },
-  photo: { type: DataTypes.STRING }
+  photo: { type: DataTypes.TEXT },
+  about: { type: DataTypes.TEXT }
 });
 
 const Skill = sequelize.define('skill', {
@@ -22,9 +23,9 @@ const Job = sequelize.define('job', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   hiredUserId: { type: DataTypes.INTEGER },
   workAddress: { type: DataTypes.STRING, allowNull: false },
-  workList: { type: DataTypes.STRING, allowNull: false },
+  workList: { type: DataTypes.TEXT, allowNull: false },
   deadline: { type: DataTypes.DATE },
-  price: { type: DataTypes.STRING },
+  price: { type: DataTypes.INTEGER },
   createdAt: { type: DataTypes.DATE },
   updatedAt: { type: DataTypes.DATE },
   status: { type: DataTypes.STRING, defaultValue: 'pending' },
@@ -34,19 +35,15 @@ const Job = sequelize.define('job', {
 const Media = sequelize.define('media', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   fileName: { type: DataTypes.STRING, unique: true },
-  originalName: { type: DataTypes.STRING },
+  originalName: { type: DataTypes.TEXT },
 
 });
 
 const Rating = sequelize.define('rating', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   rate: { type: DataTypes.INTEGER },
-});
-
-const Review = sequelize.define('review', {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.TEXT },
-
+  ratedJobId: { type: DataTypes.INTEGER },
+  ratedUserId: { type: DataTypes.INTEGER },
 });
 
 const UserSkill = sequelize.define('user_skill', {
@@ -60,24 +57,17 @@ Job.belongsTo(User)
 User.belongsToMany(Skill, { through: UserSkill })
 Skill.belongsToMany(User, { through: UserSkill })
 
-User.hasMany(Review)
-Review.belongsTo(User)
-
 User.hasMany(Rating)
 Rating.belongsTo(User)
 
 Job.hasMany(Media)
 Media.belongsTo(Job, { foreignKey: 'jobId' })
 
-Job.hasMany(Rating)
-Rating.belongsTo(Job)
-
-Job.hasMany(Review)
-Review.belongsTo(Job)
-
 module.exports = {
   User,
+  Skill,
   Job,
   Media,
-  Rating
+  Rating,
+  UserSkill,
 }

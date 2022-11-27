@@ -33,7 +33,7 @@ class MediaController {
       }
 
     } catch (e) {
-      console.log('hiu2')
+      console.log(e.message)
       next(ApiError.badRequest(e.message));
     }
   }
@@ -41,11 +41,14 @@ class MediaController {
   async lazyCreate(req, res, next) {
     try {
       const { jobId, fileName, originalName } = req.query;
+      if (!jobId || !fileName || !originalName) {
+        next(ApiError.badRequest('wrong data in request'));
+      }
       console.log(req.query)
       const media = await Media.create({ fileName, jobId, originalName })
       return res.json(media);
     } catch (e) {
-      console.log('hiu')
+      console.log(e.message)
       next(ApiError.badRequest(e.message));
     }
   }

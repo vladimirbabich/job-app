@@ -4,16 +4,16 @@ const userRouter = require('./userRouter')
 const jobRouter = require('./jobRouter')
 const mediaRouter = require('./mediaRouter')
 const ratingRouter = require('./ratingRouter')
-const reviewRouter = require('./ratingRouter')
-const skillRouter = require('./ratingRouter')
+const skillRouter = require('./skillRouter')
+const userSkillRouter = require('./userSkillRouter')
 
 
 
-router.use('/user', userRouter);
-router.use('/job', jobRouter);
-router.use('/media', mediaRouter);
-router.use('/rating', ratingRouter);
-router.use('/review', reviewRouter);
-router.use('/skill', skillRouter);
+router.use('/skill', skillRouter);//ok
+router.use('/user', userRouter);//ok
+router.use('/job', jobRouter);//ok
+router.use('/media', mediaRouter);//ok
+router.use('/rating', ratingRouter);//ok
+router.use('/userskill', userSkillRouter);
 
 module.exports = router

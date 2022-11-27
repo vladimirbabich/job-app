@@ -4,6 +4,6 @@ const jobController = require('../controllers/JobController')
 
 router.post('/', jobController.create);//ok
 router.post('/update', jobController.update);//ok
-router.get('/', jobController.getAll);//ok
+router.get('/getall', jobController.getAll);//ok
 
 module.exports = router

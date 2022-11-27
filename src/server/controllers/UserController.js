@@ -3,7 +3,7 @@ const { User } = require('../models/models')
 
 class UserController {
   async registration(req, res) {
-    const { name, email, phone, about, pass } = req.body;
+    const { name, email, phone, photo, about, pass } = req.body;
     // const fixedEmail = email.toLowerCase();
     // const fixedPhone = phone.replace(/\D+/g, '');
     const createdAt = new Date();
@@ -14,6 +14,7 @@ class UserController {
       phone,
       about,
       pass,
+      photo,
       createdAt,
       updatedAt: createdAt
     })
@@ -27,19 +28,17 @@ class UserController {
     const queryObj = {};
     for (const el in query) {
       for (let key in User.rawAttributes) {
-        if (key == el) {
+        if (key == el && key != 'id') {
           queryObj[el] = query[el];
         }
       }
     }
-
     const updatedAt = new Date();
-    const user = await User.update(
-      { queryObj, updatedAt },
+    const userId = await User.update(
+      { ...queryObj, updatedAt },
       { where: { id: query.id } }
     )
-    return res.json(user);
-
+    return res.json(userId);
   }
   async login(req, res, next) {
     const { pass, phoneOrEmail } = req.query;
@@ -58,7 +57,7 @@ class UserController {
 
   }
   async check(req, res, next) {
-    console.log(req.query)
+    // console.log(req.query)
     // console.log(res)
     const { id } = req.query
     if (!id) {
