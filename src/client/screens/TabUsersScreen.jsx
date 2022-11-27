@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Pressable, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Dimensions, View, Text } from 'react-native';
 
-import Job from '../components/Job';
-import { Gallery } from '../components/Gallery';
-import { getNumberFromPercent } from '../../support-features/supportFunctions';
+import User from '../components/User';
 
 const getAllUrl = 'http://localhost:7000/api/user/getall'
 
-export default function TabJobsScreen() {
+export default function TabUsersScreen() {
 
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -18,8 +16,8 @@ export default function TabJobsScreen() {
   function getDataFromServer() {
     axios.get(getAllUrl)
       .then(function (response) {
-        // console.log(response.data);
         setUsers([...response.data])
+        console.log('data done loading');
       })
       .catch(function (error) {
         console.error(error);
@@ -31,9 +29,8 @@ export default function TabJobsScreen() {
   return (
     <View style={styles.container}>
       {users.map((el) => {
-        return <View style={styles.userBlock}>
-          <Text>{el}</Text>
-        </View>
+        // return el.name
+        return <User key={el.id} user={el} />;
       })}
     </View>
   );
@@ -46,12 +43,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  preview: {
+  userBlock: {
     margin: '1%',
     height: 100,
     width: 100,
-    backgroundColor: 'white',
-    zIndex: 2,
   },
   img: {
     height: 'inherit',
