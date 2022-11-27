@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import TabJobsScreen from './src/client/screens/TabJobsScreen';
+import TabUsersScreen from './src/client/screens/TabUsersScreen';
 import TabMenuScreen from './src/client/screens/TabMenuScreen';
 import TabNewJobScreen from './src/client/screens/TabNewJobScreen';
 import TabRegistrationScreen from './src/client/screens/TabRegistrationScreen';
@@ -9,7 +10,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <TabNewJobScreen />
+      <TabUsersScreen />
     </View>
   );
 }
