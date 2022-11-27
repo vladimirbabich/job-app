@@ -44,7 +44,7 @@ class MediaController {
       if (!jobId || !fileName || !originalName) {
         next(ApiError.badRequest('wrong data in request'));
       }
-      console.log(req.query)
+      // console.log(req.query)
       const media = await Media.create({ fileName, jobId, originalName })
       return res.json(media);
     } catch (e) {
