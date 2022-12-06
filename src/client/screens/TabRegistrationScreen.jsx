@@ -1,27 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Pressable, View, Text, StyleSheet, Alert, TextInput } from 'react-native';
 
 
 export default function TabRegistrationScreen() {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const refName = useRef('');
+  const refPhone = useRef('');
+  const refEmail = useRef('');
 
 
   const signUp = (e) => {
-    console.log(name);
-    if (name == '') {
+    console.dir([refName.current.value, refPhone.current.value, refEmail.current.value]);
+    if (refName.current.value == '') {
       Alert.alert('Ошибка', 'Поле "ФИО" пустое');
-      // alert('Поле "ФИО" пустое');
-      
+      // console.log('Поле "ФИО" пустое');
       return;
     }
-    if (phone == '') {
+    if (refPhone.current.value == '') {
       Alert.alert('Ошибка', 'Поле "Номер телефона" пустое');
+      // console.log('Поле "ФИО" пустое');
       return;
     }
-    //if not empty - look at database for that name,phone,email. if no same fields - put in DB and log in into app
-
+    //if not empty - look at database for that name,phone,email. if same data not found - put in DB and log in into app
+    //some axios request
+    //if axios return 'true' data - log in
+    //if not - error, this email or phone already registered
   }
 
   return (
@@ -32,8 +34,7 @@ export default function TabRegistrationScreen() {
         <Text style={styles.necessary}>*</Text>
       </View>
       <TextInput style={styles.input}
-        onChange={(e) => { setName(e.target.value) }}
-        value={name}
+        ref={refName}
         placeholder=""
       />
       <View style={styles.wrapper}>
@@ -41,16 +42,14 @@ export default function TabRegistrationScreen() {
         <Text style={styles.necessary}>*</Text>
       </View>
       <TextInput style={styles.input}
-        onChange={(e) => { setPhone(e.target.value) }}
-        value={phone}
+        ref={refPhone}
         placeholder=""
       />
       <View style={styles.wrapper}>
         <Text style={styles.label}>Электронная почта</Text>
       </View>
       <TextInput style={styles.input}
-        onChange={(e) => { setEmail(e.target.value) }}
-        value={email}
+        ref={refEmail}
         placeholder=""
       />
       <Pressable style={styles.btn} onPress={signUp}>
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 20,
-    width:'65%',
+    width: '65%',
     fontWeight: 'bold',
   },
   wrapper: {
@@ -92,16 +91,16 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   btn: {
-    marginTop:'2%',
+    marginTop: '2%',
     borderWidth: 1,
-    textAlign:'center',
+    textAlign: 'center',
     backgroundColor: '#8ecae6',
     width: '60%',
-    height:'5%',
+    height: '5%',
   },
   btnTxt: {
     fontSize: 20,
-    margin:'auto',
-    
+    margin: 'auto',
+
   },
 });
