@@ -28,48 +28,80 @@ const urlArray = [
   },
 ]
 const creationDate = new Date();
-testDB();
+// testDB();
 function testDB() {
   console.log("testDB");
-  new Promise(function (resolve, reject) {
-    insertInDB(data, 'skills', urlArray[0])
-    console.log('done skills')
-    resolve()
-  }).then(new Promise(function (resolve, reject) {
-    insertInDB(data, 'users', urlArray[1])
-    console.log('done users')
-    resolve();
-  })).then(new Promise(function (resolve, reject) {
-    insertInDB(data, 'jobs', urlArray[2])
-    console.log('done jobs')
-    resolve();
-  })).then(new Promise(function (resolve, reject) {
-    insertInDB(data, 'medias', urlArray[3])
-    console.log('done medias')
-    resolve();
-  })).then(new Promise(function (resolve, reject) {
-    insertInDB(data, 'ratings', urlArray[4])
-    console.log('done ratings')
-    resolve();
-  })).then(new Promise(function (resolve, reject) {
-    insertInDB(data, 'userSkills', urlArray[5])
-    console.log('done userSkills')
-    resolve();
-  }));
+
+  let promises = insertInDB(data, 'skills', urlArray[0])
+  Promise.all(promises)
+    .then(() => {
+      promises = insertInDB(data, 'users', urlArray[1]);
+      Promise.all(promises)
+        .then(() => {
+          promises = insertInDB(data, 'jobs', urlArray[2])
+          Promise.all(promises)
+            .then(() => {
+              promises = insertInDB(data, 'medias', urlArray[3])
+              Promise.all(promises)
+                .then(() => {
+                  promises = insertInDB(data, 'ratings', urlArray[4])
+                  Promise.all(promises)
+                    .then(() => {
+                      promises = insertInDB(data, 'userSkills', urlArray[5])
+                      Promise.all(promises)
+                        .then(() => {
+                          console.log('ok')
+                        })
+                    })
+                })
+            })
+        })
+    })
 }
+// return new Promise(function (resolve, reject) {
+//   insertInDB(data, 'skills', urlArray[0])
+//   console.log('test skills');
+//   resolve(1);
+// }).then((result) => {
+//   console.log('done skills');
+//   return new Promise(function (resolve, reject) {
+//     insertInDB(data, 'users', urlArray[1])
+//     console.log('test users');
+//     resolve(1);
+//   }).then((result) => {
+//     console.log('done users');
+//     return new Promise(function (resolve, reject) {
+//       insertInDB(data, 'jobs', urlArray[2])
+//       console.log('test jobs');
+//     }).then(() => {
+//       console.log('done jobs');
+//       return new Promise(function (resolve, reject) {
+//         // insertInDB(data, 'medias', urlArray[3])
+//       }).then(() => {
+//         console.log('done medias');
+//       return new Promise(function (resolve, reject) {
+//         insertInDB(data, 'ratings', urlArray[4])
+//       }).then(() => {
+//         console.log('done ratings');
+//         return new Promise(function (resolve, reject) {
+//           insertInDB(data, 'userSkills', urlArray[5])
+//         }).then(() => {
+//           console.log('done userSkills');
+//         })
+//       })
+// }).catch ((e) => console.log('hi'))
+//       }).catch ((e) => console.log('hi'))
+//     }).catch ((e) => console.log('hi'))
+//   }).catch ((e) => console.log('hi'))
+// }
 
 function insertInDB(data, array, query) {
+  let promises = [];
   data[array].map(el => {
     if (query.http == 'post') {
-      axios.post(query.url, {
+      promises.push(axios.post(query.url, {
         ...el
-      })
-        .then(function (response) {
-          // console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      }))
     } else {
       let url = `${query.url}`;
       let counter = 0;
@@ -79,15 +111,11 @@ function insertInDB(data, array, query) {
         url += `${separator}${prop}=${el[prop]}`;
       }
       // console.log(url);
-      axios.get(url)
-        .then(function (response) {
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      promises.push(axios.get(url));
     }
   })
+  return promises;
 }
 
-module.exports = testDB
+module.exports = testDB;
+
