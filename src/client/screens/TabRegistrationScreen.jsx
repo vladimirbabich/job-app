@@ -1,29 +1,42 @@
 import React, { useState, useRef } from 'react';
-import { Pressable, View, Text, StyleSheet, Alert, TextInput } from 'react-native';
+import { Pressable, View, Text, TextArea, StyleSheet, Alert, TextInput } from 'react-native';
+import { ModButton } from '../components/ModButton';
 
 
 export default function TabRegistrationScreen() {
   const refName = useRef('');
   const refPhone = useRef('');
   const refEmail = useRef('');
+  const refPass = useRef('');
+  const refAbout = useRef('');
+  const refPhoto = useRef();
 
 
-  const signUp = (e) => {
-    console.dir([refName.current.value, refPhone.current.value, refEmail.current.value]);
-    if (refName.current.value == '') {
+  const handleClickSignUp = (e) => {
+    console.dir([refName.current?.value, refPhone.current.value, refEmail.current.value]);
+    if (refName.current?.value == '') {
       Alert.alert('Ошибка', 'Поле "ФИО" пустое');
-      // console.log('Поле "ФИО" пустое');
+      console.log('Поле "ФИО" должно быть заполнено');
       return;
     }
-    if (refPhone.current.value == '') {
+    if (refPhone.current?.value == '') {
       Alert.alert('Ошибка', 'Поле "Номер телефона" пустое');
-      // console.log('Поле "ФИО" пустое');
+      console.log('Поле "Номер телефона" должно быть заполнено');
       return;
     }
+    if (refPass.current?.value == '') {
+      Alert.alert('Ошибка', 'Поле "Пароль" должно быть заполнено');
+      console.log('Поле "Пароль" должно быть заполнено');
+      return;
+    }
+    //axios - check
     //if not empty - look at database for that name,phone,email. if same data not found - put in DB and log in into app
     //some axios request
     //if axios return 'true' data - log in
     //if not - error, this email or phone already registered
+  }
+  const handleClickPhoto = () => {
+    console.log('Photo!')
   }
 
   return (
@@ -46,15 +59,34 @@ export default function TabRegistrationScreen() {
         placeholder=""
       />
       <View style={styles.wrapper}>
-        <Text style={styles.label}>Электронная почта</Text>
+        <Text style={styles.label}>Пароль</Text>
+        <Text style={styles.necessary}>*</Text>
+      </View>
+      <TextInput style={styles.input}
+        ref={refPass}
+        placeholder=""
+      />
+      <View style={styles.wrapper}>
+        <Text style={styles.label}>Эл. почта</Text>
       </View>
       <TextInput style={styles.input}
         ref={refEmail}
         placeholder=""
       />
-      <Pressable style={styles.btn} onPress={signUp}>
+      <View style={styles.wrapper}>
+        <Text style={styles.label}>Раскажите о себе</Text>
+      </View>
+      <TextInput style={styles.input}
+        multiline={true}
+        numberOfLines={4}
+        ref={refAbout}
+        placeholder="Какие задачи готовы выполнять, опыт работы, расценки и т.д."
+      />
+      <ModButton title='Выбрать фото' callback={handleClickPhoto} />
+      <ModButton title='Зарегистрироваться' color='red' callback={handleClickSignUp} />
+      {/* <Pressable style={styles.btn} onPress={signUp}>
         <Text style={styles.btnTxt}>Зарегистрироваться</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 }

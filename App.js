@@ -6,6 +6,8 @@ import TabMenuScreen from './src/client/screens/TabMenuScreen';
 import TabNewJobScreen from './src/client/screens/TabNewJobScreen';
 import TabRegistrationScreen from './src/client/screens/TabRegistrationScreen';
 
+let token = '';
+
 export default function App() {
   return (
     <View style={styles.container}>
