@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, TouchableOpacity, TextInput, View, Text } from 'react-native';
 
-import { ModButton } from './ModButton';
+import { CustomButton } from './CustomButton';
 import { Gallery } from './Gallery';
 
 const JOBSETTINGSFONTSIZE = 25;
@@ -66,10 +66,11 @@ export default function Job(props) {
           {priceJSX}
           {clientAddressJSX}
           {deadlineJSX}
-          <ModButton title={'Предложить свои услуги'}
-            color={'red'}
-            onPress={() => { console.log('В222ыполнить заказ button'); }}
-          />
+          <CustomButton
+            title='Предложить свои услуги'
+            btnStyle={styles.btn}
+            textStyle={styles.btnTxt}
+            callback={() => { console.log('В222ыполнить заказ button'); }} />
         </View>
       </View>
     </TouchableOpacity>
@@ -142,5 +143,23 @@ const styles = StyleSheet.create({
   },
   options: {
     fontSize: 35,
+  },
+  btn: ({ pressed }) => {
+    return {
+      backgroundColor: pressed
+        ? '#2f9f94'
+        : '#75ebe0',
+      marginTop: '2%',
+      borderRadius: '5%',
+      width: cssWidth,
+      borderWidth: 1,
+      textAlign: 'center',
+      height: '5%',
+    }
+  },
+  btnTxt: {
+    fontFamily: 'Roboto-Black',
+    fontSize: 22,
+    margin: 'auto',
   },
 });

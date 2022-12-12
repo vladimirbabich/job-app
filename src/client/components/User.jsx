@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, TouchableOpacity, TextInput, View, Text } from 'react-native';
-import { ModButton } from './ModButton';
+import { CustomButton } from './CustomButton';
 
 export default function User(props) {
   console.log(props)
@@ -10,14 +10,16 @@ export default function User(props) {
       <View style={styles.avatar}>
         {/* <Image style={styles.img}></Image> */}
       </View>
-      <ModButton
-        title={'Предложить работу'}
-        color={'cyan'}
-        onPress={() => { console.log('propose') }} />
-      <ModButton
-        title={'Узнать подробнее'}
-        color={'cyan'}
-        onPress={() => { console.log('about') }} />
+      <CustomButton
+        title='Предложить работу'
+        btnStyle={styles.btn}
+        textStyle={styles.btnTxt}
+        callback={() => { console.log('propose') }} />
+      <CustomButton
+        title='Узнать подробнее'
+        btnStyle={styles.btn}
+        textStyle={styles.btnTxt}
+        callback={() => { console.log('about') }} />
     </View>
     <View style={styles.main}>
       <View style={styles.head}>
@@ -51,5 +53,23 @@ const styles = StyleSheet.create({
   head: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+  },
+  btn: ({ pressed }) => {
+    return {
+      backgroundColor: pressed
+        ? '#2f9f94'
+        : '#75ebe0',
+      marginTop: '2%',
+      borderRadius: '5%',
+      width: cssWidth,
+      borderWidth: 1,
+      textAlign: 'center',
+      height: '5%',
+    }
+  },
+  btnTxt: {
+    fontFamily: 'Roboto-Black',
+    fontSize: 22,
+    margin: 'auto',
   },
 });

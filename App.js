@@ -1,26 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import React, { createContext } from 'react';
 import TabJobsScreen from './src/client/screens/TabJobsScreen';
 import TabUsersScreen from './src/client/screens/TabUsersScreen';
 import TabMenuScreen from './src/client/screens/TabMenuScreen';
 import TabNewJobScreen from './src/client/screens/TabNewJobScreen';
 import TabRegistrationScreen from './src/client/screens/TabRegistrationScreen';
+let jwtToken = require('./src/support-features/globalVariables')
 
-let token = '';
-
+export const GlobalContext = createContext(jwtToken)
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Roboto-Regular': require('./assets/fonts/Roboto-Black.ttf'),
+  });
+  console.log('ggugug')
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <TabRegistrationScreen />
-    </View>
+    <GlobalContext.Provider value={{
+      jwtToken,
+      fonts: fontsLoaded
+    }}>
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <TabRegistrationScreen />
+        <Text style={{
+    fontFamily: 'Roboto-Regular',}}>ADASD
+        </Text>
+      </View>
+    </GlobalContext.Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    fontFamily: 'Roboto-Regular',
+    backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center',
     margin: 0,
