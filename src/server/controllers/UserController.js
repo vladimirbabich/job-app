@@ -23,31 +23,34 @@ const generateJwt = (id, phone) => {
 class UserController {
 
   async registration(req, res, next) {
-    const { name, email, phone, photo, about, pass } = req.body;
-    // const fixedEmail = email.toLowerCase();
-    // const fixedPhone = phone.replace(/\D+/g, '');
-    const existingUser = await getUserFromDB(phone, email);
-    if (!existingUser) {
-      const hashPass = await bcrypt.hash(pass, HASH_QUANTITY);
-      const createdAt = new Date();
-      const newUser = await User.create({
-        name,
-        email,
-        phone,
-        about,
-        pass: hashPass,
-        photo,
-        createdAt,
-        updatedAt: createdAt
-      })
-      const token = generateJwt(newUser.id, newUser.phone)
-      return res.json(token);
+    try {
+      const { name, email, phone, photo, about, pass } = req.body;
+      console.log('111111')
+      const existingUser = await getUserFromDB(phone, email);
+      if (!existingUser) {
+        const hashPass = await bcrypt.hash(pass, HASH_QUANTITY);
+        const createdAt = new Date();
+        const newUser = await User.create({
+          name,
+          email,
+          phone,
+          about,
+          pass: hashPass,
+          photo,
+          createdAt,
+          updatedAt: createdAt
+        })
+        const token = generateJwt(newUser.id, newUser.phone)
+        return res.json(token);
+      }
+      if (email) {
+        return next(ApiError.badRequest('Аккаунт с таким номером или почтой уже существует'))
+      }
+      //else if phone exists
+      return next(ApiError.badRequest('Аккаунт с таким номером уже существует'))
+    } catch (e) {
+      console.log(e)
     }
-    if (email) {
-      return next(ApiError.badRequest('Аккаунт с таким номером или почтой уже существует'))
-    }
-    //else if phone exists
-    return next(ApiError.badRequest('Аккаунт с таким номером уже существует'))
   }
 
   async update(req, res) {
