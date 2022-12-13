@@ -1,7 +1,11 @@
 const ApiError = require('../error/ApiError')
 const { User } = require('../models/models')
 const bcrypt = require('bcrypt')
+const fs = require('fs')
+const uuid = require('uuid')
+const path = require('path')
 const jwt = require('jsonwebtoken')
+
 const HASH_QUANTITY = 4;
 
 async function getUserFromDB(phone, email) {
@@ -21,13 +25,32 @@ const generateJwt = (id, phone) => {
 }
 
 class UserController {
-
   async registration(req, res, next) {
     try {
-      const { name, email, phone, photo, about, pass } = req.body;
-      console.log('111111')
+      const { name, email, photo: photoURI, phone, about, pass } = req.body;
       const existingUser = await getUserFromDB(phone, email);
+      let fileName;
       if (!existingUser) {
+
+        if (photoURI && photoURI.indexOf('data:image/') >= 0) {
+          const regExMatches = photoURI.match('data:(image/.*);base64,(.*)');
+          const imageData = {
+            imageType: '.' + regExMatches[1].split('/')[1],
+            dataBuffer: Buffer.from(regExMatches[2], 'base64')
+          }
+          photoFileName = uuid.v4() + imageData.imageType;
+          const filePath = path.resolve(__dirname, '../static', 'avatars', fileName);
+
+          fs.writeFile(filePath + photoFileName, imageData.dataBuffer, (err) => {
+            if (err) {
+              console.log(err)
+            }
+            console.log("File written successfully");
+          })
+        } else {
+          console.log('photoURI error: not base64 format')
+        }
+
         const hashPass = await bcrypt.hash(pass, HASH_QUANTITY);
         const createdAt = new Date();
         const newUser = await User.create({
@@ -36,7 +59,7 @@ class UserController {
           phone,
           about,
           pass: hashPass,
-          photo,
+          photo: photoFileName,
           createdAt,
           updatedAt: createdAt
         })
