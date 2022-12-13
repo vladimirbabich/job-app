@@ -1,42 +1,38 @@
 import React, { useState, useRef, useContext } from 'react';
 import { SecureStore } from 'expo';
-import { Pressable, View, Text, TextArea, StyleSheet, Alert, TextInput } from 'react-native';
+import { Pressable, ScrollView, SafeAreaView, View, Text, TextArea, StyleSheet, Alert, TextInput } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { GlobalContext } from '../../../App';
 import { CustomButton } from '../components/CustomButton';
-// let jwtToken = require('../../support-features/globalVariables')
 const regUrl = 'http://localhost:7000/api/user/registration'
 const cssWidth = '95%';
 
-
 export default function TabRegistrationScreen() {
-  const refName = useRef('user1');
-  const refPhone = useRef('1234556781');
-  const refEmail = useRef('user1@mail.ru');
-  const refPass = useRef('123123');
-  const refAbout = useRef('');
-  const refPhoto = useRef();
-
+  const refName = useRef();
+  const refPhone = useRef();
+  const refEmail = useRef();
+  const refPass = useRef();
+  const refAbout = useRef();
+  let photo = undefined;
   let jwtToken = useContext(GlobalContext);
   console.log(jwtToken)
-  const pickImage = async () => {
 
-    console.dir([refName.current?.value, refPhone.current?.value, refPass.current?.value]);
+  const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: false,
     });
-    console.dir(result);
 
     if (!result.cancelled) {
-      for (let el in result) {
-        console.log(el);
-      }
-      console.dir('%c' + result.fileName, 'color:red');
+      console.log('%c' + result, 'color:red');
+      console.log(result);
+      photo = result.uri;
     }
   };
 
@@ -77,9 +73,13 @@ export default function TabRegistrationScreen() {
       email: fixedEmail,
       pass: refPass.current?.value,
       about: refAbout.current?.value,
-      photo: refPhoto.current?.value,
+      photo: photo,
     }
-    axios.post(regUrl, obj)
+    axios.post(regUrl, obj, {
+      headers: {
+        'Content-Type': 'multipart/form-data;'
+      }
+    })
       .then((result) => {
         // setCurrentToken(result.data);
         console.log(result);
@@ -99,80 +99,87 @@ export default function TabRegistrationScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Пройдите регистрацию, чтобы найти клиентов или исполнителей:</Text>
-      <View style={styles.wrapper}>
-        <Text style={styles.label}>ФИО</Text>
-        <Text style={styles.necessary}>*</Text>
-      </View>
-      <TextInput style={styles.input}
-        ref={refName}
-        value='user1'
-        placeholder=""
-      />
-      <View style={styles.wrapper}>
-        <Text style={styles.label}>Номер телефона</Text>
-        <Text style={styles.necessary}>*</Text>
-      </View>
-      <TextInput style={styles.input}
-        ref={refPhone}
-        // value='111111111'
-        placeholder=""
-      />
-      <View style={styles.wrapper}>
-        <Text style={styles.label}>Пароль</Text>
-        <Text style={styles.necessary}>*</Text>
-      </View>
-      <TextInput style={styles.input}
-        ref={refPass}
-        value='pass111'
-        placeholder=""
-      />
-      <View style={styles.wrapper}>
-        <Text style={styles.label}>Эл. почта</Text>
-      </View>
-      <TextInput style={styles.input}
-        ref={refEmail}
-        placeholder=""
-      />
-      <View style={styles.wrapper}>
-        <Text style={styles.label}>Раскажите о себе</Text>
-      </View>
-      <TextInput style={styles.input}
-        multiline={true}
-        numberOfLines={4}
-        ref={refAbout}
-        placeholder="Какие задачи готовы выполнять, опыт работы, расценки и т.д."
-        placeholderTextColor={'#8d99ae'}
-      />
-      <CustomButton
-        title='Выбрать фото'
-        btnStyle={styles.btn}
-        textStyle={styles.btnTxt}
-        callback={handleClickPhoto} />
-      <CustomButton
-        title='Зарегистрироваться'
-        btnStyle={styles.btn}
-        textStyle={styles.btnTxt}
-        callback={handleClickSignUp} />
-    </View>
+    <SafeAreaView style={styles.main}>
+      <ScrollView contentContainerStyle={styles.container}>
+        {/* style={styles.container} */}
+        <Text style={styles.title}>Пройдите регистрацию, чтобы найти клиентов или исполнителей:</Text>
+        <View style={styles.wrapper}>
+          <Text style={styles.label}>ФИО</Text>
+          <Text style={styles.necessary}>*</Text>
+        </View>
+        <TextInput style={styles.input}
+          ref={refName}
+          value='user1'
+          placeholder=""
+        />
+        <View style={styles.wrapper}>
+          <Text style={styles.label}>Номер телефона</Text>
+          <Text style={styles.necessary}>*</Text>
+        </View>
+        <TextInput style={styles.input}
+          ref={refPhone}
+          // value='111111111'
+          placeholder=""
+        />
+        <View style={styles.wrapper}>
+          <Text style={styles.label}>Пароль</Text>
+          <Text style={styles.necessary}>*</Text>
+        </View>
+        <TextInput style={styles.input}
+          ref={refPass}
+          value='pass111'
+          placeholder=""
+        />
+        <View style={styles.wrapper}>
+          <Text style={styles.label}>Эл. почта</Text>
+        </View>
+        <TextInput style={styles.input}
+          ref={refEmail}
+          placeholder=""
+        />
+        <View style={styles.wrapper}>
+          <Text style={styles.label}>Раскажите о себе</Text>
+        </View>
+        <TextInput style={{ ...styles.input, minHeight: '10%' }}
+          multiline={true}
+          numberOfLines={4}
+          ref={refAbout}
+          placeholder="Какие задачи готовы выполнять, опыт работы, расценки и т.д."
+          placeholderTextColor={'#8d99ae'}
+        />
+        <CustomButton
+          title='Выбрать фото'
+          btnStyle={styles.btn}
+          textStyle={styles.btnTxt}
+          callback={handleClickPhoto} />
+        <CustomButton
+          title='Зарегистрироваться'
+          btnStyle={styles.btn}
+          textStyle={styles.btnTxt}
+          callback={handleClickSignUp} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  main: {
+    height: '100%',
+    justifyContent: 'flex-end',
+  },
   container: {
     flex: 1,
     backgroundColor: '#FDFFFE',
     padding: '1%',
     paddingTop: '5%',
     alignItems: 'center',
-    // justifyContent: 'center',
   },
   title: {
     fontFamily: 'Roboto-Black',
     textAlign: 'center',
+    padding: '2%',
     fontSize: 20,
-    width: '65%',
+    width: cssWidth,
     fontWeight: 'bold',
   },
   wrapper: {
@@ -190,6 +197,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderWidth: 1,
     borderColor: '#2f9f94',
+    marginTop: '1%',
+    marginBottom: '3%',
+    minHeight: '6%',
   },
   necessary: {
     fontFamily: 'Roboto-Black',
@@ -202,11 +212,11 @@ const styles = StyleSheet.create({
         ? '#2f9f94'
         : '#75ebe0',
       marginTop: '2%',
-      borderRadius: '5%',
       width: cssWidth,
       borderWidth: 1,
+      minHeight: '7%',
+      borderColor: '#2f9f94',
       textAlign: 'center',
-      height: '5%',
     }
   },
   btnTxt: {
