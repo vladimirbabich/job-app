@@ -17,7 +17,7 @@ class MediaController {
           fileName = uuid.v4() + '.' + imgFormat;
           originalName = el.name;
           names.push({ fileName, jobId, originalName });
-          el.mv(path.resolve(__dirname, '..', 'static', fileName));
+          el.mv(path.resolve(__dirname, '../static', 'job-photos', fileName));
         })
 
         const media = await Media.bulkCreate(names)
@@ -27,7 +27,7 @@ class MediaController {
         const imgFormat = splittedFileName[splittedFileName.length - 1];
         fileName = uuid.v4() + '.' + imgFormat;
         originalName = file.name;
-        file.mv(path.resolve(__dirname, '..', 'static', fileName));
+        file.mv(path.resolve(__dirname, '../static', 'job-photos', fileName));
         const media = await Media.create({ fileName, jobId, originalName })
         return res.json(media);
       }
