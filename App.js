@@ -23,9 +23,6 @@ export default function App() {
       <View style={styles.container}>
         <StatusBar style="auto" />
         <TabRegistrationScreen />
-        <Text style={{
-    fontFamily: 'Roboto-Regular',}}>ADASD
-        </Text>
       </View>
     </GlobalContext.Provider>
   );
@@ -37,7 +34,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     backgroundColor: '#FFF',
     alignItems: 'center',
-    justifyContent: 'center',
     margin: 0,
     padding: 0
   },

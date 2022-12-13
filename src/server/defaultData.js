@@ -16,7 +16,6 @@ const data = {
             pass: '1234576',
             createdAt: creationDate,
             updatedAt: creationDate,
-            photo: 'https://this-person-does-not-exist.com/img/avatar-933dd9b723822fb8024b3bf53da5f952.jpg',
             about: 'Lorefohofh sf hosdf hosfhj eio iwio fjiwe',
         },
         {
@@ -26,7 +25,6 @@ const data = {
             pass: 'passsw',
             createdAt: creationDate,
             updatedAt: creationDate,
-            photo: 'https://this-person-does-not-exist.com/img/avatar-dc36b0ff73457c21e8aae414698a4dea.jpg',
             about: 'Lorefohofh sf hosdf hosfhj eiosadop asjdo japsd jasdja spd jaspd asopd jaso dpjaso dopasdj oaps djasp djopa sjdasopd jaospd japso jdopsa jdopas jdpoa sjdop sajd o sadjpjasopd jasopdj opsajdopas japsojdopas joapsjd paosdk p[qwjf[ afjofj a[ jopawefj poajf p[aofoj pa sda!]]]] iwio fjiwe',
         },
         {
@@ -36,7 +34,6 @@ const data = {
             pass: 'gdfgdg',
             createdAt: creationDate,
             updatedAt: creationDate,
-            photo: 'https://this-person-does-not-exist.com/img/avatar-1e66d7b7139169d41a5f87a4af102e74.jpg',
             about: '12345',
         },
         {
