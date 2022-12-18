@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, TouchableOpacity, TextInput, View, Text } from 'react-native';
+import generalStyles from '../../../generalStyles';
 
 import { CustomButton } from './CustomButton';
 import { Gallery } from './Gallery';
@@ -68,9 +69,9 @@ export default function Job(props) {
           {deadlineJSX}
           <CustomButton
             title='Предложить свои услуги'
-            btnStyle={styles.btn}
-            textStyle={styles.btnTxt}
-            callback={() => { console.log('В222ыполнить заказ button'); }} />
+            btnStyle={generalStyles.btnSmall}
+            textStyle={generalStyles.btnTxtSmall}
+            callback={() => { console.log('Предложить свои услуги'); }} />
         </View>
       </View>
     </TouchableOpacity>
@@ -143,23 +144,5 @@ const styles = StyleSheet.create({
   },
   options: {
     fontSize: 35,
-  },
-  btn: ({ pressed }) => {
-    return {
-      backgroundColor: pressed
-        ? '#2f9f94'
-        : '#75ebe0',
-      marginTop: '2%',
-      borderRadius: '5%',
-      width: cssWidth,
-      borderWidth: 1,
-      textAlign: 'center',
-      height: '5%',
-    }
-  },
-  btnTxt: {
-    fontFamily: 'Roboto-Black',
-    fontSize: 22,
-    margin: 'auto',
   },
 });

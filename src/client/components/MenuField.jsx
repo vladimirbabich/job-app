@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Pressable, StyleSheet, TextInput, View, Text } from 'react-native';
+import generalStyles from '../../../generalStyles';
 
 export default function MenuField(props) {
   const { field } = props;
@@ -10,8 +11,20 @@ export default function MenuField(props) {
         <Text style={styles.fieldDesc} >{field[1] + '\n'}</Text>
         {field[2] ? <Text style={styles.necessary}> *</Text> : null}
       </View>
-      {/* <TextInput name={field[0]} type="text" /> */}
-      <TextInput name={field[0]} type="text" style={styles.input} onChange={(e) => { props.onChange(e, field[0]) }} />
+      {field[0] == 'workList' ?
+        <TextInput
+          name={field[0]}
+          multiline={true}
+          numberOfLines={4}
+          type="text"
+          style={generalStyles.textInput}
+          onChange={(e) => { props.onChange(e, field[0]) }} />
+        :
+        <TextInput name={field[0]}
+          type="text"
+          style={generalStyles.textInput}
+          onChange={(e) => { props.onChange(e, field[0]) }} />
+      }
     </View>
   );
 }
@@ -28,7 +41,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flexDirection: 'row',
-    justifyContent:'center',
+    justifyContent: 'center',
     width: '100%',
   },
   necessary: {

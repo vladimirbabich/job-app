@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Button, Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
-
+import { Button, Pressable, StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
 import MenuField from '../components/MenuField';
+import generalStyles from '../../../generalStyles';
+import { CustomButton } from '../components/CustomButton';
 // import axios from 'axios';
 
 export default function TabNewJobScreen() {
@@ -12,7 +13,7 @@ export default function TabNewJobScreen() {
     ['clientName', 'ФИО клиента', true],
     ['clientAddress', 'Адрес клиента', true],
     ['workList', 'Список запрашиваемых работ', true],
-    ['deadline', 'Приемлемая дата завершения работ', false],
+    ['deadline', 'Желаемая дата завершения работ', false],
     ['price', 'Сумма', false]
   ];
   const [newJobData, setNewJobData] = useState({});
@@ -57,19 +58,23 @@ export default function TabNewJobScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={generalStyles.screenScroll}>
       <Text style={styles.title}>Заполните данные:</Text>
       {fields.map((el) => {
         return <MenuField key={el[0]} field={el} onChange={(e, name) => handleJobData(e, name)} />
       })}
-      <Pressable style={styles.btn} onPress={pickImage}>
-        <Text>Добавить фото/видео</Text>
-      </Pressable>
-      <Pressable style={styles.btn} onPress={(e) => { createNewJob(newJobData) }}>
-        <Text>Создать задачу</Text>
-      </Pressable>
+      <CustomButton
+        title='Добавить фото/видео'
+        btnStyle={generalStyles.btn}
+        textStyle={generalStyles.btnTxt}
+        callback={pickImage} />
+      <CustomButton
+        title='Создать задачу'
+        btnStyle={generalStyles.btn}
+        textStyle={generalStyles.btnTxt}
+        callback={(e) => { createNewJob(newJobData) }} />
 
-    </View>
+    </ScrollView>
   );
 }
 

@@ -22,16 +22,15 @@ class MediaController {
 
         const media = await Media.bulkCreate(names)
         return res.json(media);
-      } else {
-        const splittedFileName = file.name.split('.');
-        const imgFormat = splittedFileName[splittedFileName.length - 1];
-        fileName = uuid.v4() + '.' + imgFormat;
-        originalName = file.name;
-        file.mv(path.resolve(__dirname, '../static', 'job-photos', fileName));
-        const media = await Media.create({ fileName, jobId, originalName })
-        return res.json(media);
       }
-
+      //else
+      const splittedFileName = file.name.split('.');
+      const imgFormat = splittedFileName[splittedFileName.length - 1];
+      fileName = uuid.v4() + '.' + imgFormat;
+      originalName = file.name;
+      file.mv(path.resolve(__dirname, '../static', 'job-photos', fileName));
+      const media = await Media.create({ fileName, jobId, originalName })
+      return res.json(media);
     } catch (e) {
       console.log(e.message)
       next(ApiError.badRequest(e.message));

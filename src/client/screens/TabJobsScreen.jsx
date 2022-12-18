@@ -6,6 +6,7 @@ import { Gallery } from '../components/Gallery';
 
 import { getNumberFromPercent } from '../../support-features/supportFunctions';
 import { Overlay } from '../components/Overlay';
+import generalStyles from '../../../generalStyles';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -21,7 +22,6 @@ const scrollSize = {
   w: getNumberFromPercent(windowWidth, 90),
   h: getNumberFromPercent(windowHeight, 5)
 };
-
 
 export default function TabJobsScreen() {
 
@@ -110,7 +110,6 @@ export default function TabJobsScreen() {
     let c = setData([...testData]);
     return c;
   }
-
   useEffect(() => {
     getDataFromServer();//placeholder for now
   }, []);
@@ -123,9 +122,6 @@ export default function TabJobsScreen() {
     setOpenedJobId(jobId);
   }
 
-
-
-  // f().then(alert); // 1
   let data2 = [];
   //get data from server, and make job component for each task
   let isPromiseFulfilled = false;
@@ -149,7 +145,7 @@ export default function TabJobsScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={generalStyles.screenScroll}>
       {(openedJobId > -1) ? showOverlay(openedJobId) : null}
       <GalleryStyleContext.Provider value={previewStyle}>
         {testData.map((el => {
