@@ -72,9 +72,9 @@ export default function TabRegistrationScreen() {
       email: fixedEmail,
       pass: refPass.current?.value,
       about: refAbout.current?.value,
-      photoUri: photo.uri,
-      photoW: photo.w,
-      photoH: photo.h,
+      photoUri: photo?.uri,
+      photoW: photo?.w,
+      photoH: photo?.h,
     }
 
     axios.post(regUrl, obj, {
