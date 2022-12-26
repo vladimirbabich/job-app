@@ -32,7 +32,7 @@ export default function TabRegistrationScreen() {
     if (!result.cancelled) {
       console.log('%c' + result, 'color:red');
       console.log(result);
-      photo = result.uri;
+      photo = { uri: result.uri, w: result.width, h: result.height };
     }
   };
 
@@ -72,8 +72,11 @@ export default function TabRegistrationScreen() {
       email: fixedEmail,
       pass: refPass.current?.value,
       about: refAbout.current?.value,
-      photo: photo,
+      photoUri: photo.uri,
+      photoW: photo.w,
+      photoH: photo.h,
     }
+
     axios.post(regUrl, obj, {
       headers: {
         'Content-Type': 'multipart/form-data;'
@@ -85,7 +88,6 @@ export default function TabRegistrationScreen() {
         jwtToken = result.data;
         console.log(jwtToken);
       }).catch((e) => {
-
         console.log(e.response.data.message)
       })
 
@@ -100,7 +102,7 @@ export default function TabRegistrationScreen() {
   return (
     <ScrollView contentContainerStyle={generalStyles.screenScroll}>
       {/* style={styles.container} */}
-      <Text style={styles.title}>Пройдите регистрацию, чтобы найти клиентов или исполнителей:</Text>
+      <Text style={generalStyles.title}>Пройдите регистрацию, чтобы найти клиентов или исполнителей:</Text>
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
           <Text style={styles.label}>ФИО</Text>

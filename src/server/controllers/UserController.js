@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError')
-const { User } = require('../models/models')
+const { User, Media } = require('../models/models')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
 const uuid = require('uuid')
@@ -27,28 +27,30 @@ const generateJwt = (id, phone) => {
 class UserController {
   async registration(req, res, next) {
     try {
-      const { name, email, photo: photoURI, phone, about, pass } = req.body;
+      const { name, email, phone, photoUri, photoW, photoH, about, pass } = req.body;
       const existingUser = await getUserFromDB(phone, email);
       let fileName;
       if (!existingUser) {
 
-        if (photoURI && photoURI.indexOf('data:image/') >= 0) {
-          const regExMatches = photoURI.match('data:(image/.*);base64,(.*)');
+        if (photoUri && photoUri.indexOf('data:image/') >= 0) {
+          const regExMatches = photoUri.match('data:(image/.*);base64,(.*)');
           const imageData = {
             imageType: '.' + regExMatches[1].split('/')[1],
             dataBuffer: Buffer.from(regExMatches[2], 'base64')
           }
-          photoFileName = uuid.v4() + imageData.imageType;
+          fileName = uuid.v4() + imageData.imageType;
           const filePath = path.resolve(__dirname, '../static', 'avatars', fileName);
 
-          fs.writeFile(filePath + photoFileName, imageData.dataBuffer, (err) => {
+          fs.writeFile(filePath + fileName, imageData.dataBuffer, (err) => {
             if (err) {
               console.log(err)
             }
             console.log("File written successfully");
           })
+
         } else {
-          console.log('photoURI error: not base64 format')
+          console.log('photo warning: not base64 format')
+          console.log(photoUri)
         }
 
         const hashPass = await bcrypt.hash(pass, HASH_QUANTITY);
@@ -59,10 +61,19 @@ class UserController {
           phone,
           about,
           pass: hashPass,
-          photo: photoFileName,
+          photo: fileName || undefined,
           createdAt,
           updatedAt: createdAt
         })
+        if (photoUri) {
+          const newMedia = await Media.create({
+            userId: newUser.id,
+            fileName: fileName,
+            width: photoW || 0,
+            height: photoH || 0
+          })
+        }
+
         const token = generateJwt(newUser.id, newUser.phone)
         return res.json(token);
       }

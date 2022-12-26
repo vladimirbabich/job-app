@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, Dimensions, TextInput, View, Text } from 'react-native';
+import { Button, Pressable, StyleSheet, Image, FlatList, TouchableOpacity, Dimensions, TextInput, View, Text, BackHandler } from 'react-native';
 
 import { getNumberFromPercent } from '../../support-features/supportFunctions';
 import { Gallery } from './Gallery';
@@ -14,18 +14,18 @@ const mainImageSize = {
 };
 
 export function Overlay(props) {
-  const { data, openedJobId, galleryStyle, toggleGalleryView } = props;
+  const { data, openedJobId, galleryStyle, onClick } = props;
 
   let jobIndexInData = data.map(el => {
     return el.jobID
   }).indexOf(openedJobId);
 
   return (
-    <TouchableOpacity style={styles.overlay} onPress={() => { toggleGalleryView(-1) }}>
+    <TouchableOpacity style={styles.overlay} onPress={() => { onClick(-1) }}>
       <TouchableOpacity style={styles.mainImageBlock} activeOpacity={1}>
         {/* {console.log('%copenedJobId: ' + jobIndexInData, 'color:green')} */}
         {/* {console.dir(data[jobIndexInData])} */}
-        <Gallery media={data[jobIndexInData].media} />
+        <Gallery media={data[jobIndexInData].media}/>
       </TouchableOpacity>
     </TouchableOpacity>
   )
@@ -45,10 +45,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center',
     flexDirection: 'row',
-    // backgroundColor: 'green',
+    position: 'fixed',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '50%',
+    bottom: '15vh',
+    left: (windowWidth-mainImageSize.w)/2,
+    // marginTop: '100%',
     height: mainImageSize.h,
     width: mainImageSize.w,
   }

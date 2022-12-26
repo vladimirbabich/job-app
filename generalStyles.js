@@ -5,6 +5,7 @@ const elementHeight = '6vh';
 export const colors = {
   backgroundColor: '#FDFFFE',
   mainColor: '#75ebe0',
+  cartColor: '#f4ffff',
   actionColor: '#2f9f94',
   errorColor: 'red',
   descriptionColor: '#8d99ae',
@@ -18,6 +19,14 @@ const generalStyles = {
     alignItems: 'center',
     width: '100%',
     justifyContent: 'center'
+  },
+  title: {
+    fontFamily: 'Roboto-Black',
+    textAlign: 'center',
+    padding: '2%',
+    fontSize: 20,
+    width: elementWidth,
+    fontWeight: 'bold',
   },
   textInput: {
     width: elementWidth,

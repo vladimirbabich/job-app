@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, TouchableOpacity, TextInput, View, Text } from 'react-native';
-import generalStyles from '../../../generalStyles';
+import generalStyles, { colors } from '../../../generalStyles';
 
 import { CustomButton } from './CustomButton';
 import { Gallery } from './Gallery';
@@ -58,7 +58,7 @@ export default function Job(props) {
       <View style={styles.middle}>
         <TouchableOpacity style={styles.gallery} onPress={() => {
           console.dir(props)
-          props.toggleGalleryView(props.job.jobID)
+          props.onClick(props.job.jobID)
         }}>
           <Gallery media={job.media} key={job.jobID} />
         </TouchableOpacity>
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'block',
     borderWidth: '1px',
-    borderColor: 'blue',
+    backgroundColor: colors.cartColor,
+    borderColor: colors.actionColor,
     color: 'red',
     margin: 5
   },

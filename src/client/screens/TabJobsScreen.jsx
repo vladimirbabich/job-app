@@ -73,7 +73,8 @@ export default function TabJobsScreen() {
       startDate: "12.12.2022",
       deadline: "22.12.2022",
       media: [
-        "https://placeimg.com/640/480/any"
+        "https://imgs.ca/wp-content/uploads/2021/09/IMGS-Group-Logo-Web-Optimize.png",
+        "https://www.pegasusforkids.com/uploads/product/ff8dd10df920229c17d8249eb311ee01.jpg",
       ],
       price: 10600
     },
@@ -100,6 +101,30 @@ export default function TabJobsScreen() {
       deadline: "03.04.2023",
       media: "https://placeimg.com/640/480/any",
       price: 15000
+    },
+    {
+      jobID: 5,
+      accountID: undefined,
+      clientID: 777,
+      clientName: 'Петрова Валентина',
+      clientAddress: "ulica 33b",
+      workList: "One task",
+      startDate: "03.03.2023",
+      deadline: "03.04.2023",
+      media: "https://placeimg.com/640/480/any",
+      price: 15000
+    },
+    {
+      jobID: 6,
+      accountID: undefined,
+      clientID: 777,
+      clientName: 'Петрова Валентина',
+      clientAddress: "ulica 33b",
+      workList: "One task",
+      startDate: "03.03.2023",
+      deadline: "03.04.2023",
+      media: "https://placeimg.com/640/480/any",
+      price: 15000
     }
   ];
 
@@ -117,9 +142,14 @@ export default function TabJobsScreen() {
   useEffect(() => {
     console.log('openedJobId:' + openedJobId);
   }, [openedJobId]);
+  function handleCartClick(jobId) {
+    if (!data)
+      console.log('NO DATA! Somehow data is empty, this means that you dont see any imgs in JOB carts')
+    const index = data.map(e => e.jobID).indexOf(jobId);
 
-  function toggleGalleryView(jobId) {
-    setOpenedJobId(jobId);
+    //if job has media/s OR it`s Overlay component
+    if (data[index]?.media?.length > 0 || index == -1)
+      setOpenedJobId(jobId);
   }
 
   let data2 = [];
@@ -139,7 +169,7 @@ export default function TabJobsScreen() {
   function showOverlay(openedJobId) {
     return (
       <GalleryStyleContext.Provider value={galleryStyle}>
-        <Overlay data={testData} openedJobId={openedJobId} toggleGalleryView={toggleGalleryView} />
+        <Overlay data={testData} openedJobId={openedJobId} onClick={handleCartClick} />
       </GalleryStyleContext.Provider>
     )
   }
@@ -147,10 +177,11 @@ export default function TabJobsScreen() {
   return (
     <View style={generalStyles.screenScroll}>
       {(openedJobId > -1) ? showOverlay(openedJobId) : null}
+      <Text style={generalStyles.title}>Активные работы:</Text>
       <GalleryStyleContext.Provider value={previewStyle}>
         {testData.map((el => {
           return (
-            <Job job={el} key={el.jobID} toggleGalleryView={toggleGalleryView} />
+            <Job job={el} key={el.jobID} onClick={handleCartClick} />
           )
         }))}
       </GalleryStyleContext.Provider>
@@ -172,6 +203,9 @@ const previewStyle = StyleSheet.create({
     justifyContent: 'center',
     height: 10,
     zIndex: 3,
+  },
+  title: {
+
   },
   preview: {
     height: 10,

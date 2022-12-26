@@ -78,17 +78,26 @@ const data = {
         {
             jobId: 1,
             fileName: 'asfasdasdasdasdfas.png',
-            originalName: 'orig.png',
+            width:10,
+            height:20
         },
         {
             jobId: 1,
             fileName: '2134213asdasd123123.png',
-            originalName: 'orig1.png',
+            width:10,
+            height:20
         },
         {
             jobId: 2,
             fileName: 'asfasdaasdasdsdfas.png',
-            originalName: 'orig2.png',
+            width:10,
+            height:20
+        },
+        {
+            userId: 2,
+            fileName: 'asf22asdaasdasdsdfas.png',
+            width:10,
+            height:20
         },
     ],
     ratings: [

@@ -22,7 +22,7 @@ export default function App() {
       <View style={styles.screen}>
         <StatusBar style="auto" />
         <View style={styles.main}>
-          <TabJobsScreen />
+          <TabRegistrationScreen />
         </View>
       </View>
     </GlobalContext.Provider>
