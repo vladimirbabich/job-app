@@ -42,7 +42,7 @@ function insertAndWaitDBInsertion(index) {
       if (curIndex < urlArray.length - 1) {
         insertAndWaitDBInsertion(++curIndex);
       } else {
-        console.log('ok')
+        console.log('ok, all types of DB was successfully inserted')
       }
     })
 }
@@ -78,35 +78,3 @@ function insertTable(dataForDB, { tableName, method, url }) {
 }
 
 module.exports = testDB;
-
-// const creationDate = new Date();
-// // testDB();
-// function testDB() {
-//   console.log("testDB");
-
-//   let promises = insertInDB(data, urlArray[0])
-//   Promise.all(promises)
-//     .then(() => {
-//       promises = insertInDB(data, urlArray[1]);
-//       Promise.all(promises)
-//         .then(() => {
-//           promises = insertInDB(data, urlArray[2])
-//           Promise.all(promises)
-//             .then(() => {
-//               promises = insertInDB(data, urlArray[3])
-//               Promise.all(promises)
-//                 .then(() => {
-//                   promises = insertInDB(data, urlArray[4])
-//                   Promise.all(promises)
-//                     .then(() => {
-//                       promises = insertInDB(data, urlArray[5])
-//                       Promise.all(promises)
-//                         .then(() => {
-//                           console.log('ok')
-//                         })
-//                     })
-//                 })
-//             })
-//         })
-//     })
-// }

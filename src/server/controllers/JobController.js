@@ -1,4 +1,4 @@
-const { Job } = require('../models/models')
+const { Job, Media } = require('../models/models')
 const ApiError = require('../error/ApiError');
 const { json } = require('sequelize');
 
@@ -47,8 +47,16 @@ class JobController {
 
   async getAll(req, res) {
     const jobs = await Job.findAll();
-    return res.json(jobs);
+    const jobsWithMediaPromises = jobs.map(async el => {
+      const media = await Media.findAll({ where: { jobId: el.dataValues.id } });
+      if (media.length > 0)
+        return { ...el.dataValues, media: media }
+      return { ...el.dataValues }
+    })
+    
+    Promise.all(jobsWithMediaPromises).then(result => {
+      return res.json(result);
+    })
   }
 }
-
 module.exports = new JobController();

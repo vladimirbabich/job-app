@@ -48,7 +48,12 @@ const data = {
     jobs: [
         {
             workAddress: 'ulica pushkina',
-            workList: 'do that and this',
+            workList: `do that and this:
+            1) task1
+            2) task2
+            3) task3
+            4) task4
+            that\`s all, falks`,
             deadline: new Date('2022-12-12'),
             price: '10000',
             createdAt: creationDate,
@@ -57,7 +62,11 @@ const data = {
         },
         {
             workAddress: 'korpus 6, pereulok 2',
-            workList: 'a,b,c,d tasks',
+            workList: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget felis et nulla dignissim lobortis sed in nisi. Aenean molestie purus sed nisl consequat, eu porttitor eros rhoncus. Nulla facilisi. Phasellus in fringilla nisl. Nulla vitae felis pharetra, placerat dolor nec, blandit augue. Duis id massa aliquet, vulputate quam eu, ultrices ex. Sed rhoncus in lacus sed tincidunt. Fusce semper dui eget sapien sollicitudin, ut venenatis turpis ornare. Sed aliquet hendrerit magna, vel malesuada magna luctus eu. Vestibulum congue rhoncus enim, in placerat ante ornare luctus. Pellentesque semper justo sed ultrices ullamcorper. Vivamus eu tellus augue.
+
+            Ut aliquet lorem ante, sed congue lacus scelerisque vitae. Etiam in tempus diam. Aenean efficitur vulputate mauris, ut ullamcorper nulla semper id. Mauris posuere condimentum nisi, nec sollicitudin diam vehicula in. Fusce accumsan accumsan ultrices. Quisque ullamcorper, dui id pellentesque tempus, lorem leo sodales nisi, a mollis elit urna eu lectus. Suspendisse mollis egestas libero, ac suscipit libero varius in. Vestibulum in magna quis augue lacinia consequat eget euismod tortor. Pellentesque semper sit amet purus nec molestie. In leo sem, sodales vel nunc eu, scelerisque convallis sapien. Duis vel sapien nec quam egestas finibus eu sed lacus. Integer in massa vestibulum, sagittis nisl vitae, tincidunt orci.
+            
+            Ut et sapien luctus orci bibendum interdum quis dignissim diam. Donec placerat porttitor tincidunt. Nunc pulvinar, lacus nec efficitur feugiat, massa mi lobortis arcu, ut semper massa purus ac ante. Pellentesque dictum vitae odio vitae scelerisque. Suspendisse potenti. Ut at sem ac nibh iaculis suscipit ut nec tortor. Aenean a ullamcorper urna. Proin id turpis sit amet mi commodo ornare.`,
             deadline: new Date('2023-01-30'),
             price: '17500',
             createdAt: creationDate,
@@ -66,7 +75,7 @@ const data = {
         },
         {
             workAddress: 'ulica kolotushkina',
-            workList: 'do that and this etc',
+            workList: 'Aliquam aliquet a lectus vitae scelerisque. Vivamus mollis aliquam mi. Ut condimentum ex sed enim ultrices accumsan quis at justo. Ut non varius lectus. Aenean ac nisi urna. Quisque tempor, leo a molestie auctor, urna mi aliquet nulla, id laoreet eros augue ac magna. Nunc gravida ex in felis mattis, a posuere leo interdum. Nullam purus risus, accumsan sit amet porttitor quis, luctus ac augue. Morbi porttitor enim consequat, feugiat mi vel, egestas orci. Integer ut elit imperdiet, malesuada mi ac, convallis libero. Aliquam non nisl eget urna dignissim hendrerit. Maecenas tempor vestibulum velit ut scelerisque.',
             deadline: new Date('2023-02-02'),
             price: '15000',
             createdAt: creationDate,
@@ -77,27 +86,33 @@ const data = {
     medias: [
         {
             jobId: 1,
-            fileName: 'asfasdasdasdasdfas.png',
-            width:10,
-            height:20
+            fileName: 'test1.jpg',
+            width: 1080,
+            height: 1080
         },
         {
             jobId: 1,
-            fileName: '2134213asdasd123123.png',
-            width:10,
-            height:20
+            fileName: 'test12.jpg',
+            width: 1080,
+            height: 1920
         },
         {
             jobId: 2,
-            fileName: 'asfasdaasdasdsdfas.png',
-            width:10,
-            height:20
+            fileName: 'test2.png',
+            width: 1080,
+            height: 1920
+        },
+        {
+            jobId: 2,
+            fileName: 'test22.jpg',
+            width: 1080,
+            height: 636
         },
         {
             userId: 2,
             fileName: 'asf22asdaasdasdsdfas.png',
-            width:10,
-            height:20
+            width: 10,
+            height: 20
         },
     ],
     ratings: [

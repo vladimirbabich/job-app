@@ -39,12 +39,12 @@ class MediaController {
 
   async lazyCreate(req, res, next) {
     try {
-      const { jobId, userId, fileName } = req.query;
+      const { jobId, userId, fileName, width, height } = req.query;
       if ((!jobId && !userId) || !fileName) {
         next(ApiError.badRequest('wrong data in MediaController request'));
       }
       // console.log(req.query)
-      const media = await Media.create({ fileName, jobId, userId})
+      const media = await Media.create({ fileName, jobId, userId, width, height })
       return res.json(media);
     } catch (e) {
       console.log(e.message)

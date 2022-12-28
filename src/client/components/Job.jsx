@@ -17,7 +17,7 @@ export default function Job(props) {
 
 
   const deadlineJSX = job.deadline ?
-    <Text style={styles.deadline} >Выполнить до: {job.deadline}</Text> :
+    <Text style={styles.deadline} >Выполнить до: {job.deadline.split('T')[0]}</Text> :
     <Text style={styles.deadline} >Без даты завершения</Text>;
 
   const clientAddressJSX = job.clientAddress ?
@@ -25,7 +25,7 @@ export default function Job(props) {
     <Text style={styles.clientAddress} >Адрес не указан</Text>;
 
   const priceJSX = job.price ?
-    <Text style={styles.clientAddress} >Бюджет на работу: {props.job.price}</Text> :
+    <Text style={styles.clientAddress} >Бюджет на работу: {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(props.job.price)}</Text> :
     <Text style={styles.clientAddress} >Рабочий бюджет не указан</Text>;
 
   function showExtra() {
@@ -46,21 +46,22 @@ export default function Job(props) {
 
       <View style={styles.header}>
         <Text style={styles.jobID} >{props.job.jobID}</Text>
-        <View style={styles.jobSettings}>
+        {/* <View style={styles.jobSettings}>
           <Pressable style={styles.favorites} onPress={() => { console.log('Избранное button'); }}>
             <Text style={{ fontSize: JOBSETTINGSFONTSIZE }}>☆</Text>
           </Pressable>
           <Pressable style={styles.options} onPress={() => { console.log('options button'); }}>
             <Text style={{ fontSize: JOBSETTINGSFONTSIZE }}>☰</Text>
           </Pressable>
-        </View>
+        </View> */}
       </View>
       <View style={styles.middle}>
         <TouchableOpacity style={styles.gallery} onPress={() => {
           console.dir(props)
-          props.onClick(props.job.jobID)
+          console.log(`%cjobID: ${props.job.id}`, 'color:cyan')
+          props.onClick(props.job.id)
         }}>
-          <Gallery media={job.media} key={job.jobID} />
+          <Gallery media={props.job.media} key={job.id} />
         </TouchableOpacity>
         <View style={styles.description}>
           <Text style={styles.workList} >{workListUI}</Text>

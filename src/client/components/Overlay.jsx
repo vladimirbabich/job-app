@@ -17,7 +17,7 @@ export function Overlay(props) {
   const { data, openedJobId, galleryStyle, onClick } = props;
 
   let jobIndexInData = data.map(el => {
-    return el.jobID
+    return el.id
   }).indexOf(openedJobId);
 
   return (
