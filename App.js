@@ -13,7 +13,6 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/Roboto-Black.ttf'),
   });
-  console.log('ggugug')
   return (
     <GlobalContext.Provider value={{
       jwtToken,

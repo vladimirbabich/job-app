@@ -4,11 +4,9 @@ import generalStyles, { overlayImageSize } from '../../../generalStyles';
 import { GalleryStyleContext } from '../screens/TabJobsScreen'
 
 const photoFolderUrl = 'http://localhost:7000/job-photos/'
-const avatarFolderUrl = 'http://localhost:7000/avatars/'
 const noImgUrl = 'http://localhost:7000/noImg.svg'
 
 const createImageComponent = (uri, style) => {
-  console.log('111' + uri)
   return <Image
     style={style}
     source={{
@@ -22,24 +20,14 @@ export function Gallery(props) {
   const { media, isOverlay } = props;
   const [mainMedia, setMainMedia] = useState(media ? media[0] : undefined);
   useEffect(() => {
-    console.dir(mainMedia);
+    // console.dir(mainMedia);
   }, [mainMedia]);
 
   function handleClickScrollItem(image) {
-    // const calcSize = {
-    //   w: 1,
-    //   h: -1
-    // }
-    // console.log(uri)
-    // console.log(calcSize)
-    console.log('%cimgUrl:' + image.fileName, 'color:green; font-size: 15px')
-
     setMainMedia({ ...image });
-    console.log(mainMedia)
   }
 
   const style = useContext(GalleryStyleContext);
-  // console.log(style);
 
   if (!media || media.length == 0) {
     return createImageComponent(

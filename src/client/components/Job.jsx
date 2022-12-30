@@ -4,14 +4,17 @@ import generalStyles, { colors } from '../../../generalStyles';
 
 import { CustomButton } from './CustomButton';
 import { Gallery } from './Gallery';
+import { Avatar } from './Avatar';
 
 const JOBSETTINGSFONTSIZE = 25;
 const WORKLISTFONTSIZE = 16;
 
 export default function Job(props) {
-  let tempWL = props.job.workList.length > 80 ?
-    props.job.workList.substring(0, 80) + '...' :
-    props.job.workList;
+  const fixedWorkList = props.job.workList.replaceAll(/\n/gm, ' ');
+  console.log(fixedWorkList)
+  let tempWL = fixedWorkList.length > 80 ?
+    fixedWorkList.substring(0, 80) + '...' :
+    fixedWorkList;
   const [workListUI, setWorkListUI] = useState(tempWL);
   const { job } = props;
 
@@ -29,10 +32,10 @@ export default function Job(props) {
     <Text style={styles.clientAddress} >Рабочий бюджет не указан</Text>;
 
   function showExtra() {
-    if (job.workList.length < 80) return;
-    setWorkListUI(job.workList == workListUI ?
-      props.job.workList.substring(0, 80) + '...' :
-      props.job.workList)
+    if (fixedWorkList.length < 80) return;
+    setWorkListUI(fixedWorkList == workListUI ?
+      fixedWorkList.substring(0, 80) + '...' :
+      fixedWorkList)
   }
 
   useEffect(() => {
@@ -44,25 +47,18 @@ export default function Job(props) {
     <TouchableOpacity style={styles.job} onPress={showExtra}>
       {/* <Pressable id='extraInfo' style={styles.btnExtra} onPress={showExtra}> */}
 
-      <View style={styles.header}>
-        <Text style={styles.jobID} >{props.job.jobID}</Text>
-        {/* <View style={styles.jobSettings}>
-          <Pressable style={styles.favorites} onPress={() => { console.log('Избранное button'); }}>
-            <Text style={{ fontSize: JOBSETTINGSFONTSIZE }}>☆</Text>
-          </Pressable>
-          <Pressable style={styles.options} onPress={() => { console.log('options button'); }}>
-            <Text style={{ fontSize: JOBSETTINGSFONTSIZE }}>☰</Text>
-          </Pressable>
-        </View> */}
-      </View>
+      {/* <View style={styles.header}>
+      </View> */}
       <View style={styles.middle}>
-        <TouchableOpacity style={styles.gallery} onPress={() => {
-          console.dir(props)
-          console.log(`%cjobID: ${props.job.id}`, 'color:cyan')
-          props.onClick(props.job.id)
-        }}>
-          <Gallery media={props.job.media} key={job.id} />
-        </TouchableOpacity>
+        <View style={styles.leftSide}>
+          <Text style={styles.jobID} >Заказ №{props.job.id}</Text>
+          <TouchableOpacity style={styles.gallery} onPress={() => {
+            props.onClick(props.job.id)
+          }}>
+            <Gallery media={props.job.media} key={job.id} />
+          </TouchableOpacity>
+          <Avatar id={props.job.userId}/>
+        </View>
         <View style={styles.description}>
           <Text style={styles.workList} >{workListUI}</Text>
           {priceJSX}
@@ -89,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cartColor,
     borderColor: colors.actionColor,
     color: 'red',
-    margin: 5
+    marginHorizontal: 'auto',
   },
   header: {
     flexDirection: 'row',
@@ -123,6 +119,7 @@ const styles = StyleSheet.create({
   description: {
     flexDirection: 'column',
     alignItems: 'flex-start',
+    justifyContent: 'space-evenly',
     margin: '2%',
     width: '66%'
   },

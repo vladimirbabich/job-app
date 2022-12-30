@@ -28,12 +28,12 @@ const scrollSize = {
 
 export default function TabJobsScreen() {
   const [data, setData] = useState([]);
-  const [openedJobId, setOpenedJobId] = useState(-1);
+  const [openedJobId, setOpenedJobId] = useState(-1);//if>=0 -> overlayMode with gallery of medias from jobArray[openedJobId]
 
   useEffect(() => {
     axios.get(getJobsUrl)
       .then((result) => {
-        console.dir(result.data);
+        // console.dir(result.data);
         setData(result.data);
       }).catch((e) => {
         console.log(e.response.data.message)
@@ -41,19 +41,16 @@ export default function TabJobsScreen() {
   }, []);
 
   useEffect(() => {
-    console.log('openedJobId:' + openedJobId);
+    // console.log('openedJobId:' + openedJobId);
   }, [openedJobId]);
 
   function handleCartClick(jobId) {
-    console.log(`%cjobID: ${jobId}`, 'color:red')
     if (!data)
       console.log('NO DATA! Somehow data is empty, this means that you dont see any imgs in JOB carts')
     const index = data.map(e => e.id).indexOf(jobId);
 
     //if job has media/s OR it`s Overlay component
     if (index == -1 || data[index]?.media != undefined) {
-      console.log(`%cmedia: ${data[index]?.media}`, 'color:red')
-      console.log(`%cindex: ${index} / length: ${data[index]?.media?.length}`, 'color:red')
       setOpenedJobId(jobId);
     }
   }
@@ -80,12 +77,13 @@ export default function TabJobsScreen() {
   }
 
   return (
-    <View style={generalStyles.screenScroll}>
+    <View
+      scrollEnabled={openedJobId > -1 ? false : true}
+      style={generalStyles.screenScroll}>
       {(openedJobId > -1) ? showOverlay(openedJobId) : null}
-      <Text style={generalStyles.title}>Активные работы:</Text>
+      <Text style={generalStyles.title}>Доступные работы:</Text>
       <GalleryStyleContext.Provider value={previewStyle}>
         {data.map((el => {
-          console.dir(el)
           return (
             <Job job={el} key={el.id} onClick={handleCartClick} />
           )

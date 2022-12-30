@@ -129,6 +129,15 @@ class UserController {
     return res.json({ token })
   }
 
+  async get(req, res, next) {
+    const { id } = req.query;
+    if (!id) return next(ApiError.badRequest('ID not found'));
+    const user = await User.findByPk(id);
+    const photo = await Media.findOne({ where: {userId: id} });
+
+    return res.json({ rating: user.avgRating, name: user.name, photo: photo?.fileName})
+  }
+
   async getAll(req, res, next) {
     const users = await User.findAll();
     return res.json(users)

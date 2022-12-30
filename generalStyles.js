@@ -23,8 +23,6 @@ export const colors = {
 };
 const generalStyles = {
   centerBlock: ({ width }) => {
-    console.log('width: ' + width)
-    console.log('windowWidth: ' + windowWidth)
     return {
       alignItems: 'flex-end',
       marginLeft: 'auto',
@@ -47,9 +45,9 @@ const generalStyles = {
     backgroundColor: colors.backgroundColor,
     padding: '1%',
     paddingTop: '5%',
-    alignItems: 'center',
+    // alignItems: 'center',
     width: '100%',
-    justifyContent: 'center'
+    // justifyContent: 'center'
   },
   title: {
     fontFamily: 'Roboto-Black',

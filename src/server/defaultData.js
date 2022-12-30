@@ -49,11 +49,11 @@ const data = {
         {
             workAddress: 'ulica pushkina',
             workList: `do that and this:
-            1) task1
-            2) task2
-            3) task3
-            4) task4
-            that\`s all, falks`,
+1) task1
+2) task2
+3) task3
+4) task4
+that\`s all, falks`,
             deadline: new Date('2022-12-12'),
             price: '10000',
             createdAt: creationDate,
