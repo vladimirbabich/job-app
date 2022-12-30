@@ -17,7 +17,8 @@ const windowHeight = Dimensions.get('window').height;
 //component sizes
 const mainImageSize = {
   w: getNumberFromPercent(windowWidth, 90),
-  h: getNumberFromPercent(windowHeight, 50)
+  h: getNumberFromPercent(windowHeight, 50),
+  windowWidth
 };
 
 const scrollSize = {
@@ -121,7 +122,6 @@ const previewStyle = StyleSheet.create({
 
 const galleryStyle = StyleSheet.create({
   mainImg: {
-    margin: 'auto',
     height: mainImageSize.h,
     width: mainImageSize.w,
     backgroundColor: 'purple',

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, FlatList, TouchableWithoutFeedback, TouchableOpacity, TextInput, View, Text } from 'react-native';
+import generalStyles, { overlayImageSize } from '../../../generalStyles';
 import { GalleryStyleContext } from '../screens/TabJobsScreen'
 
 const photoFolderUrl = 'http://localhost:7000/job-photos/'
@@ -18,23 +19,22 @@ const createImageComponent = (uri, style) => {
 
 export function Gallery(props) {
 
-  const { media } = props;
+  const { media, isOverlay } = props;
   const [mainMedia, setMainMedia] = useState(media ? media[0] : undefined);
   useEffect(() => {
     console.dir(mainMedia);
   }, [mainMedia]);
 
-  function handleClickScrollItem(uri, sourceSize) {
-    const calcSize = {
-      w: 1,
-      h: -1
-    }
-    console.log(uri)
-    console.log(calcSize)
-    const imgUri = uri;
-    console.log('%cimgUrl:' + imgUri, 'color:green; font-size: 15px')
+  function handleClickScrollItem(image) {
+    // const calcSize = {
+    //   w: 1,
+    //   h: -1
+    // }
+    // console.log(uri)
+    // console.log(calcSize)
+    console.log('%cimgUrl:' + image.fileName, 'color:green; font-size: 15px')
 
-    setMainMedia({ fileName: imgUri, ...calcSize });
+    setMainMedia({ ...image });
     console.log(mainMedia)
   }
 
@@ -44,27 +44,24 @@ export function Gallery(props) {
   if (!media || media.length == 0) {
     return createImageComponent(
       noImgUrl,
-      { ...style.mainImg, resizeMode: 'auto' });
+      style.mainImg);
   }
+  // console.log('%cnewJobData:', 'color:green; font-size: 15px')
+  const imgWidth = overlayImageSize.w;
+  const imgHeight = mainMedia.height / (mainMedia.width / generalStyles.overlayImage.width)
+  const imgStyle = isOverlay ? {
+    ...generalStyles.overlayImage, resizeMode: 'contain',
+    height: imgHeight
+  } : style.mainImg;
 
-  let image = null;
-  const imageUris = media.map(el => {
-    // return createImageComponent(el.fileName, style.scroll)
-    return el.fileName
-  })
-  console.log('%cnewJobData:', 'color:green; font-size: 15px')
-  // console.dir(imageScroll)
   return (
-    <View>
+    <View style={isOverlay ? generalStyles.centerBlock({width: imgWidth}) : null}>
       {createImageComponent(
         photoFolderUrl + mainMedia.fileName,
-        //height: mainMedia.height*(mainMedia.width/style.mainImg.width)
-        style.mainImg)}
-      {/* { ...style.mainImg, resizeMode: 'contain', height: 500})} */}
-      {console.dir(media)
-      }
+        imgStyle
+      )}
       <FlatList
-        data={imageUris}
+        data={media}
         contentContainerStyle={{
           flexGrow: 1,
           justifyContent: 'center',
@@ -72,17 +69,15 @@ export function Gallery(props) {
         }}
         horizontal={true}
         renderItem={({ item }) => (
-          <TouchableWithoutFeedback onPress={() => handleClickScrollItem(item)}>
+          <TouchableWithoutFeedback onPress={() => isOverlay ? handleClickScrollItem(item) : console.log('no effect in this mode')}>
             <Image
               style={style.preview}
               source={{
-                uri: photoFolderUrl + item,
+                uri: photoFolderUrl + item.fileName,
               }}
             />
-
           </TouchableWithoutFeedback>
-        )
-        }
+        )}
         keyExtractor={(item, index) => index
         }
       />

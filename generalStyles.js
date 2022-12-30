@@ -1,6 +1,17 @@
+import { Dimensions } from 'react-native';
+import { getNumberFromPercent } from './src/support-features/supportFunctions';
+
 //size variables:
 const elementWidth = '95%';
 const elementHeight = '6vh';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+export const overlayImageSize = {
+  w: getNumberFromPercent(windowWidth, 90),
+  h: getNumberFromPercent(windowHeight, 50)
+};
 //colors:
 export const colors = {
   backgroundColor: '#FDFFFE',
@@ -11,6 +22,26 @@ export const colors = {
   descriptionColor: '#8d99ae',
 };
 const generalStyles = {
+  centerBlock: ({ width }) => {
+    console.log('width: ' + width)
+    console.log('windowWidth: ' + windowWidth)
+    return {
+      alignItems: 'flex-end',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      position: 'fixed',
+      bottom: '10vh',
+      left: (windowWidth - width) / 2,
+      justifyContent: 'center',
+      flexDirection: 'column',
+    }
+  },
+  overlayImage: {
+    margin: 'auto',
+    height: overlayImageSize.h,
+    width: overlayImageSize.w,
+    zIndex: 2,
+  },
   screenScroll: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
