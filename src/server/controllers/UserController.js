@@ -143,7 +143,23 @@ class UserController {
 
   async getAll(req, res, next) {
     const users = await User.findAll();
-    return res.json(users)
+    const preparedUsers = users.map(async el => {
+      console.log('id: ' + el.dataValues.id)
+      const photo = await Media.findOne({ where: { userId: el.dataValues.id } })
+      if (photo)
+        console.log(photo.dataValues.userId)
+      return {
+        id: el.dataValues.id,
+        name: el.dataValues.name,
+        avgRating: el.dataValues.avgRating,
+        about: el.dataValues.about,
+        photoUri: photo?.dataValues?.fileName || '',
+      }
+    })
+    console.log('preparedUsers')
+    Promise.all(preparedUsers).then(result => {
+      return res.json(result)
+    })
   }
 }
 

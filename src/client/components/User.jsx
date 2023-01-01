@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, TouchableOpacity, TextInput, View, Text } from 'react-native';
+import generalStyles from '../../../generalStyles';
 import { CustomButton } from './CustomButton';
 
 export default function User(props) {
@@ -12,13 +13,13 @@ export default function User(props) {
       </View>
       <CustomButton
         title='Предложить работу'
-        btnStyle={styles.btn}
-        textStyle={styles.btnTxt}
+        btnStyle={generalStyles.btn}
+        textStyle={generalStyles.btnTxt}
         callback={() => { console.log('propose') }} />
       <CustomButton
         title='Узнать подробнее'
-        btnStyle={styles.btn}
-        textStyle={styles.btnTxt}
+        btnStyle={generalStyles.btn}
+        textStyle={generalStyles.btnTxt}
         callback={() => { console.log('about') }} />
     </View>
     <View style={styles.main}>
@@ -53,23 +54,5 @@ const styles = StyleSheet.create({
   head: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-  },
-  btn: ({ pressed }) => {
-    return {
-      backgroundColor: pressed
-        ? '#2f9f94'
-        : '#75ebe0',
-      marginTop: '2%',
-      borderRadius: '5%',
-      width: cssWidth,
-      borderWidth: 1,
-      textAlign: 'center',
-      height: '5%',
-    }
-  },
-  btnTxt: {
-    fontFamily: 'Roboto-Black',
-    fontSize: 22,
-    margin: 'auto',
   },
 });
