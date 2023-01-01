@@ -5,6 +5,7 @@ const fs = require('fs')
 const uuid = require('uuid')
 const path = require('path')
 const jwt = require('jsonwebtoken')
+const { badRequest } = require('../error/ApiError')
 
 const HASH_QUANTITY = 4;
 
@@ -87,10 +88,12 @@ class UserController {
     }
   }
 
-  async update(req, res) {
-    const query = req.query;
-    // req.query
-    // const columnNames = await
+  async update(req, res, next) {
+    console.log(req.query)
+    const { query } = req;
+    const { id } = query
+    if (!id)
+      return next(ApiError(badRequest('ID not found')))
     const queryObj = {};
     for (const el in query) {
       for (let key in User.rawAttributes) {
@@ -102,7 +105,7 @@ class UserController {
     const updatedAt = new Date();
     const userId = await User.update(
       { ...queryObj, updatedAt },
-      { where: { id: query.id } }
+      { where: { id } }
     )
     return res.json(userId);
   }
@@ -133,9 +136,9 @@ class UserController {
     const { id } = req.query;
     if (!id) return next(ApiError.badRequest('ID not found'));
     const user = await User.findByPk(id);
-    const photo = await Media.findOne({ where: {userId: id} });
+    const photo = await Media.findOne({ where: { userId: id } });
 
-    return res.json({ rating: user.avgRating, name: user.name, photo: photo?.fileName})
+    return res.json({ rating: user.avgRating, name: user.name, photo: photo?.fileName })
   }
 
   async getAll(req, res, next) {

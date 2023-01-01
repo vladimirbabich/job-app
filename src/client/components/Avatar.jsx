@@ -12,7 +12,6 @@ export function Avatar({ id }) {
   useEffect(() => {
     axios.get(`${getUserInfoUrl}?id=${id}`)
       .then((result) => {
-        console.dir(result.data);
         setUser(result.data);
       }).catch((e) => {
         console.log(e.response.data.message)
@@ -28,7 +27,7 @@ export function Avatar({ id }) {
       }}></Image>
       <Text style={styles.userName}>{user?.name || 'Loading'}</Text>
     </View>
-    <Text style={styles.rating}>{user?.rating || 'Loading'}</Text>
+    <Text style={styles.rating}>{user?.rating>-1 ? `${user?.rating}/5` : '-/5'}</Text>
   </View >
 }
 

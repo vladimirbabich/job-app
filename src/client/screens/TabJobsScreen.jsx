@@ -78,7 +78,6 @@ export default function TabJobsScreen() {
 
   return (
     <View
-      scrollEnabled={openedJobId > -1 ? false : true}
       style={generalStyles.screenScroll}>
       {(openedJobId > -1) ? showOverlay(openedJobId) : null}
       <Text style={generalStyles.title}>Доступные работы:</Text>

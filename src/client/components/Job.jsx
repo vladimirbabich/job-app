@@ -11,7 +11,6 @@ const WORKLISTFONTSIZE = 16;
 
 export default function Job(props) {
   const fixedWorkList = props.job.workList.replaceAll(/\n/gm, ' ');
-  console.log(fixedWorkList)
   let tempWL = fixedWorkList.length > 80 ?
     fixedWorkList.substring(0, 80) + '...' :
     fixedWorkList;
@@ -57,7 +56,7 @@ export default function Job(props) {
           }}>
             <Gallery media={props.job.media} key={job.id} />
           </TouchableOpacity>
-          <Avatar id={props.job.userId}/>
+          <Avatar id={props.job.userId} />
         </View>
         <View style={styles.description}>
           <Text style={styles.workList} >{workListUI}</Text>
@@ -97,6 +96,8 @@ const styles = StyleSheet.create({
   workList: {
     // width: '96%',
     // marginLeft: '2%',
+
+    float: 'left',
     textAlign: 'justify',
     // borderWidth: 4,
     fontSize: WORKLISTFONTSIZE,
@@ -105,7 +106,6 @@ const styles = StyleSheet.create({
     margin: '1%',
     height: 100,
     width: 100,
-    backgroundColor: 'purple',
     zIndex: 2,
   },
   middle: {

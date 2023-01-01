@@ -118,9 +118,9 @@ that\`s all, falks`,
     ratings: [
         { rate: 1, userId: 1, ratedJobId: 2 },
         { rate: 5, userId: 1, ratedJobId: 3 },
-        { rate: 1, userId: 1, ratedUserId: 1 },
         { rate: 3, userId: 2, ratedUserId: 3 },
-        { rate: 4, userId: 3, ratedUserId: 1 },
+        { rate: 3, userId: 2, ratedUserId: 1 },
+        { rate: 4, userId: 4, ratedUserId: 1 },
     ],
     userSkills: [
         { userId: 1, skillId: 2 },

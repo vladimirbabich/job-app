@@ -1,6 +1,7 @@
 console.log('asdasd')
 const axios = require('axios')
 const data = require('./defaultData');
+const updateUserUrl = 'http://localhost:7000/api/user/update'
 
 const urlArray = [
   {

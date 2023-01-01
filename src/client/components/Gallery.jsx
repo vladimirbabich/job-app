@@ -4,7 +4,7 @@ import generalStyles, { overlayImageSize } from '../../../generalStyles';
 import { GalleryStyleContext } from '../screens/TabJobsScreen'
 
 const photoFolderUrl = 'http://localhost:7000/job-photos/'
-const noImgUrl = 'http://localhost:7000/noImg.svg'
+const noImgUrl = 'http://localhost:7000/noPhoto.png'
 
 const createImageComponent = (uri, style) => {
   return <Image
