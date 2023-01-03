@@ -63,8 +63,7 @@ export default function TabJobsScreen() {
   if (data.length == 0 && isPromiseFulfilled) {
     return (
       <View>
-        <Text>На данный момент нет доступных работ :(</Text>
-        <Text>При появлении новый работ вы получите уведомление</Text>
+        <Text>No jobs available for now:(</Text>
       </View>
     );
   }
@@ -80,7 +79,7 @@ export default function TabJobsScreen() {
     <View
       style={generalStyles.screenScroll}>
       {(openedJobId > -1) ? showOverlay(openedJobId) : null}
-      <Text style={generalStyles.title}>Доступные работы:</Text>
+      <Text style={generalStyles.title}>Available jobs:</Text>
       <GalleryStyleContext.Provider value={previewStyle}>
         {data.map((el => {
           return (

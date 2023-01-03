@@ -102,10 +102,10 @@ export default function TabRegistrationScreen() {
   return (
     <ScrollView contentContainerStyle={generalStyles.screenScroll}>
       {/* style={styles.container} */}
-      <Text style={generalStyles.title}>Пройдите регистрацию, чтобы найти клиентов или исполнителей:</Text>
+      <Text style={generalStyles.title}>Create an account to find clients or workers:</Text>
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
-          <Text style={styles.label}>ФИО</Text>
+          <Text style={styles.label}>Username</Text>
           <Text style={styles.necessary}>*</Text>
         </View>
         <TextInput style={generalStyles.textInput}
@@ -116,7 +116,7 @@ export default function TabRegistrationScreen() {
       </View>
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
-          <Text style={styles.label}>Номер телефона</Text>
+          <Text style={styles.label}>Phone number</Text>
           <Text style={styles.necessary}>*</Text>
         </View>
         <TextInput style={generalStyles.textInput}
@@ -128,7 +128,7 @@ export default function TabRegistrationScreen() {
 
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
-          <Text style={styles.label}>Пароль</Text>
+          <Text style={styles.label}>Password</Text>
           <Text style={styles.necessary}>*</Text>
         </View>
         <TextInput style={generalStyles.textInput}
@@ -139,7 +139,7 @@ export default function TabRegistrationScreen() {
       </View>
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
-          <Text style={styles.label}>Электронная почта</Text>
+          <Text style={styles.label}>Email</Text>
         </View>
         <TextInput style={generalStyles.textInput}
           ref={refEmail}
@@ -148,23 +148,23 @@ export default function TabRegistrationScreen() {
       </View>
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
-          <Text style={styles.label}>Раскажите о себе</Text>
+          <Text style={styles.label}>About</Text>
         </View>
         <TextInput style={{ ...generalStyles.textInput, minHeight: '10%' }}
           multiline={true}
           numberOfLines={4}
           ref={refAbout}
-          placeholder="Какие задачи готовы выполнять, опыт работы, расценки и т.д."
+          placeholder="Type about your experience, which types of work you can do etc."
           placeholderTextColor={colors.descriptionColor}
         />
       </View>
       <CustomButton
-        title='Выбрать фото'
+        title='Choose a photo'
         btnStyle={generalStyles.btn}
         textStyle={generalStyles.btnTxt}
         callback={handleClickPhoto} />
       <CustomButton
-        title='Зарегистрироваться'
+        title='Sign up'
         btnStyle={generalStyles.btn}
         textStyle={generalStyles.btnTxt}
         callback={handleClickSignUp} />
@@ -173,14 +173,6 @@ export default function TabRegistrationScreen() {
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontFamily: 'Roboto-Black',
-    textAlign: 'center',
-    padding: '2%',
-    fontSize: 20,
-    width: cssWidth,
-    fontWeight: 'bold',
-  },
   wrapper: {
     width: '100%',
     padding: 0,

@@ -9,12 +9,12 @@ import { CustomButton } from '../components/CustomButton';
 export default function TabNewJobScreen() {
   //fields values: name, description for user, necessarity
   let fields = [
-    ['phone', 'Номер телефона', true],
-    ['clientName', 'ФИО клиента', true],
-    ['clientAddress', 'Адрес клиента', true],
-    ['workList', 'Список запрашиваемых работ', true],
-    ['deadline', 'Желаемая дата завершения работ', false],
-    ['price', 'Сумма', false]
+    ['phone', 'Phone number', true],
+    ['clientName', 'Username', true],
+    ['clientAddress', 'Work address', true],
+    ['workList', 'Requested tasks', true],
+    ['deadline', 'Deadline', false],
+    ['price', 'Budget', false]
   ];
   const [newJobData, setNewJobData] = useState({});
   // fields.map(()=>{
@@ -59,17 +59,17 @@ export default function TabNewJobScreen() {
 
   return (
     <ScrollView contentContainerStyle={generalStyles.screenScroll}>
-      <Text style={styles.title}>Заполните данные:</Text>
+      <Text style={generalStyles.title}>Fill in the details of a job:</Text>
       {fields.map((el) => {
         return <MenuField key={el[0]} field={el} onChange={(e, name) => handleJobData(e, name)} />
       })}
       <CustomButton
-        title='Добавить фото/видео'
+        title='Add media files'
         btnStyle={generalStyles.btn}
         textStyle={generalStyles.btnTxt}
         callback={pickImage} />
       <CustomButton
-        title='Создать задачу'
+        title='Create a job'
         btnStyle={generalStyles.btn}
         textStyle={generalStyles.btnTxt}
         callback={(e) => { createNewJob(newJobData) }} />

@@ -19,16 +19,16 @@ export default function Job(props) {
 
 
   const deadlineJSX = job.deadline ?
-    <Text style={styles.deadline} >Выполнить до: {job.deadline.split('T')[0]}</Text> :
-    <Text style={styles.deadline} >Без даты завершения</Text>;
-
-  const clientAddressJSX = job.clientAddress ?
-    <Text style={styles.clientAddress} >Адрес: {props.job.clientAddress}</Text> :
-    <Text style={styles.clientAddress} >Адрес не указан</Text>;
+    <Text style={styles.deadline} >Deadline: {job.deadline.split('T')[0]}</Text> :
+    <Text style={styles.deadline} >Deadline not specified</Text>;
+  console.log(job)
+  const workAddressJSX = job.workAddress ?
+    <Text style={styles.workAddress} >Address: {job.workAddress}</Text> :
+    <Text style={styles.workAddress} >Address not specified</Text>;
 
   const priceJSX = job.price ?
-    <Text style={styles.clientAddress} >Бюджет на работу: {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(props.job.price)}</Text> :
-    <Text style={styles.clientAddress} >Рабочий бюджет не указан</Text>;
+    <Text style={styles.workAddress} >Budget: {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(props.job.price)}</Text> :
+    <Text style={styles.workAddress} >Budget not specified</Text>;
 
   function showExtra() {
     if (fixedWorkList.length < 80) return;
@@ -50,7 +50,7 @@ export default function Job(props) {
       </View> */}
       <View style={styles.middle}>
         <View style={styles.leftSide}>
-          <Text style={styles.jobID} >Заказ №{props.job.id}</Text>
+          <Text style={styles.jobID} >Order №{props.job.id}</Text>
           <TouchableOpacity style={styles.gallery} onPress={() => {
             props.onClick(props.job.id)
           }}>
@@ -61,13 +61,13 @@ export default function Job(props) {
         <View style={styles.description}>
           <Text style={styles.workList} >{workListUI}</Text>
           {priceJSX}
-          {clientAddressJSX}
+          {workAddressJSX}
           {deadlineJSX}
           <CustomButton
-            title='Предложить свои услуги'
+            title='Offer your services'
             btnStyle={generalStyles.btnSmall}
             textStyle={generalStyles.btnTxtSmall}
-            callback={() => { console.log('Предложить свои услуги'); }} />
+            callback={() => { console.log('Offer your services'); }} />
         </View>
       </View>
     </TouchableOpacity>
