@@ -43,7 +43,7 @@ export function Gallery(props) {
   } : style.mainImg;
 
   return (
-    <View style={isOverlay ? generalStyles.centerBlock({width: imgWidth}) : null}>
+    <View style={isOverlay ? generalStyles.centerBlock({ width: imgWidth }) : null}>
       {createImageComponent(
         photoFolderUrl + mainMedia.fileName,
         imgStyle
@@ -72,3 +72,5 @@ export function Gallery(props) {
     </View >
   );
 }
+
+

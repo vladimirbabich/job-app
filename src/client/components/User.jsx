@@ -1,58 +1,105 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Pressable, StyleSheet, TouchableOpacity, TextInput, View, Text } from 'react-native';
-import generalStyles from '../../../generalStyles';
+import { Button, Pressable, StyleSheet, TouchableOpacity, TextInput, View, Text, Image } from 'react-native';
+import generalStyles, { colors } from '../../../generalStyles';
+import { userSkills } from '../../server/defaultData';
 import { CustomButton } from './CustomButton';
+const avatarFolderUrl = 'http://localhost:7000/avatars/'
+const noAvatarUrl = 'http://localhost:7000/noAvatar.png'
 
 export default function User(props) {
-  console.log(props)
+  // console.log(props)
+  const [aboutUI, setAboutUI] = useState();
   const { user } = props;
+
+  useEffect(() => {
+    setAboutUI(user?.about?.length > 60 ?
+      user?.about.substring(0, 60) + '...' :
+      user?.about
+    )
+  }, []);
+
+  
+
   return (<View style={styles.user}>
     <View style={styles.leftSide}>
-      <View style={styles.avatar}>
-        {/* <Image style={styles.img}></Image> */}
-      </View>
-      <CustomButton
-        title='Предложить работу'
-        btnStyle={generalStyles.btn}
-        textStyle={generalStyles.btnTxt}
-        callback={() => { console.log('propose') }} />
-      <CustomButton
-        title='Узнать подробнее'
-        btnStyle={generalStyles.btn}
-        textStyle={generalStyles.btnTxt}
-        callback={() => { console.log('about') }} />
-    </View>
-    <View style={styles.main}>
       <View style={styles.head}>
-        <Text style={styles.texts}>{user.name}</Text>
-        <Text style={styles.texts}>*{user.avgRating}</Text>
+        <Text style={{
+          fontWeight: 'bold', paddingLeft: '0.5vh'
+        }}>{user.name}</Text>
+        <Text style={styles.texts}>{user.avgRating > 0 ? user.avgRating : '-'}/5</Text>
       </View>
-      <Text style={styles.texts}>Выполнено заказов: 0</Text>
-      <Text style={styles.texts}>Навыки:</Text>
-      {/* skillsBOX */}
+      <Image style={styles.photo}
+        source={{
+          uri: user?.photoUri ? (avatarFolderUrl + user?.photoUri) : noAvatarUrl,
+        }}></Image>
+      <CustomButton
+        title='Offer a job'
+        btnStyle={generalStyles.btnSmall}
+        textStyle={generalStyles.btnTxtSmall}
+        callback={() => { console.log('propose') }} />
     </View>
-    <Text>{props.user.name}</Text>
+
+    <View style={styles.main}>
+
+      <Text style={styles.texts}>Completed jobs: {user.completedJobsCount}</Text>
+      {aboutUI ?
+        <>
+          <Text >About:</Text>
+          <Text style={styles.about}>{aboutUI}</Text>
+        </> :
+        null}
+      {/* skillsBOX */}
+      <Text>
+        Skills:
+      </Text>
+      {user.skills ? user.skills.map(el => {
+        return <Text key={el} value={el} onClick={props.handleClickSkill}>- {el}</Text>;
+      }) :
+        null}
+
+    </View>
   </View>);
 }
 
 
 const styles = StyleSheet.create({
   user: {
-    width: '100%',
-    flex: 1,
+    // padding: '1vh',
+    // width: '100%',
+    // height: '20vh',
+    // // flex: 1,
     flexDirection: 'row',
+    // alignItems: 'flex-start',
+    // justifyContent: 'flex-start',
+
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    width: '100%',
+    // display: 'block',
+    borderWidth: '1px',
+    backgroundColor: colors.cartColor,
+    borderColor: colors.actionColor,
+    // marginHorizontal: 'auto',
   },
   leftSide: {
+    width: '30%',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
   },
-  avatar: {},
-  img: {},
-  main: {},
-  head: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+  photo: {
+    width: '100%',
+    height: '100px',
   },
+  img: {},
+  main: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    width: '70%',
+    padding: '1vh',
+  },
+  head: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
 });

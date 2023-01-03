@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError')
-const { User, Media } = require('../models/models')
+const { User, Media, Job, UserSkill, Skill } = require('../models/models')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
 const uuid = require('uuid')
@@ -143,9 +143,26 @@ class UserController {
 
   async getAll(req, res, next) {
     const users = await User.findAll();
+    let allSkills = await Skill.findAll()
+    allSkills = allSkills.map(el => el.dataValues)
+    console.log(allSkills)
     const preparedUsers = users.map(async el => {
       console.log('id: ' + el.dataValues.id)
       const photo = await Media.findOne({ where: { userId: el.dataValues.id } })
+      const completedJobs = await Job.findAndCountAll({
+        where: {
+          status: 'completed',//pending/in progress
+          userId: el.dataValues.id
+        }
+      })
+      let userSkills = await UserSkill.findAll({
+        where: {
+          userId: el.dataValues.id
+        }
+      })
+      userSkills = userSkills.map(el => {
+        return allSkills[allSkills.map(el => el.id).indexOf(el.dataValues.skillId)].name;
+      })
       if (photo)
         console.log(photo.dataValues.userId)
       return {
@@ -154,6 +171,8 @@ class UserController {
         avgRating: el.dataValues.avgRating,
         about: el.dataValues.about,
         photoUri: photo?.dataValues?.fileName || '',
+        completedJobsCount: completedJobs?.count || 0,
+        skills: userSkills,
       }
     })
     console.log('preparedUsers')
