@@ -142,6 +142,7 @@ that\`s all, falks`,
         { userId: 3, skillId: 2 },
         { userId: 2, skillId: 3 },
         { userId: 2, skillId: 4 },
+        { userId: 2, skillId: 5 },
     ],
 }
 

@@ -6,6 +6,7 @@ const uuid = require('uuid')
 const path = require('path')
 const jwt = require('jsonwebtoken')
 const { badRequest } = require('../error/ApiError')
+const { Op } = require('sequelize')
 
 const HASH_QUANTITY = 4;
 
@@ -141,11 +142,13 @@ class UserController {
     return res.json({ rating: user.avgRating, name: user.name, photo: photo?.fileName })
   }
 
+  // [1,2,3,4]
+  // [{name:1},{name:2}]
   async getAll(req, res, next) {
     const users = await User.findAll();
     let allSkills = await Skill.findAll()
     allSkills = allSkills.map(el => el.dataValues)
-    console.log(allSkills)
+    // console.log(allSkills)
     const preparedUsers = users.map(async el => {
       console.log('id: ' + el.dataValues.id)
       const photo = await Media.findOne({ where: { userId: el.dataValues.id } })
@@ -163,8 +166,9 @@ class UserController {
       userSkills = userSkills.map(el => {
         return allSkills[allSkills.map(el => el.id).indexOf(el.dataValues.skillId)].name;
       })
-      if (photo)
-        console.log(photo.dataValues.userId)
+      // if (photo) {
+      //   console.log(photo.dataValues.userId)
+      // }
       return {
         id: el.dataValues.id,
         name: el.dataValues.name,
@@ -175,7 +179,6 @@ class UserController {
         skills: userSkills,
       }
     })
-    console.log('preparedUsers')
     Promise.all(preparedUsers).then(result => {
       return res.json(result)
     })

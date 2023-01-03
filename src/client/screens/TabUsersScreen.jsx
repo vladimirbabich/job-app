@@ -10,49 +10,57 @@ const getAllSkillsUrl = 'http://localhost:7000/api/skill/getall';
 
 export default function TabUsersScreen() {
   const [users, setUsers] = useState([]);
+  const [usersUI, setUsersUI] = useState([]);
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState([]);
   const [skills, setSkills] = useState([]);
 
   useEffect(() => {
-    setUsers(getDataFromServer());
-    axios.get(getAllSkillsUrl).then(res => {setSkills(res.data.map(el=>el.name)) });
+    getDataFromServer();
+    axios.get(getAllSkillsUrl).then(res => { setSkills(res.data.map(el => el.name)) });
   }, []);
+
   useEffect(() => {
-    console.log(filter)
+    // console.log(usersUI)
+  }, [usersUI]);
+
+  useEffect(() => {
+    const arr = users.filter(el => {
+      for (const item of filter) {
+        if (el.skills.indexOf(item) > -1)
+          return el
+      }
+    })
+    if (filter.length > 0) {
+      setUsersUI([...arr])
+    } else {
+      setUsersUI([...users])
+    }
   }, [filter]);
-  useEffect(() => {
-    console.log(skills)
-  }, [skills]);
 
   function getDataFromServer() {
     axios.get(getAllUrl)
       .then(function (response) {
         setUsers([...response.data])
+        setUsersUI([...response.data])
         console.log('data loading completed!');
       })
       .catch(function (error) {
         console.error(error);
       });
   }
+
   const handleClickSkill = (e) => {
     const skill = e.target.innerText.substring(2);
-
-    console.log(skill)
-    console.log(filter)
     if (filter.indexOf(skill) > -1) {
       return;
     }
-
     setFilter(prev => {
-
       return [...prev, skill]
-      // return prev.push(skill)
     });
   }
 
-  if (!users) return <Text>Loading...</Text>;
-  // console.log(users)
+  if (!usersUI) return <Text>Loading...</Text>;
 
   return (
     <View style={styles.container}>
@@ -66,7 +74,7 @@ export default function TabUsersScreen() {
         setSelection={setFilter}
         list={skills}
       />
-      {users.map((el) => {
+      {usersUI && usersUI?.map((el) => {
         return <User handleClickSkill={handleClickSkill} key={el.id} user={el} />;
       })}
     </View>
