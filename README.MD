@@ -14,7 +14,8 @@ frontend:
 - make requests for get all jobs/registration/job creation
 - fix styles
 - make really working registration
-- refactor  
+- navigation component
+- refactoring  
 backend:  
 - redo some functions in controllers
 - redo responses(delete inappropriate info before sending responses)
