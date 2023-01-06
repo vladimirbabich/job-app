@@ -45,9 +45,7 @@ const generalStyles = {
     backgroundColor: colors.backgroundColor,
     padding: '1%',
     paddingTop: '5%',
-    // alignItems: 'center',
     width: '100%',
-    // justifyContent: 'center'
   },
   title: {
     fontFamily: 'Roboto-Black',

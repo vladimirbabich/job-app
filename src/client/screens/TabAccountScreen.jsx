@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Pressable, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Dimensions, View, Text } from 'react-native';
 import DropDownPicker from '../components/DropDownPicker';
-import generalStyles from '../../../generalStyles';
+import generalStyles, { colors } from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
+import TextUpdater from '../components/TextUpdater';
 const userId = 3;
 const getAccountUrl = 'http://localhost:7000/api/user/get?id=' + userId
 const avatarFolderUrl = 'http://localhost:7000/avatars/'
@@ -23,6 +24,10 @@ export default function TabAccountScreen() {
   const [currentSkills, setCurrentSkills] = useState([]);
   const [allSkills, setAllSkills] = useState([]);
 
+  //textUpdater state
+  const [renderTU, setRenderTU] = useState(false);
+  const [currentProperty, setCurrentProperty] = useState();
+
   useEffect(() => {
     console.log(allSkills)
   }, [allSkills]);
@@ -36,15 +41,37 @@ export default function TabAccountScreen() {
         about: res.data.about.length > 50
           ? res.data.about.substring(0, 37) + '...'
           : res.data.about,
+        rating: res.data.rating,
+        phone: res.data.phone,
+        email: res.data.email,
         skills: [...res.data.skills],
+        createdAt: res.data.createdAt.split('T')[0]
       })
       setCurrentSkills([...res.data.skills])
     });
     axios.get(getAllSkillsUrl).then(res => { setAllSkills(res.data) });
   }, []);
   useEffect(() => {
-    console.log(accountUI?.skills)
-  }, [accountUI?.skills])
+    //     accountUI.map(el => {
+    // console.log(el)
+    //     })
+  }, [accountUI]);
+
+  const updateTextValue = ({ key, value }) => {
+    //axios update request
+    console.log(key, value)
+    // console.log(inputRef.current.value)
+    setAccountUI(prev => {
+      return { ...prev, [key]: value }
+    })
+    setRenderTU(!renderTU);
+  }
+  const toggleRenderTU = ({ key, value }) => {
+    console.log(key, value)
+    setCurrentProperty({ key, value })
+    setRenderTU(!renderTU);
+  }
+
   const showDropdown = (isActive) => {
     if (isActive)
       return <DropDownPicker
@@ -62,45 +89,47 @@ export default function TabAccountScreen() {
           source={{
             uri: account?.photo ? (avatarFolderUrl + account?.photo) : noAvatarUrl,
           }}></Image>
-        <Text style={{
-          fontFamily: 'Roboto-Black',
-          textAlign: 'center',
-          padding: '2%',
-          fontSize: 20,
-          fontWeight: 'bold',
-        }}>
-          {account.name}
-        </Text>
+        <View>
+          <View style={{
+            flexDirection: 'row', justifyContent: 'space-between'
+          }}>
+            <Text style={{
+              fontFamily: 'Roboto-Black',
+              textAlign: 'left',
+              padding: '2%',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}>
+              {account.name}
+            </Text>
+
+            <Text style={{
+              padding: '2%',
+            }}>{accountUI.rating}/5</Text></View>
+
+          <Text style={styles.creationDate}>Account created: {accountUI.createdAt}</Text>
+        </View>
       </View>
       <View style={styles.table}>
-        <View style={styles.row}>
-          <Text style={styles.key}>About:</Text>
-          <View style={styles.right}><Text style={styles.value}>{accountUI.about || 'Write something about yourself'}</Text>
-            <CustomButton
-              title='🖊'
-              callback={() => { console.log('Change'); }} />
-          </View>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.key}>Pass:</Text>
-          <Text style={styles.value}>*****</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.key}>Rating:</Text>
-          <Text style={styles.value}>{account.rating}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.key}>Account created:</Text>
-          <Text style={styles.value}>{account.createdAt}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.key}>Phone:</Text>
-          <Text style={styles.value}>{account.phone}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.key}>Email:</Text>
-          <Text style={styles.value}>{account.email}</Text>
-        </View>
+        {Object.keys(accountUI).map(el => {
+          return el == 'createdAt' || el == 'rating' || el == 'skills' ? null
+            : <View key={el} style={styles.row}>
+              <Text style={styles.key}>{el}</Text>
+              <View style={styles.right}>
+                <Text style={styles.value}>{accountUI[el]}</Text>
+                <CustomButton
+                  title='🖊'
+                  callback={() => { toggleRenderTU({ key: el, value: accountUI[el] }) }} />
+              </View>
+            </View>
+
+        })}
+        {renderTU ? <TextUpdater
+          updateHandler={(property) => updateTextValue(property)}
+          cancelHandler={(property) => toggleRenderTU(property)}
+          name={'test'}
+          currentProperty={currentProperty} />
+          : null}
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.key}>Skills:</Text>
           <CustomButton
@@ -111,31 +140,18 @@ export default function TabAccountScreen() {
                 setAccountUI(prev => {
                   return { ...prev, skills: currentSkills }
                 })
-                console.log('account.skills')
-                console.log(account.skills)
-                console.log('currentSkills')
-                console.log(currentSkills)
                 const skillsToDelete = account.skills.filter((el) => !currentSkills.includes(el));
                 const skillsToAdd = currentSkills.filter((el) => !account.skills.includes(el));
-                console.log(allSkills)
                 skillsToDelete.map(el => {
                   let str = `${deleteUserSkillUrl}?userId=${userId}&skillId=${allSkills[allSkills.map(skill => skill.name).indexOf(el)].id}`
-                  console.log('213123')
-                  console.log(str)
                   axios.delete(str).then(res => console.log(res))
                 })
-                console.dir('skillsToDelete')
-                console.dir(skillsToDelete)
-                console.dir('skillsToAdd')
-                console.dir(skillsToAdd)
                 skillsToAdd.forEach(el => {
                   axios.post(createUserSkillUrl, {
                     userId,
                     skillId: allSkills[allSkills.map(skill => skill.name).indexOf(el)].id
                   })
                 })
-
-                // axios.post()
               }
               setIsDropdown(!isDropdown)
             }} />
@@ -166,8 +182,10 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    width: '100%',
     justifyContent: 'space-between',
     borderBottomWidth: '1px',
+    borderColor: colors.actionColor,
     borderStyle: 'dashed',
   },
   right: {
