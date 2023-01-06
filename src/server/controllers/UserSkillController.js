@@ -13,8 +13,6 @@ class UserSkillController {
       if (skillIds.includes(skillId)) {
         return next(ApiError.invalidArgumentException('skill already added'));
       }
-      const newDBSkill = await UserSkill.create({ userId, skillId })
-      return res.json(newDBSkill);
     }
     const newDBSkill = await UserSkill.create({ userId, skillId })
     return res.json(newDBSkill);
@@ -22,11 +20,8 @@ class UserSkillController {
 
   async delete(req, res) {
     const { userId, skillId } = req.query;
-    // return res.json({ userId, skillId })
     const delSkill = await UserSkill.destroy(
       { where: { userId, skillId } });
-    // const delSkill = await UserSkill.findOne(
-    //   { where: { userId, skillId } });
     return res.json(delSkill)
   }
 

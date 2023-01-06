@@ -6,6 +6,7 @@ import TabJobsScreen from './src/client/screens/TabJobsScreen';
 import TabUsersScreen from './src/client/screens/TabUsersScreen';
 import TabNewJobScreen from './src/client/screens/TabNewJobScreen';
 import TabRegistrationScreen from './src/client/screens/TabRegistrationScreen';
+import TabAccountScreen from './src/client/screens/TabAccountScreen';
 let jwtToken = require('./src/support-features/globalVariables')
 
 export const GlobalContext = createContext(jwtToken)
@@ -21,7 +22,7 @@ export default function App() {
       <View style={styles.screen}>
         <StatusBar style="auto" />
         <View style={styles.main}>
-          <TabNewJobScreen />
+          <TabAccountScreen />
         </View>
       </View>
     </GlobalContext.Provider>

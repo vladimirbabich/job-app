@@ -7,6 +7,7 @@ const path = require('path')
 const jwt = require('jsonwebtoken')
 const { badRequest } = require('../error/ApiError')
 const { Op } = require('sequelize')
+const { users } = require('../defaultData')
 
 const HASH_QUANTITY = 4;
 
@@ -18,9 +19,9 @@ async function getUserFromDB(phone, email) {
   return user;
 }
 
-const generateJwt = (id, phone) => {
+const generateJwt = (id) => {
   return jwt.sign(
-    { id, phone },
+    { id },
     process.env.SECRET_KEY,
     { expiresIn: '24h' }
   );
@@ -43,16 +44,15 @@ class UserController {
           fileName = uuid.v4() + imageData.imageType;
           const filePath = path.resolve(__dirname, '../static', 'avatars', fileName);
 
-          fs.writeFile(filePath + fileName, imageData.dataBuffer, (err) => {
+          fs.writeFile(filePath, imageData.dataBuffer, (err) => {
             if (err) {
               console.log(err)
             }
             console.log("File written successfully");
           })
-
         } else {
           console.log('photo warning: not base64 format')
-          console.log(photoUri)
+          // console.log(photoUri)
         }
 
         const hashPass = await bcrypt.hash(pass, HASH_QUANTITY);
@@ -63,7 +63,6 @@ class UserController {
           phone,
           about,
           pass: hashPass,
-          photo: fileName || undefined,
           createdAt,
           updatedAt: createdAt
         })
@@ -85,12 +84,12 @@ class UserController {
       //else if phone exists
       return next(ApiError.badRequest('Аккаунт с таким номером уже существует'))
     } catch (e) {
-      console.log(e)
+      // console.log(e)
     }
   }
 
   async update(req, res, next) {
-    console.log(req.query)
+    // console.log(req.query)
     const { query } = req;
     const { id } = query
     if (!id)
@@ -138,8 +137,27 @@ class UserController {
     if (!id) return next(ApiError.badRequest('ID not found'));
     const user = await User.findByPk(id);
     const photo = await Media.findOne({ where: { userId: id } });
-
-    return res.json({ rating: user.avgRating, name: user.name, photo: photo?.fileName })
+    const userSkills = await UserSkill.findAll({ where: { userId: id } });
+    const skillIds = userSkills.map(el => el.skillId)
+    const skills = skillIds.length > 0 //if 0 length findAll returns all skills
+      ? await Skill.findAll({
+        where: {
+          id: {
+            [Op.or]: skillIds
+          }
+        }
+      })
+      : [];
+    return res.json({
+      rating: user.avgRating,
+      name: user.name,
+      phone: user.phone,
+      email: user.email,
+      createdAt: user.createdAt,
+      about: user.about,
+      photo: photo?.fileName,
+      skills: skills.map(el => el.name)
+    })
   }
 
   // [1,2,3,4]
@@ -150,7 +168,7 @@ class UserController {
     allSkills = allSkills.map(el => el.dataValues)
     // console.log(allSkills)
     const preparedUsers = users.map(async el => {
-      console.log('id: ' + el.dataValues.id)
+      // console.log('id: ' + el.dataValues.id)
       const photo = await Media.findOne({ where: { userId: el.dataValues.id } })
       const completedJobs = await Job.findAndCountAll({
         where: {

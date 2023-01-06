@@ -7,16 +7,15 @@ class JobController {
     const {
       workAddress,
       workList,
-      deadline,
       price,
-      userId
+      userId,
+      deadline
     } = req.body;
     const createdAt = new Date();
-
     const job = await Job.create({
-      workAddress,
-      workList,
-      deadline: new Date(deadline),
+      workAddress: workAddress,
+      workList: workList,
+      deadline: deadline ? new Date(deadline) : '',
       price,
       userId,
       createdAt,
@@ -53,7 +52,7 @@ class JobController {
         return { ...el.dataValues, media: media }
       return { ...el.dataValues }
     })
-    
+
     Promise.all(jobsWithMediaPromises).then(result => {
       return res.json(result);
     })

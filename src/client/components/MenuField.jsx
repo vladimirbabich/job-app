@@ -18,12 +18,14 @@ export default function MenuField(props) {
           numberOfLines={4}
           type="text"
           style={generalStyles.textInput}
-          onChange={(e) => { props.onChange(e, field[0]) }} />
+          onChange={(e) => { props.onChange(e, field[0]) }}
+          value={'123123213'} />
         :
         <TextInput name={field[0]}
           type="text"
           style={generalStyles.textInput}
-          onChange={(e) => { props.onChange(e, field[0]) }} />
+          onChange={(e) => { props.onChange(e, field[0]) }}
+          value={'123123123'} />
       }
     </View>
   );

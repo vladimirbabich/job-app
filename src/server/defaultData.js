@@ -54,7 +54,7 @@ const data = {
 3) task3
 4) task4
 that\`s all, falks`,
-            deadline: new Date('2022-12-12'),
+            deadline: '2022-12-12',
             price: '12000',
             createdAt: creationDate,
             updatedAt: creationDate,
@@ -67,7 +67,7 @@ that\`s all, falks`,
             Ut aliquet lorem ante, sed congue lacus scelerisque vitae. Etiam in tempus diam. Aenean efficitur vulputate mauris, ut ullamcorper nulla semper id. Mauris posuere condimentum nisi, nec sollicitudin diam vehicula in. Fusce accumsan accumsan ultrices. Quisque ullamcorper, dui id pellentesque tempus, lorem leo sodales nisi, a mollis elit urna eu lectus. Suspendisse mollis egestas libero, ac suscipit libero varius in. Vestibulum in magna quis augue lacinia consequat eget euismod tortor. Pellentesque semper sit amet purus nec molestie. In leo sem, sodales vel nunc eu, scelerisque convallis sapien. Duis vel sapien nec quam egestas finibus eu sed lacus. Integer in massa vestibulum, sagittis nisl vitae, tincidunt orci.
             
             Ut et sapien luctus orci bibendum interdum quis dignissim diam. Donec placerat porttitor tincidunt. Nunc pulvinar, lacus nec efficitur feugiat, massa mi lobortis arcu, ut semper massa purus ac ante. Pellentesque dictum vitae odio vitae scelerisque. Suspendisse potenti. Ut at sem ac nibh iaculis suscipit ut nec tortor. Aenean a ullamcorper urna. Proin id turpis sit amet mi commodo ornare.`,
-            deadline: new Date('2023-01-30'),
+            deadline: '2023-01-30',
             price: '17500',
             createdAt: creationDate,
             updatedAt: creationDate,
@@ -76,7 +76,7 @@ that\`s all, falks`,
         {
             workAddress: 'b9 ap315, cicero avenue',
             workList: 'Aliquam aliquet a lectus vitae scelerisque. Vivamus mollis aliquam mi. Ut condimentum ex sed enim ultrices accumsan quis at justo. Ut non varius lectus. Aenean ac nisi urna. Quisque tempor, leo a molestie auctor, urna mi aliquet nulla, id laoreet eros augue ac magna. Nunc gravida ex in felis mattis, a posuere leo interdum. Nullam purus risus, accumsan sit amet porttitor quis, luctus ac augue. Morbi porttitor enim consequat, feugiat mi vel, egestas orci. Integer ut elit imperdiet, malesuada mi ac, convallis libero. Aliquam non nisl eget urna dignissim hendrerit. Maecenas tempor vestibulum velit ut scelerisque.',
-            deadline: new Date('2023-02-02'),
+            deadline: '2023-02-02',
             price: '15000',
             createdAt: creationDate,
             updatedAt: creationDate,
@@ -94,7 +94,7 @@ that\`s all, falks`,
             jobId: 1,
             fileName: 'test12.jpg',
             width: 1080,
-            height: 1920
+            height: 3770
         },
         {
             jobId: 2,

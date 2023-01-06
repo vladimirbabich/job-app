@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Button, Pressable, StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, ScrollView } from 'react-native';
 import MenuField from '../components/MenuField';
 import generalStyles from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
-// import axios from 'axios';
+
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+const newJobUrl = 'http://localhost:7000/api/job'
+import axios from 'axios';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 export default function TabNewJobScreen() {
   //fields values: name, description for user, necessarity
   let fields = [
     ['phone', 'Phone number', true],
     ['clientName', 'Username', true],
-    ['clientAddress', 'Work address', true],
+    ['workAddress', 'Work address', true],
     ['workList', 'Requested tasks', true],
-    ['deadline', 'Deadline', false],
     ['price', 'Budget', false]
   ];
   const [newJobData, setNewJobData] = useState({});
+  const [isActiveCalendar, setIsActiveCalendar] = useState(false);
   // fields.map(()=>{
 
   // })
@@ -32,7 +36,7 @@ export default function TabNewJobScreen() {
     console.dir(newJobData);
   }, [newJobData]);
 
-  const pickImage = async () => {
+  const handleClickAddMedia = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -46,17 +50,34 @@ export default function TabNewJobScreen() {
       for (let el in result) {
         console.log(el);
       }
-      console.dir('%c' + result.fileName, 'color:red');
+      console.dir('%c' + result, 'color:red');
     }
   };
-  const createNewJob = async (data) => {
-
+  const handleClickCreateJob = async () => {
+    axios.post(newJobUrl,
+      newJobData).then(res =>
+        console.log(res))
   }
 
   const testF = async () => {
     alert('test');
   };
-
+  const showCalendar = (isActive) => {
+    if (isActive) {
+      return <Calendar
+        minDate={new Date().toISOString().split('T')[0]}
+        onDayPress={day => {
+          setNewJobData((prev) => ({
+            ...prev,
+            'deadline': day.dateString
+          }))
+          setIsActiveCalendar(!isActiveCalendar);
+        }}></Calendar>
+    }
+  }
+  const handleClickChooseDate = () => {
+    setIsActiveCalendar(!isActiveCalendar);
+  }
   return (
     <ScrollView contentContainerStyle={generalStyles.screenScroll}>
       <Text style={generalStyles.title}>Fill in the details of a job:</Text>
@@ -64,15 +85,21 @@ export default function TabNewJobScreen() {
         return <MenuField key={el[0]} field={el} onChange={(e, name) => handleJobData(e, name)} />
       })}
       <CustomButton
+        title='Choose deadline date'
+        btnStyle={generalStyles.btn}
+        textStyle={generalStyles.btnTxt}
+        callback={handleClickChooseDate} />
+      {showCalendar(isActiveCalendar)}
+      <CustomButton
         title='Add media files'
         btnStyle={generalStyles.btn}
         textStyle={generalStyles.btnTxt}
-        callback={pickImage} />
+        callback={handleClickAddMedia} />
       <CustomButton
         title='Create a job'
         btnStyle={generalStyles.btn}
         textStyle={generalStyles.btnTxt}
-        callback={(e) => { createNewJob(newJobData) }} />
+        callback={handleClickCreateJob} />
 
     </ScrollView>
   );

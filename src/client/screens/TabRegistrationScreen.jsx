@@ -1,13 +1,14 @@
-import React, { useState, useRef, useContext } from 'react';
-import { Pressable, ScrollView, SafeAreaView, View, Text, TextArea, StyleSheet, Alert, TextInput } from 'react-native';
+import React, { useRef, useContext } from 'react';
+import { ScrollView, View, Text, StyleSheet, Alert, TextInput } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { GlobalContext } from '../../../App';
 import { CustomButton } from '../components/CustomButton';
-const regUrl = 'http://localhost:7000/api/user/registration'
-const cssWidth = '95%';
+
 import generalStyles, { colors } from '../../../generalStyles';
 import { checkValueOfString } from '../../support-features/supportFunctions';
+
+const regUrl = 'http://localhost:7000/api/user/registration'
 
 export default function TabRegistrationScreen() {
   const refName = useRef();
@@ -96,6 +97,7 @@ export default function TabRegistrationScreen() {
   }
   const handleClickPhoto = () => {
     // console.log('Photo!')
+    console.log(jwtToken)
     pickImage()
   }
 
