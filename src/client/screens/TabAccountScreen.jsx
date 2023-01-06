@@ -114,11 +114,12 @@ export default function TabAccountScreen() {
         {Object.keys(accountUI).map(el => {
           return el == 'createdAt' || el == 'rating' || el == 'skills' ? null
             : <View key={el} style={styles.row}>
-              <Text style={styles.key}>{el}</Text>
+              <Text style={styles.key}>{`${el.charAt(0).toUpperCase() + el.slice(1)}:`}</Text>
               <View style={styles.right}>
                 <Text style={styles.value}>{accountUI[el]}</Text>
                 <CustomButton
                   title='🖊'
+                  btnStyle={styles.redactorBtn}
                   callback={() => { toggleRenderTU({ key: el, value: accountUI[el] }) }} />
               </View>
             </View>
@@ -134,6 +135,7 @@ export default function TabAccountScreen() {
           <Text style={styles.key}>Skills:</Text>
           <CustomButton
             title='🖊'
+            btnStyle={styles.redactorBtn}
             callback={() => {
               console.log('Change');
               if (isDropdown) {//if drop down closing ->update screen and DB
@@ -194,6 +196,22 @@ const styles = StyleSheet.create({
   skill: {
     // borderColor:'red',
     // borderWidth:'3px',
-  }
+  },
+  key: {
+
+    fontFamily: 'Roboto-Black',
+    fontSize: 20,
+    paddingTop: '2vh',
+  },
+  value: {
+
+    fontFamily: 'Roboto-Black',
+    fontSize: 20,
+    paddingTop: '2vh',
+  },
+  redactorBtn: {
+    // marginVertical: 'auto',
+    paddingTop: '2vh',
+  },
 
 });
