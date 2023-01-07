@@ -10,11 +10,9 @@ Used libraries:
 
 # todo(from 03.01)
 frontend:  
-- make router analog  
 - make requests for get all jobs/registration/job creation
 - fix styles
 - make really working registration
-- navigation component
 - refactoring  
 backend:  
 - redo some functions in controllers
