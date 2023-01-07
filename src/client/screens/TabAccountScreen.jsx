@@ -100,7 +100,7 @@ export default function TabAccountScreen() {
           source={{
             uri: account?.photo ? (avatarFolderUrl + account?.photo) : noAvatarUrl,
           }}></Image>
-        <View style={{paddingLeft:'1vh',}}>
+        <View style={{ paddingLeft: '1vh', }}>
           <View style={{
             flexDirection: 'row', justifyContent: 'space-between'
           }}>
@@ -113,7 +113,7 @@ export default function TabAccountScreen() {
               {account.name}
             </Text>
 
-            <Text style={{alignSelf:'flex-end'}}>{accountUI.rating}/5</Text></View>
+            <Text style={{ alignSelf: 'flex-end' }}>{accountUI.rating}/5</Text></View>
 
           <Text style={styles.creationDate}>Account created: {accountUI.createdAt}</Text>
         </View>
@@ -167,7 +167,7 @@ export default function TabAccountScreen() {
             }} />
         </View>
         {showDropdown(isDropdown)}
-        <View style={{flexFlow:'row wrap'}}>
+        <View style={{ flexFlow: 'row wrap' }}>
           {accountUI.skills.map((el, i) =>
             <Text key={el} style={styles.skill}>- {el}</Text>)}
         </View>
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
     marginTop: '1vh',
     width: '100%',
     flex: 1,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
