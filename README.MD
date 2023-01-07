@@ -8,7 +8,7 @@ Used libraries:
 - postgreSQL
 - sequelize
 
-# todo(from 03.01)
+# todo(from 07.01)
 frontend:  
 - make requests for get all jobs/registration/job creation
 - fix styles
