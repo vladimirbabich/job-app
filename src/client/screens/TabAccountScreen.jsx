@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Pressable, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Dimensions, View, Text } from 'react-native';
+import { Image, StyleSheet, View, Text, Alert } from 'react-native';
 import DropDownPicker from '../components/DropDownPicker';
 import generalStyles, { colors } from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
 import TextUpdater from '../components/TextUpdater';
+
 const userId = 3;
 const getAccountUrl = 'http://localhost:7000/api/user/get?id=' + userId
 const avatarFolderUrl = 'http://localhost:7000/avatars/'
 const noAvatarUrl = 'http://localhost:7000/noAvatar.png'
 
 const getAllSkillsUrl = 'http://localhost:7000/api/skill/getall';
+const updateUserUrl = 'http://localhost:7000/api/user/update';
 const createUserSkillUrl = 'http://localhost:7000/api/userskill/';
 const deleteUserSkillUrl = 'http://localhost:7000/api/userskill/delete';
 
 export default function TabAccountScreen() {
-  const [account, setAccount] = useState();
+  //screen states
+  const [account, setAccount] = useState();//raw data of an acc from server
   const [accountUI, setAccountUI] = useState();
   const [isDropdown, setIsDropdown] = useState(false);
 
@@ -37,13 +40,13 @@ export default function TabAccountScreen() {
       console.log(res.data)
       setAccount(res.data)
       setAccountUI({
-        pass: res.data.pass,
-        about: res.data.about.length > 50
+        pass: '*****',
+        about: res.data.about?.length > 50
           ? res.data.about.substring(0, 37) + '...'
-          : res.data.about,
+          : res.data.about ? res.data.about : '',
         rating: res.data.rating,
         phone: res.data.phone,
-        email: res.data.email,
+        email: res.data.email ? res.data.email : '',
         skills: [...res.data.skills],
         createdAt: res.data.createdAt.split('T')[0]
       })
@@ -51,19 +54,28 @@ export default function TabAccountScreen() {
     });
     axios.get(getAllSkillsUrl).then(res => { setAllSkills(res.data) });
   }, []);
+
   useEffect(() => {
-    //     accountUI.map(el => {
-    // console.log(el)
-    //     })
   }, [accountUI]);
 
   const updateTextValue = ({ key, value }) => {
-    //axios update request
     console.log(key, value)
-    // console.log(inputRef.current.value)
-    setAccountUI(prev => {
-      return { ...prev, [key]: value }
-    })
+    console.log(account[key])
+
+    if (value != account[key]) {
+      console.log('!=')
+      axios.get(`${updateUserUrl}?id=${userId}&${key}=${value}`)
+        .then((result) => {
+          console.log('ok')
+          setAccountUI(prev => {
+            return { ...prev, [key]: value }
+          })
+        }).catch((e) => {
+          console.log('value was not changed')
+          console.log(e.response.data.message)
+          Alert.alert(e.response.data.message)
+        })
+    }
     setRenderTU(!renderTU);
   }
   const toggleRenderTU = ({ key, value }) => {
@@ -71,7 +83,6 @@ export default function TabAccountScreen() {
     setCurrentProperty({ key, value })
     setRenderTU(!renderTU);
   }
-
   const showDropdown = (isActive) => {
     if (isActive)
       return <DropDownPicker
@@ -89,23 +100,20 @@ export default function TabAccountScreen() {
           source={{
             uri: account?.photo ? (avatarFolderUrl + account?.photo) : noAvatarUrl,
           }}></Image>
-        <View>
+        <View style={{paddingLeft:'1vh',}}>
           <View style={{
             flexDirection: 'row', justifyContent: 'space-between'
           }}>
             <Text style={{
               fontFamily: 'Roboto-Black',
               textAlign: 'left',
-              padding: '2%',
               fontSize: 20,
               fontWeight: 'bold',
             }}>
               {account.name}
             </Text>
 
-            <Text style={{
-              padding: '2%',
-            }}>{accountUI.rating}/5</Text></View>
+            <Text style={{alignSelf:'flex-end'}}>{accountUI.rating}/5</Text></View>
 
           <Text style={styles.creationDate}>Account created: {accountUI.createdAt}</Text>
         </View>
@@ -116,7 +124,7 @@ export default function TabAccountScreen() {
             : <View key={el} style={styles.row}>
               <Text style={styles.key}>{`${el.charAt(0).toUpperCase() + el.slice(1)}:`}</Text>
               <View style={styles.right}>
-                <Text style={styles.value}>{accountUI[el]}</Text>
+                <Text style={styles.value}>{accountUI[el]?.length > 0 ? accountUI[el] : `${el} not described`}</Text>
                 <CustomButton
                   title='🖊'
                   btnStyle={styles.redactorBtn}
@@ -159,8 +167,10 @@ export default function TabAccountScreen() {
             }} />
         </View>
         {showDropdown(isDropdown)}
-        {accountUI.skills.map((el, i) =>
-          <Text key={el} style={styles.skill}>{el}</Text>)}
+        <View style={{flexFlow:'row wrap'}}>
+          {accountUI.skills.map((el, i) =>
+            <Text key={el} style={styles.skill}>- {el}</Text>)}
+        </View>
       </View>
     </View>
   );
@@ -168,6 +178,7 @@ export default function TabAccountScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: '1vh',
     width: '100%',
     flex: 1,
     alignItems: 'center',
@@ -176,11 +187,9 @@ const styles = StyleSheet.create({
   photo: {
     width: '5vh',
     borderRadius: '50%',
-    // height: '100px',
   },
   table: {
     width: '95%',
-
   },
   row: {
     flexDirection: 'row',
@@ -194,8 +203,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   skill: {
-    // borderColor:'red',
-    // borderWidth:'3px',
+    borderColor: colors.actionColor,
+    borderWidth: '1px',
+    alignContent: 'center',
+    borderStyle: 'dotted',
+    fontSize: 16,
+    width: 'max-content',
+    padding: '0.5vh',
   },
   key: {
 
