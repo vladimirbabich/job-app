@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Image, StyleSheet, View, Text, Alert } from 'react-native';
+import { Image, StyleSheet, View, Text, ScrollView, Alert } from 'react-native';
 import DropDownPicker from '../components/DropDownPicker';
-import generalStyles, { colors } from '../../../generalStyles';
+import generalStyles, { colors, mainWidth } from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
 import TextUpdater from '../components/TextUpdater';
 
@@ -94,8 +94,14 @@ export default function TabAccountScreen() {
   }
   if (!accountUI) return <Text>Loading...</Text>;
   return (
-    <View style={styles.container}>
-      <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center' }}>
+    <ScrollView contentContainerStyle={generalStyles.screenScroll}>
+      <View style={{
+        flexDirection: 'row',
+        width: mainWidth,
+        marginHorizontal: 'auto',
+        paddingTop: '2%',
+        justifyContent: 'center',
+      }}>
         <Image style={styles.photo}
           source={{
             uri: account?.photo ? (avatarFolderUrl + account?.photo) : noAvatarUrl,
@@ -172,7 +178,7 @@ export default function TabAccountScreen() {
             <Text key={el} style={styles.skill}>- {el}</Text>)}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -190,7 +196,8 @@ const styles = StyleSheet.create({
     borderRadius: '50%',
   },
   table: {
-    width: '95%',
+    width: mainWidth,
+    marginHorizontal: 'auto',
   },
   row: {
     flexDirection: 'row',

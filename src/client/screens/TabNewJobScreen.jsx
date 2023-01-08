@@ -109,28 +109,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
     flexDirection: 'column',
     width: '100%',
-  },
-  btn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-    width: '80%',
-    backgroundColor: '#841584',
-  },
-  field: {
-    alignItems: 'center',
-    width: '100%',
-  },
-  fieldDesc: {
-    textAlign: 'center',
-    alignItems: 'center',
-    width: '80%',
+    backgroundColor:'red',
   },
   input: {
     alignItems: 'center',
@@ -138,7 +119,7 @@ const styles = StyleSheet.create({
     width: '80%',
     // margin: 12,
     borderWidth: 1,
-    padding: 10,
+    // padding: 10,
   },
   title: {
     fontSize: 20,

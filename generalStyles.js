@@ -1,8 +1,9 @@
 import { Dimensions } from 'react-native';
 import { getNumberFromPercent } from './src/support-features/supportFunctions';
 
+export const mainWidth = '95%';
 //size variables:
-const elementWidth = '95%';
+const elementWidth = '100%';
 const elementHeight = '6vh';
 
 const windowWidth = Dimensions.get('window').width;
@@ -43,9 +44,10 @@ const generalStyles = {
   screenScroll: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
-    padding: '1%',
+    // padding: '1%',
     paddingTop: '5%',
     width: '100%',
+    // marginHorizontal: 'auto',
   },
   title: {
     fontFamily: 'Roboto-Black',
@@ -53,11 +55,11 @@ const generalStyles = {
     padding: '2%',
     marginHorizontal: 'auto',
     fontSize: 20,
-    width: elementWidth,
+    width: mainWidth,
     fontWeight: 'bold',
   },
   textInput: {
-    width: elementWidth,
+    width: mainWidth,
     fontFamily: 'Roboto-Black',
     fontSize: 20,
     textAlign: 'center',
@@ -73,7 +75,7 @@ const generalStyles = {
         ? colors.actionColor
         : colors.mainColor,
       marginTop: '2%',
-      width: elementWidth,
+      width: mainWidth,
       borderWidth: 1,
       marginHorizontal: 'auto',
       minHeight: elementHeight,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, FlatList, View, Text } from 'react-native';
-import { colors } from '../../../generalStyles';
+import { colors, mainWidth } from '../../../generalStyles';
 
 const createFlatList = (data, contentContainerStyle, horizontal, renderItem) => {
   return <FlatList
@@ -71,11 +71,12 @@ export default function DropDownPicker(props) {
 }
 const styles = StyleSheet.create({
   dropDownPicker: {
-    width: '100%',
+    width: mainWidth,
     padding: '1vh',
     borderWidth: '1px',
     borderColor: colors.actionColor,
     flexDirection: 'column',
+    marginHorizontal: 'auto',
   },
   container: {
     flexDirection: 'row',
@@ -96,7 +97,8 @@ const styles = StyleSheet.create({
   },
   selection: {
     justifyContent: 'flex-start',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: '100%',
   },
   selectionItem: {
     backgroundColor: colors.cartColor,

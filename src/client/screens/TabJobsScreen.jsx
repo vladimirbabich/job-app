@@ -76,8 +76,7 @@ export default function TabJobsScreen() {
   }
 
   return (
-    <View
-      style={generalStyles.screenScroll}>
+      <ScrollView contentContainerStyle={generalStyles.screenScroll}>
       {(openedJobId > -1) ? showOverlay(openedJobId) : null}
       <Text style={generalStyles.title}>Available jobs:</Text>
       <GalleryStyleContext.Provider value={previewStyle}>
@@ -87,7 +86,7 @@ export default function TabJobsScreen() {
           )
         }))}
       </GalleryStyleContext.Provider>
-    </View>
+    </ScrollView>
   );
 }
 

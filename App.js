@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import React, { createContext } from 'react';
-import Ionicon from 'react-native-ionicons'
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './src/client/components/TabNavigator'
 
@@ -22,7 +21,7 @@ export default function App() {
       <View style={styles.screen}>
         <StatusBar style="auto" />
         <View style={styles.main}>
-          <NavigationContainer>
+          <NavigationContainer >
             <TabNavigator />
           </NavigationContainer>
         </View>
@@ -34,14 +33,16 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    width:'100%',
     fontFamily: 'Roboto-Regular',
-    backgroundColor: '#FFF',
+    backgroundColor: 'green',
     alignItems: 'center',
     margin: 0,
     padding: 0
   },
   main: {
     width: '100%',
+    backgroundColor: 'red',
     height: '100%',
   },
 });

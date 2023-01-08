@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, TouchableOpacity, TextInput, View, Text, Image } from 'react-native';
-import generalStyles, { colors } from '../../../generalStyles';
-import { userSkills } from '../../server/defaultData';
+import generalStyles, { colors, mainWidth } from '../../../generalStyles';
 import { CustomButton } from './CustomButton';
 const avatarFolderUrl = 'http://localhost:7000/avatars/'
 const noAvatarUrl = 'http://localhost:7000/noAvatar.png'
@@ -65,15 +64,15 @@ export default function User(props) {
 const styles = StyleSheet.create({
   user: {
     // padding: '1vh',
-    // width: '100%',
+    width: mainWidth,
     // height: '20vh',
     // // flex: 1,
     flexDirection: 'row',
+    marginHorizontal: 'auto',
     // alignItems: 'flex-start',
     // justifyContent: 'flex-start',
 
     alignItems: 'center',
-    width: '100%',
     // display: 'block',
     borderWidth: '1px',
     backgroundColor: colors.cartColor,

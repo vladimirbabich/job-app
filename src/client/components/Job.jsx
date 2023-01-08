@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, TouchableOpacity, TextInput, View, Text } from 'react-native';
-import generalStyles, { colors } from '../../../generalStyles';
+import generalStyles, { colors, mainWidth } from '../../../generalStyles';
 
 import { CustomButton } from './CustomButton';
 import { Gallery } from './Gallery';
@@ -78,7 +78,7 @@ export default function Job(props) {
 const styles = StyleSheet.create({
   job: {
     alignItems: 'center',
-    width: '100%',
+    width: mainWidth,
     display: 'block',
     borderWidth: '1px',
     backgroundColor: colors.cartColor,

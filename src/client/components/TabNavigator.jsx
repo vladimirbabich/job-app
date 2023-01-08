@@ -16,6 +16,7 @@ const Tab = createBottomTabNavigator();
 export default function TabNavigator() {
   return (
     <Tab.Navigator
+      style={{ backgroundColor: 'red' }}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.actionColor,
@@ -33,11 +34,12 @@ export default function TabNavigator() {
           return <Image
             style={focused ? styles.iconActive : styles.icon}
             source={{
-              uri: urlsObj[route.name],
+              uri: urlsObj[route.name] || '',
             }}></Image>
         }
       })}
     >
+      <Tab.Screen name="Registration" component={TabRegistrationScreen} />
       <Tab.Screen name="New Job" component={TabNewJobScreen} />
       <Tab.Screen name="Jobs" component={TabJobsScreen} />
       <Tab.Screen name="Users" component={TabUsersScreen} />

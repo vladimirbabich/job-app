@@ -63,7 +63,7 @@ export default function TabUsersScreen() {
   if (!usersUI) return <Text>Loading...</Text>;
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={generalStyles.screenScroll}>
       <Text style={generalStyles.title}>
         Choose a worker:
       </Text>
@@ -77,7 +77,7 @@ export default function TabUsersScreen() {
       {usersUI && usersUI?.map((el) => {
         return <User handleClickSkill={handleClickSkill} key={el.id} user={el} />;
       })}
-    </View>
+    </ScrollView>
   );
 }
 
