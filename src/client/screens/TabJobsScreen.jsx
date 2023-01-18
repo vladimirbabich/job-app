@@ -105,9 +105,6 @@ const previewStyle = StyleSheet.create({
     height: 10,
     zIndex: 3,
   },
-  title: {
-
-  },
   preview: {
     height: 10,
     width: 10,
@@ -161,8 +158,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     zIndex: 2,
-    // marginBottom: '100%',
-    // width: 250,
   },
   title: {
     fontSize: 20,
@@ -174,7 +169,5 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
-
-
 
 export const GalleryStyleContext = React.createContext(galleryStyle);

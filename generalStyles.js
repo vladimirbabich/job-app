@@ -13,6 +13,7 @@ export const overlayImageSize = {
   w: getNumberFromPercent(windowWidth, 90),
   h: getNumberFromPercent(windowHeight, 50)
 };
+
 //colors:
 export const colors = {
   backgroundColor: '#FDFFFE',
@@ -44,10 +45,8 @@ const generalStyles = {
   screenScroll: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
-    // padding: '1%',
     paddingTop: '5%',
     width: '100%',
-    // marginHorizontal: 'auto',
   },
   title: {
     fontFamily: 'Roboto-Black',
@@ -81,7 +80,6 @@ const generalStyles = {
       minHeight: elementHeight,
       borderColor: colors.actionColor,
       textAlign: 'center',
-      // alignItems: 'center'
     }
   },
   btnTxt: {
@@ -100,7 +98,6 @@ const generalStyles = {
       minHeight: '3vh',
       borderColor: colors.actionColor,
       textAlign: 'center',
-      // alignItems: 'center'
     }
   },
   btnTxtSmall: {

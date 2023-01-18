@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
-
 import TabJobsScreen from './../screens/TabJobsScreen';
 import TabUsersScreen from './../screens/TabUsersScreen';
 import TabNewJobScreen from './../screens/TabNewJobScreen';
@@ -17,11 +16,12 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator
       style={{ backgroundColor: 'red' }}
+      initialRouteName={'Account'}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.actionColor,
         tabBarInactiveTintColor: 'black',
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused }) => {
           const urlsObj = {
             'New Job': 'http://localhost:7000/menu/plus.svg',
             'Jobs': 'http://localhost:7000/menu/job.svg',
@@ -39,7 +39,7 @@ export default function TabNavigator() {
         }
       })}
     >
-      <Tab.Screen name="Registration" component={TabRegistrationScreen} />
+      {/* <Tab.Screen name="Registration" component={TabRegistrationScreen} /> */}
       <Tab.Screen name="New Job" component={TabNewJobScreen} />
       <Tab.Screen name="Jobs" component={TabJobsScreen} />
       <Tab.Screen name="Users" component={TabUsersScreen} />

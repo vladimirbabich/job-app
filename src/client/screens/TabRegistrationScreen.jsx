@@ -1,14 +1,13 @@
 import React, { useRef, useContext } from 'react';
 import { ScrollView, View, Text, StyleSheet, Alert, TextInput } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { GlobalContext } from '../../../App';
 import { CustomButton } from '../components/CustomButton';
-
 import generalStyles, { colors } from '../../../generalStyles';
-import { checkValueOfString } from '../../support-features/supportFunctions';
+import { checkValueOfString, pickImage } from '../../support-features/supportFunctions';
 
 const regUrl = 'http://localhost:7000/api/user/registration'
+const loginUrl = 'http://localhost:7000/api/user/login'
 
 export default function TabRegistrationScreen() {
   const refName = useRef();
@@ -17,42 +16,24 @@ export default function TabRegistrationScreen() {
   const refPass = useRef();
   const refAbout = useRef();
   let photo = undefined;
-  let jwtToken = useContext(GlobalContext);
-  console.log(jwtToken)
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: false,
-    });
-
-    if (!result.cancelled) {
-      console.log('%c' + result, 'color:red');
-      console.log(result);
-      photo = { uri: result.uri, w: result.width, h: result.height };
-    }
-  };
+  let globalContext = useContext(GlobalContext);
+  console.log(globalContext)
 
   const checkFieldValues = (name, phone, pass) => {
-    console.dir([name, phone, pass]);
-    if (!checkValueOfString(name, (name == ''),
-      `Поле "ФИО" должно быть заполнено`)) {
-      return false;
-    }
     if (!checkValueOfString(phone, (phone == ''),
       `Поле "Номер телефона" должно быть заполнено`)) {
       return false;
     }
     if (!checkValueOfString(phone, (phone.length < 6),
-      'Вы написали не существующий номер телефона')) {
+      'Вы написали не настоящий номер телефона')) {
       return false;
     }
     if (!checkValueOfString(pass, (pass == ''),
       `Поле "Пароль" должно быть заполнено`)) {
+      return false;
+    }
+    if (!checkValueOfString(name, (name == ''),
+      `Поле "ФИО" должно быть заполнено`)) {
       return false;
     }
     return true;
@@ -62,11 +43,20 @@ export default function TabRegistrationScreen() {
     const fixedEmail = refEmail.current?.value ? refEmail.current?.value.toLowerCase() : '';
     const phone = refPhone.current?.value
     const fixedPhone = phone.replace(/\D+/g, '');
-
+    if (refName.current?.value=='', fixedPhone, refPass.current?.value) {
+      const url = `${loginUrl}/?pass=${refPass.current?.value}&phoneOrEmail=${fixedPhone}`
+      axios.get(url).then((result) => {
+        globalContext.setJwtToken(result.data.token)
+      }).catch((e) => {
+        console.log(e.response.data.message)
+        Alert.alert(e.response.data.message)
+      })
+    }
     console.log(refName.current?.value, fixedPhone, refPass.current?.value)
     if (!checkFieldValues(refName.current?.value, fixedPhone, refPass.current?.value)) {
       return false;
     }
+    
     let obj = {
       name: refName.current?.value,
       phone: fixedPhone,
@@ -84,21 +74,16 @@ export default function TabRegistrationScreen() {
       }
     })
       .then((result) => {
-        // setCurrentToken(result.data);
-        console.log(result);
-        jwtToken = result.data;
-        console.log(jwtToken);
+        globalContext.setJwtToken(result.data)
       }).catch((e) => {
-        console.log(e.response.data.message)
+        console.log(e)
+        Alert.alert(e)
       })
-
-    //if axios return 'true' data - log in???
-    //if not - error, this email or phone already registered
   }
+  
   const handleClickPhoto = () => {
-    // console.log('Photo!')
-    console.log(jwtToken)
-    pickImage()
+    photo = pickImage();
+    // console.log(photo)
   }
 
   return (
@@ -112,7 +97,7 @@ export default function TabRegistrationScreen() {
         </View>
         <TextInput style={generalStyles.textInput}
           ref={refName}
-          value='user1'
+          value=''
           placeholder=""
         />
       </View>
@@ -127,7 +112,6 @@ export default function TabRegistrationScreen() {
           placeholder=""
         />
       </View>
-
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
           <Text style={styles.label}>Password</Text>
@@ -135,7 +119,7 @@ export default function TabRegistrationScreen() {
         </View>
         <TextInput style={generalStyles.textInput}
           ref={refPass}
-          value='pass111'
+          value='gdfgdg'
           placeholder=""
         />
       </View>

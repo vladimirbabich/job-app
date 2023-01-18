@@ -4,6 +4,7 @@ import { StyleSheet, Text, ScrollView } from 'react-native';
 import MenuField from '../components/MenuField';
 import generalStyles from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
+import { pickImage } from '../../support-features/supportFunctions';
 
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 const newJobUrl = 'http://localhost:7000/api/job'
@@ -38,20 +39,7 @@ export default function TabNewJobScreen() {
 
   const handleClickAddMedia = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.dir(result);
-
-    if (!result.cancelled) {
-      for (let el in result) {
-        console.log(el);
-      }
-      console.dir('%c' + result, 'color:red');
-    }
+    let media = pickImage();
   };
   const handleClickCreateJob = async () => {
     axios.post(newJobUrl,
@@ -111,15 +99,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     width: '100%',
-    backgroundColor:'red',
+    backgroundColor: 'red',
   },
   input: {
     alignItems: 'center',
     height: 40,
     width: '80%',
-    // margin: 12,
     borderWidth: 1,
-    // padding: 10,
   },
   title: {
     fontSize: 20,
@@ -134,7 +120,5 @@ const styles = StyleSheet.create({
   testForm: {
     display: 'flex',
     flexDirection: 'column',
-    // height: 1,
-    // width: 'auto',
   },
 });

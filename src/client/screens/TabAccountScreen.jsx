@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Image, StyleSheet, View, Text, ScrollView, Alert } from 'react-native';
 import DropDownPicker from '../components/DropDownPicker';
 import generalStyles, { colors, mainWidth } from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
 import TextUpdater from '../components/TextUpdater';
+import { GlobalContext } from '../../../App';
 
-const userId = 3;
-const getAccountUrl = 'http://localhost:7000/api/user/get?id=' + userId
+const jwt = require('jsonwebtoken')
+
+const getAccountUrl = 'http://localhost:7000/api/user/get?id='
 const avatarFolderUrl = 'http://localhost:7000/avatars/'
 const noAvatarUrl = 'http://localhost:7000/noAvatar.png'
 
@@ -17,6 +19,9 @@ const createUserSkillUrl = 'http://localhost:7000/api/userskill/';
 const deleteUserSkillUrl = 'http://localhost:7000/api/userskill/delete';
 
 export default function TabAccountScreen() {
+  let globalContext = useContext(GlobalContext);
+  console.log(globalContext)
+  const userId = jwt.decode(globalContext.jwtToken).id;
   //screen states
   const [account, setAccount] = useState();//raw data of an acc from server
   const [accountUI, setAccountUI] = useState();
@@ -36,42 +41,41 @@ export default function TabAccountScreen() {
   }, [allSkills]);
 
   useEffect(() => {
-    axios.get(getAccountUrl).then(res => {
-      console.log(res.data)
-      setAccount(res.data)
-      setAccountUI({
-        pass: '*****',
-        about: res.data.about?.length > 50
-          ? res.data.about.substring(0, 37) + '...'
-          : res.data.about ? res.data.about : '',
-        rating: res.data.rating,
-        phone: res.data.phone,
-        email: res.data.email ? res.data.email : '',
-        skills: [...res.data.skills],
-        createdAt: res.data.createdAt.split('T')[0]
-      })
-      setCurrentSkills([...res.data.skills])
-    });
-    axios.get(getAllSkillsUrl).then(res => { setAllSkills(res.data) });
+    if (globalContext.jwtToken) {
+      axios.get(getAccountUrl + userId).then(res => {
+        setAccount(res.data)
+        setAccountUI({
+          pass: '*****',
+          about: res.data.about?.length > 50
+            ? res.data.about.substring(0, 37) + '...'
+            : res.data.about ? res.data.about : '',
+          rating: res.data.rating,
+          phone: res.data.phone,
+          email: res.data.email ? res.data.email : '',
+          skills: [...res.data.skills],
+          createdAt: res.data.createdAt.split('T')[0]
+        })
+        setCurrentSkills([...res.data.skills])
+      });
+      axios.get(getAllSkillsUrl).then(res => { setAllSkills(res.data) });
+    }
   }, []);
 
   useEffect(() => {
   }, [accountUI]);
 
   const updateTextValue = ({ key, value }) => {
-    console.log(key, value)
-    console.log(account[key])
+    // console.log(key, value)
+    // console.log(account[key])
 
     if (value != account[key]) {
       console.log('!=')
       axios.get(`${updateUserUrl}?id=${userId}&${key}=${value}`)
         .then((result) => {
-          console.log('ok')
           setAccountUI(prev => {
             return { ...prev, [key]: value }
           })
         }).catch((e) => {
-          console.log('value was not changed')
           console.log(e.response.data.message)
           Alert.alert(e.response.data.message)
         })
@@ -79,7 +83,7 @@ export default function TabAccountScreen() {
     setRenderTU(!renderTU);
   }
   const toggleRenderTU = ({ key, value }) => {
-    console.log(key, value)
+    // console.log(key, value)
     setCurrentProperty({ key, value })
     setRenderTU(!renderTU);
   }
@@ -118,9 +122,7 @@ export default function TabAccountScreen() {
             }}>
               {account.name}
             </Text>
-
             <Text style={{ alignSelf: 'flex-end' }}>{accountUI.rating}/5</Text></View>
-
           <Text style={styles.creationDate}>Account created: {accountUI.createdAt}</Text>
         </View>
       </View>
@@ -232,8 +234,6 @@ const styles = StyleSheet.create({
     paddingTop: '2vh',
   },
   redactorBtn: {
-    // marginVertical: 'auto',
     paddingTop: '2vh',
   },
-
 });

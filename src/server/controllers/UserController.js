@@ -19,9 +19,9 @@ async function getUserFromDB(phone, email) {
   return user;
 }
 
-const generateJwt = (id) => {
+const generateJwt = (data) => {
   return jwt.sign(
-    { id },
+    data,
     process.env.SECRET_KEY,
     { expiresIn: '24h' }
   );
@@ -75,7 +75,7 @@ class UserController {
           })
         }
 
-        const token = generateJwt(newUser.id, newUser.phone)
+        const token = generateJwt({ id: newUser.id, phone: newUser.phone, pass: newUser.pass })
         return res.json(token);
       }
       if (email) {
@@ -118,23 +118,26 @@ class UserController {
       return next(ApiError.badRequest('Аккаунт с таким номером или почтой не существует'))
     }
 
-    let comparePass = bcrypt.compareSync(pass, user.pass);
-    if (comparePass) {
+    let comparedPass = bcrypt.compareSync(pass, user.pass);
+    if (comparedPass) {
       // login
-      const token = generateJwt(user.id, user.phone);
+      console.log(user.id, user.phone)
+      const token = generateJwt({ id: user.id, phone: user.phone });
       return res.json({ token });
     }
 
     return next(ApiError.unauthorized('Пароль неверный'))
   }
   async check(req, res, next) {
-    const token = generateJwt(req.user.id, req.user.phone);
+    const token = generateJwt({ id: req.user.id, phone: req.user.phone });
     return res.json({ token })
   }
 
   async get(req, res, next) {
     const { id } = req.query;
     if (!id) return next(ApiError.badRequest('ID not found'));
+    const all = await User.findAll();
+    console.log(all)
     const user = await User.findByPk(id);
     const photo = await Media.findOne({ where: { userId: id } });
     const userSkills = await UserSkill.findAll({ where: { userId: id } });
