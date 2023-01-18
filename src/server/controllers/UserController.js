@@ -11,10 +11,10 @@ const { users } = require('../defaultData')
 
 const HASH_QUANTITY = 4;
 
-async function getUserFromDB(phone, email) {
-  let user = await User.findOne({ where: { phone } });
-  if (!user && email) {
-    user = await User.findOne({ where: { email } });
+async function getUserFromDB(phoneOrEmail) {
+  let user = await User.findOne({ where: { phone: phoneOrEmail } });
+  if (!user) {
+    user = await User.findOne({ where: { email: phoneOrEmail } });
   }
   return user;
 }
@@ -31,7 +31,7 @@ class UserController {
   async registration(req, res, next) {
     try {
       const { name, email, phone, photoUri, photoW, photoH, about, pass } = req.body;
-      const existingUser = await getUserFromDB(phone, email);
+      const existingUser = await getUserFromDB(phone || email);
       let fileName;
       if (!existingUser) {
 
@@ -113,7 +113,7 @@ class UserController {
   async login(req, res, next) {
     const { pass, phoneOrEmail } = req.query;
 
-    const user = await getUserFromDB(phoneOrEmail, phoneOrEmail);
+    const user = await getUserFromDB(phoneOrEmail);
     if (!user) {
       return next(ApiError.badRequest('Аккаунт с таким номером или почтой не существует'))
     }
@@ -136,8 +136,6 @@ class UserController {
   async get(req, res, next) {
     const { id } = req.query;
     if (!id) return next(ApiError.badRequest('ID not found'));
-    const all = await User.findAll();
-    console.log(all)
     const user = await User.findByPk(id);
     const photo = await Media.findOne({ where: { userId: id } });
     const userSkills = await UserSkill.findAll({ where: { userId: id } });
