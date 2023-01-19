@@ -4,9 +4,7 @@ import { Button, Pressable, Image, ScrollView, StyleSheet, TouchableOpacity, Tex
 import User from '../components/User';
 import DropDownPicker from '../components/DropDownPicker';
 import generalStyles from '../../../generalStyles';
-
-const getAllUrl = 'http://localhost:7000/api/user/getall'
-const getAllSkillsUrl = 'http://localhost:7000/api/skill/getall';
+import { getAllUsersUrl, getAllSkillsUrl } from '../../../API'
 
 export default function TabUsersScreen() {
   const [users, setUsers] = useState([]);
@@ -39,7 +37,7 @@ export default function TabUsersScreen() {
   }, [filter]);
 
   function getDataFromServer() {
-    axios.get(getAllUrl)
+    axios.get(getAllUsersUrl)
       .then(function (response) {
         setUsers([...response.data])
         setUsersUI([...response.data])

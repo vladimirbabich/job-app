@@ -1,20 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import * as ImagePicker from 'expo-image-picker';
+const jwt = require('jsonwebtoken')
+import axios from 'axios';
 import { StyleSheet, Text, ScrollView } from 'react-native';
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+
 import MenuField from '../components/MenuField';
 import generalStyles, { colors, mainWidth } from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
 import { pickImage } from '../../support-features/supportFunctions';
-
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-
-const jwt = require('jsonwebtoken')
-
-const newJobUrl = 'http://localhost:7000/api/job'
-import axios from 'axios';
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
-import jwtToken from '../../support-features/globalVariables';
 import { GlobalContext } from '../../../App';
+
+import { newJobUrl } from '../../../API'
 
 export default function TabNewJobScreen() {
   //fields values: name, description for user, necessarity

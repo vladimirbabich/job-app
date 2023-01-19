@@ -7,10 +7,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './src/client/components/TabNavigator'
 import TabRegistrationScreen from './src/client/screens/TabRegistrationScreen';
 import { getStorageValue } from './src/support-features/supportFunctions';
-import axios from 'axios';
-import TabNewJobScreen from './src/client/screens/TabNewJobScreen';
 
 export const GlobalContext = createContext(null)
+// AsyncStorage.clear();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,13 +23,17 @@ export default function App() {
   }, [jwtToken]);
 
   useEffect(() => {
-    // AsyncStorage.clear();
     // console.log('%cgetStorageValue', 'color:red')
     getStorageValue('token').then(token => {
       // const decodedToken = jwt.decode(token)
       // axios.get()
+      console.log('here')
+      console.log(typeof token)
+      console.log(token)
+
       if (token)
-        setJwtToken(token)
+        if (!token === 'null')
+          setJwtToken(token)
     })
   }, []);
 
@@ -55,8 +58,9 @@ export default function App() {
       <View style={styles.screen}>
         <StatusBar style="auto" />
         <View style={styles.main}>
+          {console.log(typeof jwtToken)}
           {console.log(jwtToken)}
-          {jwtToken ? <NavigationContainer >
+          {!!jwtToken ? <NavigationContainer >
             <TabNavigator />
           </NavigationContainer>
             : <TabRegistrationScreen />}
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     alignItems: 'center',
     margin: 0,
-    backgroundColor:'red',
+    backgroundColor: 'red',
     padding: 0
   },
   main: {

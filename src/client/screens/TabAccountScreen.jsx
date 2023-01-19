@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { BackHandler, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Image, StyleSheet, View, Text, ScrollView, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const jwt = require('jsonwebtoken')
+
 import DropDownPicker from '../components/DropDownPicker';
 import generalStyles, { colors, mainWidth } from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
 import TextUpdater from '../components/TextUpdater';
 import { GlobalContext } from '../../../App';
 
-const jwt = require('jsonwebtoken')
 
-const getAccountUrl = 'http://localhost:7000/api/user/get?id='
-const avatarFolderUrl = 'http://localhost:7000/avatars/'
-const noAvatarUrl = 'http://localhost:7000/noAvatar.png'
-
-const getAllSkillsUrl = 'http://localhost:7000/api/skill/getall';
-const updateUserUrl = 'http://localhost:7000/api/user/update';
-const createUserSkillUrl = 'http://localhost:7000/api/userskill/';
-const deleteUserSkillUrl = 'http://localhost:7000/api/userskill/delete';
+import {
+  getAllSkillsUrl, getAccountUrl,
+  avatarFolderUrl, noAvatarUrl,
+  updateUserUrl, createUserSkillUrl, deleteUserSkillUrl
+} from '../../../API'
 
 export default function TabAccountScreen() {
   let globalContext = useContext(GlobalContext);
@@ -63,6 +62,13 @@ export default function TabAccountScreen() {
 
   useEffect(() => {
   }, [accountUI]);
+
+  const handleCloseSessionClick = () => {
+    AsyncStorage.clear();
+    globalContext.setJwtToken(null)
+    // console.log(RNExitApp.exitApp)
+    // RNExitApp.exitApp();
+  }
 
   const updateTextValue = ({ key, value }) => {
     // console.log(key, value)
@@ -180,6 +186,11 @@ export default function TabAccountScreen() {
             <Text key={el} style={styles.skill}>- {el}</Text>)}
         </View>
       </View>
+      <CustomButton
+        title='Close session'
+        btnStyle={generalStyles.btn}
+        textStyle={generalStyles.btnTxt}
+        callback={handleCloseSessionClick} />
     </ScrollView>
   );
 }

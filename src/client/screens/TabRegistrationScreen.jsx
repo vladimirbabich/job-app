@@ -6,8 +6,7 @@ import { CustomButton } from '../components/CustomButton';
 import generalStyles, { colors } from '../../../generalStyles';
 import { checkValueOfString, pickImage } from '../../support-features/supportFunctions';
 
-const regUrl = 'http://localhost:7000/api/user/registration'
-const loginUrl = 'http://localhost:7000/api/user/login'
+import { registrationUrl, loginUrl } from '../../../API'
 
 export default function TabRegistrationScreen() {
   const refName = useRef();
@@ -67,7 +66,7 @@ export default function TabRegistrationScreen() {
       photoW: photo?.w,
       photoH: photo?.h
     }
-    axios.post(regUrl, obj, {
+    axios.post(registrationUrl, obj, {
       headers: {
         'Content-Type': 'multipart/form-data;'
       }

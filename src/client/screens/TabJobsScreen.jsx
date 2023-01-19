@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Pressable, Image, ScrollView, StyleSheet, TouchableOpacity, TextInput, Dimensions, View, Text } from 'react-native';
+import axios from 'axios';
 
 import Job from '../components/Job';
-import { Gallery } from '../components/Gallery';
-
 import { getNumberFromPercent } from '../../support-features/supportFunctions';
 import { Overlay } from '../components/Overlay';
 import generalStyles from '../../../generalStyles';
-import axios from 'axios';
-const getJobsUrl = 'http://localhost:7000/api/job/getall';
 
+import { getJobsUrl } from '../../../API'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
