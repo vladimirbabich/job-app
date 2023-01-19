@@ -44,9 +44,11 @@ const generalStyles = {
   },
   screenScroll: {
     flex: 1,
+    
     backgroundColor: colors.backgroundColor,
     paddingTop: '5%',
     width: '100%',
+    height:'100%'
   },
   title: {
     fontFamily: 'Roboto-Black',

@@ -5,7 +5,7 @@ import { Gallery } from './Gallery';
 
 
 export function Overlay(props) {
-  const { data, openedJobId, galleryStyle, onClick } = props;
+  const { data, openedJobId, galleryStyle, onClick, isScrollEnabled } = props;
 
   let jobIndexInData = data.map(el => {
     return el.id
@@ -13,14 +13,15 @@ export function Overlay(props) {
 
   return (
     <TouchableOpacity style={styles.overlay} onPress={() => { onClick(-1) }}>
-      <Gallery media={data[jobIndexInData].media} isOverlay={true} />
+      <Gallery media={data[jobIndexInData].media} />
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
   overlay: {
-    position: 'absolute',
+
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,

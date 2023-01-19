@@ -17,7 +17,7 @@ const createImageComponent = (uri, style) => {
 
 export function Gallery(props) {
 
-  const { media, isOverlay } = props;
+  const { media } = props;
   const [mainMedia, setMainMedia] = useState(media ? media[0] : undefined);
   useEffect(() => {
     // console.dir(mainMedia);
@@ -27,7 +27,8 @@ export function Gallery(props) {
     setMainMedia({ ...image });
   }
 
-  const style = useContext(GalleryStyleContext);
+  console.log(useContext(GalleryStyleContext))
+  const { style, isOverlay, setIsOverlay } = useContext(GalleryStyleContext);
 
   if (!media || media.length == 0) {
     return createImageComponent(

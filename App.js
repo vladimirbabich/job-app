@@ -24,7 +24,7 @@ export default function App() {
   }, [jwtToken]);
 
   useEffect(() => {
-    AsyncStorage.clear();
+    // AsyncStorage.clear();
     // console.log('%cgetStorageValue', 'color:red')
     getStorageValue('token').then(token => {
       // const decodedToken = jwt.decode(token)
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
     alignItems: 'center',
     margin: 0,
+    backgroundColor:'red',
     padding: 0
   },
   main: {

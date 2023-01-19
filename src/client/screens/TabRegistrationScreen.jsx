@@ -88,7 +88,6 @@ export default function TabRegistrationScreen() {
 
   return (
     <ScrollView contentContainerStyle={generalStyles.screenScroll}>
-      {/* style={styles.container} */}
       <Text style={generalStyles.title}>Create an account to find clients or workers:</Text>
       <View style={styles.wrapper}>
         <View style={styles.fieldName}>
@@ -97,7 +96,6 @@ export default function TabRegistrationScreen() {
         </View>
         <TextInput style={generalStyles.textInput}
           ref={refName}
-          // value='asdasd'
           placeholder=""
         />
       </View>
@@ -108,7 +106,6 @@ export default function TabRegistrationScreen() {
         </View>
         <TextInput style={generalStyles.textInput}
           ref={refPhone}
-          // value='111111111'
           placeholder=""
         />
       </View>
@@ -119,7 +116,6 @@ export default function TabRegistrationScreen() {
         </View>
         <TextInput style={generalStyles.textInput}
           ref={refPass}
-          value='gdfgdg'
           placeholder=""
         />
       </View>

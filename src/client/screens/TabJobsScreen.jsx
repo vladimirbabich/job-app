@@ -29,6 +29,7 @@ const scrollSize = {
 export default function TabJobsScreen() {
   const [data, setData] = useState([]);
   const [openedJobId, setOpenedJobId] = useState(-1);//if>=0 -> overlayMode with gallery of medias from jobArray[openedJobId]
+  const [isOverlay, setIsOverlay] = useState(false);
 
   useEffect(() => {
     axios.get(getJobsUrl)
@@ -41,7 +42,7 @@ export default function TabJobsScreen() {
   }, []);
 
   useEffect(() => {
-    // console.log('openedJobId:' + openedJobId);
+    openedJobId != -1 ? setIsOverlay(true) : setIsOverlay(false) 
   }, [openedJobId]);
 
   function handleCartClick(jobId) {
@@ -69,17 +70,17 @@ export default function TabJobsScreen() {
   }
   function showOverlay(openedJobId) {
     return (
-      <GalleryStyleContext.Provider value={galleryStyle}>
+      <GalleryStyleContext.Provider value={{ style: galleryStyle, isOverlay }}>
         <Overlay data={data} openedJobId={openedJobId} onClick={handleCartClick} />
       </GalleryStyleContext.Provider>
     )
   }
 
   return (
-      <ScrollView contentContainerStyle={generalStyles.screenScroll}>
+    <ScrollView scrollEnabled={!isOverlay} contentContainerStyle={generalStyles.screenScroll}>
       {(openedJobId > -1) ? showOverlay(openedJobId) : null}
       <Text style={generalStyles.title}>Available jobs:</Text>
-      <GalleryStyleContext.Provider value={previewStyle}>
+      <GalleryStyleContext.Provider value={{ style: previewStyle, isOverlay, setIsOverlay }}>
         {data.map((el => {
           return (
             <Job job={el} key={el.id} onClick={handleCartClick} />
@@ -116,7 +117,6 @@ const galleryStyle = StyleSheet.create({
   mainImg: {
     height: mainImageSize.h,
     width: mainImageSize.w,
-    backgroundColor: 'purple',
     zIndex: 2,
   },
   scroll: {
