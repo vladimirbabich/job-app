@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, Text, ScrollView } from 'react-native';
 import MenuField from '../components/MenuField';
-import generalStyles from '../../../generalStyles';
+import generalStyles, { colors, mainWidth } from '../../../generalStyles';
 import { CustomButton } from '../components/CustomButton';
 import { pickImage } from '../../support-features/supportFunctions';
 
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+
+const jwt = require('jsonwebtoken')
+
 const newJobUrl = 'http://localhost:7000/api/job'
 import axios from 'axios';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import jwtToken from '../../support-features/globalVariables';
+import { GlobalContext } from '../../../App';
 
 export default function TabNewJobScreen() {
   //fields values: name, description for user, necessarity
@@ -22,9 +27,8 @@ export default function TabNewJobScreen() {
   ];
   const [newJobData, setNewJobData] = useState({});
   const [isActiveCalendar, setIsActiveCalendar] = useState(false);
-  // fields.map(()=>{
 
-  // })
+  let globalContext = useContext(GlobalContext);
 
   const handleJobData = ({ target }, name) => {
     setNewJobData((prev) => ({
@@ -38,12 +42,30 @@ export default function TabNewJobScreen() {
   }, [newJobData]);
 
   const handleClickAddMedia = async () => {
+    const photo = await pickImage();
+    console.log(photo)
     // No permissions request is necessary for launching the image library
-    let media = pickImage();
+    setNewJobData(prev => ({
+      ...prev,
+      photoUri: photo?.uri,
+      photoW: photo?.w,
+      photoH: photo?.h,
+      photo64: photo?.b64,
+    }))
   };
   const handleClickCreateJob = async () => {
+    console.log('ID: ' + jwt.decode(globalContext.jwtToken).id)
     axios.post(newJobUrl,
-      newJobData).then(res =>
+      {
+        ...newJobData,
+        userId: jwt.decode(globalContext.jwtToken).id,
+
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(res =>
         console.log(res))
   }
 
@@ -52,7 +74,26 @@ export default function TabNewJobScreen() {
   };
   const showCalendar = (isActive) => {
     if (isActive) {
+      // const direction = 'left';
       return <Calendar
+        theme={{
+          textSectionTitleColor: '#000',
+          textSectionTitleDisabledColor: '#d9e1e8',
+          selectedDayTextColor: 'purple',
+          todayTextColor: 'red',
+          dayTextColor: '#000',
+          textDisabledColor: colors.descriptionColor,
+          disabledArrowColor: 'red',
+          monthTextColor: '#000',
+          textDayFontFamily: 'Roboto',
+          textMonthFontFamily: 'Roboto',
+          textDayHeaderFontFamily: 'Roboto',
+        }}
+        style={{
+          width: '95%',
+          margin: 'auto',
+        }}
+        renderArrow={(direction) => direction === 'left' ? <Text>〈</Text > : <Text>〉</Text >}
         minDate={new Date().toISOString().split('T')[0]}
         onDayPress={day => {
           setNewJobData((prev) => ({
@@ -60,10 +101,12 @@ export default function TabNewJobScreen() {
             'deadline': day.dateString
           }))
           setIsActiveCalendar(!isActiveCalendar);
-        }}></Calendar>
+        }
+        }></Calendar >
     }
   }
-  const handleClickChooseDate = () => {
+  const handleClickChooseDate = (e) => {
+    console.log(e.target)
     setIsActiveCalendar(!isActiveCalendar);
   }
   return (
@@ -73,7 +116,7 @@ export default function TabNewJobScreen() {
         return <MenuField key={el[0]} field={el} onChange={(e, name) => handleJobData(e, name)} />
       })}
       <CustomButton
-        title='Choose deadline date'
+        title={newJobData?.deadline ? `Deadline: ${newJobData.deadline}` : 'Choose deadline date'}
         btnStyle={generalStyles.btn}
         textStyle={generalStyles.btnTxt}
         callback={handleClickChooseDate} />

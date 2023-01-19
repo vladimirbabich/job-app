@@ -8,6 +8,7 @@ import TabNavigator from './src/client/components/TabNavigator'
 import TabRegistrationScreen from './src/client/screens/TabRegistrationScreen';
 import { getStorageValue } from './src/support-features/supportFunctions';
 import axios from 'axios';
+import TabNewJobScreen from './src/client/screens/TabNewJobScreen';
 
 export const GlobalContext = createContext(null)
 
@@ -54,7 +55,7 @@ export default function App() {
       <View style={styles.screen}>
         <StatusBar style="auto" />
         <View style={styles.main}>
-          {/* {console.log(jwtToken)} */}
+          {console.log(jwtToken)}
           {jwtToken ? <NavigationContainer >
             <TabNavigator />
           </NavigationContainer>

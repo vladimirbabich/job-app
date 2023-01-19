@@ -43,7 +43,7 @@ export default function TabRegistrationScreen() {
     const fixedEmail = refEmail.current?.value ? refEmail.current?.value.toLowerCase() : '';
     const phone = refPhone.current?.value
     const fixedPhone = phone.replace(/\D+/g, '');
-    if (refName.current?.value=='', fixedPhone, refPass.current?.value) {
+    if (refName.current?.value == '' && fixedPhone && refPass.current?.value) {
       const url = `${loginUrl}/?pass=${refPass.current?.value}&phoneOrEmail=${fixedPhone}`
       axios.get(url).then((result) => {
         globalContext.setJwtToken(result.data.token)
@@ -56,7 +56,7 @@ export default function TabRegistrationScreen() {
     if (!checkFieldValues(refName.current?.value, fixedPhone, refPass.current?.value)) {
       return false;
     }
-    
+
     let obj = {
       name: refName.current?.value,
       phone: fixedPhone,
@@ -65,24 +65,24 @@ export default function TabRegistrationScreen() {
       about: refAbout.current?.value,
       photoUri: photo?.uri,
       photoW: photo?.w,
-      photoH: photo?.h,
+      photoH: photo?.h
     }
-
     axios.post(regUrl, obj, {
       headers: {
         'Content-Type': 'multipart/form-data;'
       }
     })
       .then((result) => {
+        console.log(result)
         globalContext.setJwtToken(result.data)
       }).catch((e) => {
         console.log(e)
         Alert.alert(e)
       })
   }
-  
-  const handleClickPhoto = () => {
-    photo = pickImage();
+
+  const handleClickPhoto = async () => {
+    photo = await pickImage();
     // console.log(photo)
   }
 
@@ -97,7 +97,7 @@ export default function TabRegistrationScreen() {
         </View>
         <TextInput style={generalStyles.textInput}
           ref={refName}
-          value=''
+          // value='asdasd'
           placeholder=""
         />
       </View>

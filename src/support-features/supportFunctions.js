@@ -25,13 +25,13 @@ export const pickImage = async () => {
     allowsEditing: true,
     aspect: [4, 3],
     quality: 1,
-    base64: false,
+    base64: true,
   });
 
   if (!result.cancelled) {
     console.log('%c' + result, 'color:red');
     console.log(result);
-    const photo = { uri: result.uri, w: result.width, h: result.height };
+    const photo = { uri: result.uri, w: result.width, h: result.height, b64: result.base64 };
     return photo;
 
   }

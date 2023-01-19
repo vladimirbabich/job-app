@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 const { badRequest } = require('../error/ApiError')
 const { Op } = require('sequelize')
 const { users } = require('../defaultData')
+const { writeFile } = require('../../support-features/server-utils')
 
 const HASH_QUANTITY = 4;
 
@@ -34,27 +35,6 @@ class UserController {
       const existingUser = await getUserFromDB(phone || email);
       let fileName;
       if (!existingUser) {
-
-        if (photoUri && photoUri.indexOf('data:image/') >= 0) {
-          const regExMatches = photoUri.match('data:(image/.*);base64,(.*)');
-          const imageData = {
-            imageType: '.' + regExMatches[1].split('/')[1],
-            dataBuffer: Buffer.from(regExMatches[2], 'base64')
-          }
-          fileName = uuid.v4() + imageData.imageType;
-          const filePath = path.resolve(__dirname, '../static', 'avatars', fileName);
-
-          fs.writeFile(filePath, imageData.dataBuffer, (err) => {
-            if (err) {
-              console.log(err)
-            }
-            console.log("File written successfully");
-          })
-        } else {
-          console.log('photo warning: not base64 format')
-          // console.log(photoUri)
-        }
-
         const hashPass = await bcrypt.hash(pass, HASH_QUANTITY);
         const createdAt = new Date();
         const newUser = await User.create({
@@ -66,13 +46,18 @@ class UserController {
           createdAt,
           updatedAt: createdAt
         })
-        if (photoUri) {
+
+        if (photoUri && photoUri.indexOf('data:image/') >= 0) {
+          const fileName = writeFile(photoUri, 'avatars');
           const newMedia = await Media.create({
             userId: newUser.id,
             fileName: fileName,
             width: photoW || 0,
             height: photoH || 0
           })
+        } else {
+          console.log('photo warning: not base64 format')
+          // console.log(photoUri)
         }
 
         const token = generateJwt({ id: newUser.id, phone: newUser.phone, pass: newUser.pass })
@@ -84,7 +69,7 @@ class UserController {
       //else if phone exists
       return next(ApiError.badRequest('Аккаунт с таким номером уже существует'))
     } catch (e) {
-      // console.log(e)
+      console.log(e)
     }
   }
 
@@ -136,6 +121,8 @@ class UserController {
   async get(req, res, next) {
     const { id } = req.query;
     if (!id) return next(ApiError.badRequest('ID not found'));
+    // const all = await User.findAll();
+    // console.log(all)
     const user = await User.findByPk(id);
     const photo = await Media.findOne({ where: { userId: id } });
     const userSkills = await UserSkill.findAll({ where: { userId: id } });

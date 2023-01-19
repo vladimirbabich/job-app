@@ -1,6 +1,8 @@
 const { Job, Media } = require('../models/models')
 const ApiError = require('../error/ApiError');
 const { json } = require('sequelize');
+const { writeFile } = require('../../support-features/server-utils');
+
 
 class JobController {
   async create(req, res) {
@@ -9,21 +11,37 @@ class JobController {
       workList,
       price,
       userId,
-      deadline
+      deadline,
+      photoUri,
+      photoW,
+      photoH,
+      photo64
     } = req.body;
+    // const {photo}=req.files
+    // console.log(req.body)
     const createdAt = new Date();
     const job = await Job.create({
       workAddress: workAddress,
       workList: workList,
-      deadline: deadline ? new Date(deadline) : '',
+      deadline: deadline ? new Date(deadline) : null,
       price,
       userId,
       createdAt,
       updatedAt: createdAt
     });
 
+    if (photoUri && photoUri.indexOf('data:') >= 0) {
+      const fileName = writeFile(photoUri, 'job-photos');
+      const media = await Media.create({
+        jobId: job.dataValues.id,
+        fileName: fileName,
+        width: photoW || 0,
+        height: photoH || 0
+      })
+    }
     return res.json(job);
   }
+  
   async update(req, res) {
     const bodyObj = {};
     const body = req.body;

@@ -16,7 +16,7 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator
       style={{ backgroundColor: 'red' }}
-      initialRouteName={'Account'}
+      initialRouteName={'New Job'}
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.actionColor,
