@@ -8,13 +8,8 @@ Used libraries:
 - postgreSQL
 - sequelize
 
-# todo(from 07.01)
-frontend:  
-- make requests for get all jobs/registration/job creation
-- fix styles
-- make really working registration
-- refactoring  
-backend:  
-- redo some functions in controllers
-- redo responses(delete inappropriate info before sending responses)
-- refactor
+# todo(from 20.01)
+- check requests for get all jobs/registration/job creation
+- clear default values in forms
+- put more default data with finished jobs, etc
+- refactoring
