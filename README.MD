@@ -10,10 +10,8 @@ Used libraries:
 - and others ¯\\_(ツ)_/¯
 # todo(from 20.01)
 - check requests for get all jobs/registration/job creation
-- clear default values in forms
 - put more default data with finished jobs, etc
 - refactoring
-- make buttons functionality(offer service for job, setting worker of jobs
 - fix error when click job photo on manually created jobs
 # Functionality  
 #### TabRegistrationScreen
