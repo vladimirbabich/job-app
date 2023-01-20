@@ -25,12 +25,6 @@ export default function App() {
   useEffect(() => {
     // console.log('%cgetStorageValue', 'color:red')
     getStorageValue('token').then(token => {
-      // const decodedToken = jwt.decode(token)
-      // axios.get()
-      console.log('here')
-      console.log(typeof token)
-      console.log(token)
-
       if (token)
         if (!token === 'null')
           setJwtToken(token)
@@ -58,8 +52,7 @@ export default function App() {
       <View style={styles.screen}>
         <StatusBar style="auto" />
         <View style={styles.main}>
-          {console.log(typeof jwtToken)}
-          {console.log(jwtToken)}
+          {/* {console.log(jwtToken)} */}
           {!!jwtToken ? <NavigationContainer >
             <TabNavigator />
           </NavigationContainer>

@@ -4,12 +4,10 @@ const bcrypt = require('bcrypt')
 const fs = require('fs')
 const uuid = require('uuid')
 const path = require('path')
-const jwt = require('jsonwebtoken')
 const { badRequest } = require('../error/ApiError')
 const { Op } = require('sequelize')
 const { users } = require('../defaultData')
-const { writeFile } = require('../../support-features/server-utils')
-
+const { writeFile, generateJwt } = require('../../support-features/server-utils')
 const HASH_QUANTITY = 4;
 
 async function getUserFromDB(phoneOrEmail) {
@@ -20,13 +18,7 @@ async function getUserFromDB(phoneOrEmail) {
   return user;
 }
 
-const generateJwt = (data) => {
-  return jwt.sign(
-    data,
-    process.env.SECRET_KEY,
-    { expiresIn: '24h' }
-  );
-}
+
 
 class UserController {
   async registration(req, res, next) {
@@ -61,6 +53,7 @@ class UserController {
         }
 
         const token = generateJwt({ id: newUser.id, phone: newUser.phone, pass: newUser.pass })
+        console.log(token)
         return res.json(token);
       }
       if (email) {

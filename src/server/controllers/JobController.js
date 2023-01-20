@@ -1,7 +1,7 @@
 const { Job, Media } = require('../models/models')
 const ApiError = require('../error/ApiError');
 const { json } = require('sequelize');
-const { writeFile } = require('../../support-features/server-utils');
+const { writeFile, generateJwt } = require('../../support-features/server-utils');
 
 
 class JobController {
@@ -18,7 +18,8 @@ class JobController {
       photo64
     } = req.body;
     // const {photo}=req.files
-    // console.log(req.body)
+    console.log('req.user')
+    console.log(req.user)
     const createdAt = new Date();
     const job = await Job.create({
       workAddress: workAddress,
@@ -39,9 +40,14 @@ class JobController {
         height: photoH || 0
       })
     }
-    return res.json(job);
+    console.log('req.user')
+    console.log(req.user)
+    const token = generateJwt({ id: req.user.id, phone: req.user.phone })
+    // console.log('req.user')
+    // console.log(token)
+    return res.json(token);
   }
-  
+
   async update(req, res) {
     const bodyObj = {};
     const body = req.body;

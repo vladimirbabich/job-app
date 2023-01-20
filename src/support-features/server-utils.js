@@ -2,6 +2,8 @@ const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
 
+const jwt = require('jsonwebtoken')
+
 function writeFile(uri, folder) {
     const regExMatches = uri.match('data:(.*);base64,(.*)');
     const imageData = {
@@ -22,4 +24,13 @@ function writeFile(uri, folder) {
     })
     return fileName;
 }
-module.exports = { writeFile }
+
+const generateJwt = (data) => {
+    return jwt.sign(
+      data,
+      process.env.SECRET_KEY,
+      { expiresIn: '24h' }
+    );
+  }
+
+module.exports = { writeFile, generateJwt }

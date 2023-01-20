@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 const jwt = require('jsonwebtoken')
 import axios from 'axios';
 import { StyleSheet, Text, ScrollView } from 'react-native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 
 import MenuField from '../components/MenuField';
 import generalStyles, { colors, mainWidth } from '../../../generalStyles';
@@ -51,6 +51,10 @@ export default function TabNewJobScreen() {
   };
   const handleClickCreateJob = async () => {
     console.log('ID: ' + jwt.decode(globalContext.jwtToken).id)
+    console.log(newJobUrl)
+    console.log(newJobData)
+    console.log(jwt.decode(globalContext.jwtToken).id)
+    console.log(`Bearer ${globalContext.jwtToken}`)
     axios.post(newJobUrl,
       {
         ...newJobData,
@@ -59,10 +63,11 @@ export default function TabNewJobScreen() {
       },
       {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${globalContext.jwtToken}`
         }
       }).then(res =>
-        console.log(res))
+        globalContext.setJwtToken(res.data))
   }
 
   const testF = async () => {
