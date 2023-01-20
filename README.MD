@@ -7,9 +7,27 @@ Used libraries:
 - express
 - postgreSQL
 - sequelize
-
+- and others ¯\\_(ツ)_/¯
 # todo(from 20.01)
 - check requests for get all jobs/registration/job creation
 - clear default values in forms
 - put more default data with finished jobs, etc
 - refactoring
+- make buttons functionality(offer service for job, setting worker of jobs
+- fix error when click job photo on manually created jobs
+# Functionality  
+#### TabRegistrationScreen
+- registration & login by using jwt
+#### TabJobsScreen
+- display jobs with work list, deadline, photos, etc
+- display photo gallery after clicking on the photo of any job 
+- switch photos by click on any item in scroll component  
+#### TabNewJobScreen
+- create new job with phone, address, work list, budget, photo, deadline  
+#### TabUsersScreen
+- display all users
+- filter users by their skills(displaying all users having any of selected skills)(by dropdownlist component)  
+#### TabAccountScreen
+- display account info
+- change about, phone, email
+- change skillset by dropdownlist component
