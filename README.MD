@@ -1,5 +1,5 @@
-# Portfolio project 
-Job-app project can be used to find offline-freelance jobs, or workers for this jobs. For example - repair pc, house cleaning, etc.
+# Job-app - Portfolio project 
+This projectcan be used to find offline-freelance jobs, or workers for this jobs. For example - repair pc, house cleaning, etc.
 Used libraries:
 - react
 - react-native
