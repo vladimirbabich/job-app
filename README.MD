@@ -8,11 +8,6 @@ Used libraries:
 - postgreSQL
 - sequelize
 - and others ¯\\_(ツ)_/¯
-# todo(from 20.01)
-- check requests for get all jobs/registration/job creation
-- put more default data with finished jobs, etc
-- refactoring
-- fix error when click job photo on manually created jobs
 # Functionality  
 #### TabRegistrationScreen
 - registration & login by using jwt
