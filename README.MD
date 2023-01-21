@@ -9,18 +9,18 @@ Used libraries:
 - sequelize
 - and others ¯\\_(ツ)_/¯
 # Functionality  
-#### TabRegistrationScreen
+#### Registration Screen
 - registration & login by using jwt
-#### TabJobsScreen
-- display jobs with work list, deadline, photos, etc
-- display photo gallery after clicking on the photo of any job 
-- switch photos by click on any item in scroll component  
-#### TabNewJobScreen
-- create new job with phone, address, work list, budget, photo, deadline  
-#### TabUsersScreen
+#### Create new job Screen
+- create new job with text info, photo, deadline  
+#### Jobs Screen
+- display jobs with text info and preview gallery of photos
+- display photo gallery  after clicking on the preview of any job 
+- switch displayed photo by clicking on another one from list  
+#### Users Screen
 - display all users
-- filter users by their skills(displaying all users having any of selected skills)(by dropdownlist component)  
-#### TabAccountScreen
+- filter users by their skills(shows all users with any of the selected skills)  
+#### Account Screen
 - display account info
-- change about, phone, email
-- change skillset by dropdownlist component
+- change values: about, phone, email
+- change skillset with dropdownlist component
