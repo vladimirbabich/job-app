@@ -6,46 +6,47 @@ const { writeFile, generateJwt } = require('../../support-features/server-utils'
 
 class JobController {
   async create(req, res) {
-    const {
-      workAddress,
-      workList,
-      price,
-      userId,
-      deadline,
-      photoUri,
-      photoW,
-      photoH,
-      photo64
-    } = req.body;
-    // const {photo}=req.files
-    console.log('req.user')
-    console.log(req.user)
-    const createdAt = new Date();
-    const job = await Job.create({
-      workAddress: workAddress,
-      workList: workList,
-      deadline: deadline ? new Date(deadline) : null,
-      price,
-      userId,
-      createdAt,
-      updatedAt: createdAt
-    });
+    try {
+      const {
+        workAddress,
+        workList,
+        price,
+        userId,
+        deadline,
+        photoUri,
+        photoW,
+        photoH,
+        status
+      } = req.body;
+      const createdAt = new Date();
 
-    if (photoUri && photoUri.indexOf('data:') >= 0) {
-      const fileName = writeFile(photoUri, 'job-photos');
-      const media = await Media.create({
-        jobId: job.dataValues.id,
-        fileName: fileName,
-        width: photoW || 0,
-        height: photoH || 0
-      })
+      const job = await Job.create({
+        workAddress: workAddress,
+        workList: workList,
+        deadline: deadline ? new Date(deadline) : null,
+        price,
+        userId,
+        status,
+        createdAt,
+        updatedAt: createdAt
+      });
+
+      if (photoUri && photoUri.indexOf('data:') >= 0) {
+        const fileName = writeFile(photoUri, 'job-photos');
+        const media = await Media.create({
+          jobId: job.dataValues.id,
+          fileName: fileName,
+          width: photoW || 0,
+          height: photoH || 0
+        })
+      }
+
+      const token = generateJwt({ id: req.user.id, phone: req.user.phone })
+      return res.json(token);
     }
-    console.log('req.user')
-    console.log(req.user)
-    const token = generateJwt({ id: req.user.id, phone: req.user.phone })
-    // console.log('req.user')
-    // console.log(token)
-    return res.json(token);
+    catch (e) {
+      res.json({ message: e.message })
+    }
   }
 
   async update(req, res) {
@@ -69,7 +70,7 @@ class JobController {
   }
 
   async getAll(req, res) {
-    const jobs = await Job.findAll();
+    const jobs = await Job.findAll({ where: { status: 'pending' } });
     const jobsWithMediaPromises = jobs.map(async el => {
       const media = await Media.findAll({ where: { jobId: el.dataValues.id } });
       if (media.length > 0)

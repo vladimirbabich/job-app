@@ -6,10 +6,6 @@ export function getNumberFromPercent(size, percent) {
   return size / 100 * percent;
 }
 export const checkValueOfString = (str, statement, errorMsg) => {
-  //if statement==true - return false
-  // console.log('12')
-  // console.log(str)
-  // console.log(statement)
   if (statement) {
     Alert.alert('Ошибка', errorMsg);
     console.log(errorMsg);
@@ -29,7 +25,6 @@ export const pickImage = async () => {
   });
 
   if (!result.cancelled) {
-    console.log('%c' + result, 'color:red');
     console.log(result);
     const photo = { uri: result.uri, w: result.width, h: result.height, b64: result.base64 };
     return photo;

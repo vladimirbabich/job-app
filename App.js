@@ -18,16 +18,16 @@ export default function App() {
 
   const [jwtToken, setJwtToken] = useState();
 
-  useEffect(() => {
-    console.log('token: ' + jwtToken)
-  }, [jwtToken]);
+  // useEffect(() => {
+  //   console.log('token: ' + jwtToken)
+  // }, [jwtToken]);
 
   useEffect(() => {
-    // console.log('%cgetStorageValue', 'color:red')
+    if(!jwtToken)
     getStorageValue('token').then(token => {
-      if (token)
-        if (!token === 'null')
-          setJwtToken(token)
+      if (token && token !== 'null') {
+        setJwtToken(token)
+      }
     })
   }, []);
 
@@ -36,6 +36,10 @@ export default function App() {
       jwtToken: jwtToken,
       setJwtToken: async (token) => {
         try {
+          if (token?.message) {
+            console.log(`Error: ${token.message}`)
+            return false
+          }
           setJwtToken(token)
           await AsyncStorage.setItem(
             'token',
@@ -52,7 +56,6 @@ export default function App() {
       <View style={styles.screen}>
         <StatusBar style="auto" />
         <View style={styles.main}>
-          {/* {console.log(jwtToken)} */}
           {!!jwtToken ? <NavigationContainer >
             <TabNavigator />
           </NavigationContainer>

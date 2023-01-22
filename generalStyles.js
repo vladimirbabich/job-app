@@ -24,13 +24,13 @@ export const colors = {
   descriptionColor: '#8d99ae',
 };
 const generalStyles = {
-  centerBlock: ({ width }) => {
+  centerBlock: ({ width, height, offsetY }) => {
     return {
       alignItems: 'flex-end',
       marginLeft: 'auto',
       marginRight: 'auto',
       position: 'fixed',
-      bottom: '10vh',
+      top: offsetY+windowHeight-(windowHeight*0.25)-height,
       left: (windowWidth - width) / 2,
       justifyContent: 'center',
       flexDirection: 'column',
@@ -43,8 +43,8 @@ const generalStyles = {
     zIndex: 2,
   },
   screenScroll: {
-    flex: 1,
-    
+    // flex: 1,
+    flexGrow: 1,
     backgroundColor: colors.backgroundColor,
     paddingTop: '5%',
     width: '100%',

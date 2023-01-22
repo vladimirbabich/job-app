@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import { ScrollView, View, Text, StyleSheet, Alert, TextInput } from 'react-native';
 import axios from 'axios';
 import { GlobalContext } from '../../../App';
@@ -16,7 +16,6 @@ export default function TabRegistrationScreen() {
   const refAbout = useRef();
   let photo = undefined;
   let globalContext = useContext(GlobalContext);
-  console.log(globalContext)
 
   const checkFieldValues = (name, phone, pass) => {
     if (!checkValueOfString(phone, (phone == ''),
@@ -51,7 +50,6 @@ export default function TabRegistrationScreen() {
         Alert.alert(e.response.data.message)
       })
     }
-    console.log(refName.current?.value, fixedPhone, refPass.current?.value)
     if (!checkFieldValues(refName.current?.value, fixedPhone, refPass.current?.value)) {
       return false;
     }
@@ -72,7 +70,6 @@ export default function TabRegistrationScreen() {
       }
     })
       .then((result) => {
-        console.log(result)
         globalContext.setJwtToken(result.data)
       }).catch((e) => {
         console.log(e)
@@ -82,7 +79,6 @@ export default function TabRegistrationScreen() {
 
   const handleClickPhoto = async () => {
     photo = await pickImage();
-    // console.log(photo)
   }
 
   return (
@@ -174,3 +170,4 @@ const styles = StyleSheet.create({
     color: 'red',
   },
 });
+

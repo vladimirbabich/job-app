@@ -28,7 +28,6 @@ class MediaController {
       const imgFormat = splittedFileName[splittedFileName.length - 1];
       fileName = uuid.v4() + '.' + imgFormat;
       originalName = file.name;
-      console.log(file)
       file.mv(path.resolve(__dirname, '../static', 'job-photos', fileName));
       const media = await Media.create({ fileName, jobId, originalName })
       return res.json(media);
@@ -44,7 +43,6 @@ class MediaController {
       if ((!jobId && !userId) || !fileName) {
         next(ApiError.badRequest('wrong data in MediaController request'));
       }
-      // console.log(req.query)
       const media = await Media.create({ fileName, jobId, userId, width, height })
       return res.json(media);
     } catch (e) {

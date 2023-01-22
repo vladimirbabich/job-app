@@ -49,11 +49,9 @@ class UserController {
           })
         } else {
           console.log('photo warning: not base64 format')
-          // console.log(photoUri)
         }
 
         const token = generateJwt({ id: newUser.id, phone: newUser.phone, pass: newUser.pass })
-        console.log(token)
         return res.json(token);
       }
       if (email) {
@@ -67,7 +65,6 @@ class UserController {
   }
 
   async update(req, res, next) {
-    // console.log(req.query)
     const { query } = req;
     const { id } = query
     if (!id)
@@ -98,8 +95,7 @@ class UserController {
 
     let comparedPass = bcrypt.compareSync(pass, user.pass);
     if (comparedPass) {
-      // login
-      console.log(user.id, user.phone)
+      (user.id, user.phone)
       const token = generateJwt({ id: user.id, phone: user.phone });
       return res.json({ token });
     }
@@ -115,8 +111,6 @@ class UserController {
   async get(req, res, next) {
     const { id } = req.query;
     if (!id) return next(ApiError.badRequest('ID not found'));
-    // const all = await User.findAll();
-    // console.log(all)
     const user = await User.findByPk(id);
     const photo = await Media.findOne({ where: { userId: id } });
     const userSkills = await UserSkill.findAll({ where: { userId: id } });
@@ -148,13 +142,11 @@ class UserController {
     const users = await User.findAll();
     let allSkills = await Skill.findAll()
     allSkills = allSkills.map(el => el.dataValues)
-    // console.log(allSkills)
     const preparedUsers = users.map(async el => {
-      // console.log('id: ' + el.dataValues.id)
       const photo = await Media.findOne({ where: { userId: el.dataValues.id } })
       const completedJobs = await Job.findAndCountAll({
         where: {
-          status: 'completed',//pending/in progress
+          status: 'done',//pending/in progress
           userId: el.dataValues.id
         }
       })
@@ -166,9 +158,7 @@ class UserController {
       userSkills = userSkills.map(el => {
         return allSkills[allSkills.map(el => el.id).indexOf(el.dataValues.skillId)].name;
       })
-      // if (photo) {
-      //   console.log(photo.dataValues.userId)
-      // }
+      
       return {
         id: el.dataValues.id,
         name: el.dataValues.name,

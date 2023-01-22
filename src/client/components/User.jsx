@@ -6,7 +6,6 @@ const avatarFolderUrl = 'http://localhost:7000/avatars/'
 const noAvatarUrl = 'http://localhost:7000/noAvatar.png'
 
 export default function User(props) {
-  // console.log(props)
   const [aboutUI, setAboutUI] = useState();
   const { user } = props;
 

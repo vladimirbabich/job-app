@@ -1,4 +1,3 @@
-console.log('asdasd')
 const axios = require('axios')
 const data = require('./defaultData');
 const updateUserUrl = 'http://localhost:7000/api/user/update'
@@ -50,7 +49,6 @@ function insertAndWaitDBInsertion(index) {
 
 function testDB() {
   console.log("testDB");
-  // console.log(urlArray)
   insertAndWaitDBInsertion()
 }
 
@@ -62,7 +60,13 @@ function insertTable(dataForDB, { tableName, method, url }) {
     if (method == 'post') {
       promises.push(axios.post(url, {
         ...el
-      }))
+      },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsInBob25lIjoiMzQzNDM0MzQzNDM0IiwiaWF0IjoxNjc0MjcyODA5LCJleHAiOjE2NzQzNTkyMDl9.S2pLE_03AkHg6LRs4JGLpPIHKj229ODw_b_u8pMad7k`
+          }
+        }))
     } else {
       let fullUrl = `${url}`;
       let isFirstKey = true;
@@ -71,7 +75,6 @@ function insertTable(dataForDB, { tableName, method, url }) {
         isFirstKey = false;
         fullUrl += `${separator}${prop}=${el[prop]}`;
       }
-      // console.log(url);
       promises.push(axios.get(fullUrl));
     }
   })

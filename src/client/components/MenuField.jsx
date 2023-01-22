@@ -1,33 +1,46 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Pressable, StyleSheet, TextInput, View, Text } from 'react-native';
+import { GlobalContext } from '../../../App';
 import generalStyles from '../../../generalStyles';
+const jwt = require('jsonwebtoken')
 
 export default function MenuField(props) {
   const { field } = props;
-
+  const globalContext = useContext(GlobalContext);
+  const [phone, setPhone] = useState(jwt.decode(globalContext.jwtToken)?.phone || '');
   return (
-    <View style={styles.field} key={'key_' + field[0]}>
+
+    < View style={styles.field} key={'key_' + field[0]} >
       <View style={styles.wrapper}>
         <Text style={styles.fieldDesc} >{field[1] + '\n'}</Text>
         {field[2] ? <Text style={styles.necessary}> *</Text> : null}
       </View>
-      {field[0] == 'workList' ?
-        <TextInput
-          name={field[0]}
-          multiline={true}
-          numberOfLines={4}
-          type="text"
-          style={generalStyles.textInput}
-          onChange={(e) => { props.onChange(e, field[0]) }}
-          value={'123123213'} />
-        :
-        <TextInput name={field[0]}
-          type="text"
-          style={generalStyles.textInput}
-          onChange={(e) => { props.onChange(e, field[0]) }}
-          value={'123123123'} />
+      {
+        field[0] == 'workList' ?
+          <TextInput
+            name={field[0]}
+            multiline={true}
+            numberOfLines={4}
+            type="text"
+            style={generalStyles.textInput}
+            onChange={(e) => { props.onChange(e, field[0]) }}
+          />
+          :
+          field[0] == 'phone' ?
+            <TextInput name={field[0]}
+              type="text"
+              value={phone}
+              style={generalStyles.textInput}
+              onChange={(e) => { setPhone(e.target.value); props.onChange(e, field[0]) }}
+            />
+            :
+            <TextInput name={field[0]}
+              type="text"
+              style={generalStyles.textInput}
+              onChange={(e) => { props.onChange(e, field[0]) }}
+            />
       }
-    </View>
+    </View >
   );
 }
 

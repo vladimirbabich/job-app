@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 const jwt = require('jsonwebtoken')
 import axios from 'axios';
 import { StyleSheet, Text, ScrollView } from 'react-native';
@@ -16,9 +16,8 @@ export default function TabNewJobScreen() {
   //fields values: name, description for user, necessarity
   let fields = [
     ['phone', 'Phone number', true],
-    ['clientName', 'Username', true],
     ['workAddress', 'Work address', true],
-    ['workList', 'Requested tasks', true],
+    ['workList', 'Work list', true],
     ['price', 'Budget', false]
   ];
   const [newJobData, setNewJobData] = useState({});
@@ -32,29 +31,23 @@ export default function TabNewJobScreen() {
       [name]: target.value
     }))
   }
-  useEffect(() => {
-    console.log('%cnewJobData:', 'color:green; font-size: 15px');
-    console.dir(newJobData);
-  }, [newJobData]);
 
   const handleClickAddMedia = async () => {
     const photo = await pickImage();
-    console.log(photo)
     // No permissions request is necessary for launching the image library
     setNewJobData(prev => ({
       ...prev,
       photoUri: photo?.uri,
       photoW: photo?.w,
       photoH: photo?.h,
-      photo64: photo?.b64,
     }))
   };
   const handleClickCreateJob = async () => {
-    console.log('ID: ' + jwt.decode(globalContext.jwtToken).id)
-    console.log(newJobUrl)
-    console.log(newJobData)
-    console.log(jwt.decode(globalContext.jwtToken).id)
-    console.log(`Bearer ${globalContext.jwtToken}`)
+    if (!newJobData?.workList) return;
+    var bodyFormData = new FormData();
+    for (const el in newJobData) {
+      bodyFormData.append(el, newJobData[el]);
+    }
     axios.post(newJobUrl,
       {
         ...newJobData,
@@ -107,13 +100,13 @@ export default function TabNewJobScreen() {
     }
   }
   const handleClickChooseDate = (e) => {
-    console.log(e.target)
     setIsActiveCalendar(!isActiveCalendar);
   }
   return (
     <ScrollView contentContainerStyle={generalStyles.screenScroll}>
       <Text style={generalStyles.title}>Fill in the details of a job:</Text>
       {fields.map((el) => {
+        if (el[0] == 'phone') return <MenuField newJobData={newJobData} key={el[0]} field={el} onChange={(e, name) => handleJobData(e, name)} />
         return <MenuField key={el[0]} field={el} onChange={(e, name) => handleJobData(e, name)} />
       })}
       <CustomButton

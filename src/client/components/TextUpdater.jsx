@@ -6,8 +6,6 @@ import { CustomButton } from './CustomButton';
 
 export default function TextUpdater({ currentProperty, name, updateHandler, cancelHandler }) {
   const [currentText, setCurrentText] = useState(currentProperty.value);
-  // console.log(currentKey)
-  // const keyRef = key;
   const inputRef = useRef(null);
   const handleTextInputUpdate = ({ target }, name) => {
     setCurrentText(target.value)

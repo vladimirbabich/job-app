@@ -9,11 +9,13 @@ function writeFile(uri, folder) {
     const imageData = {
         imageType: '.' + regExMatches[1].split('/')[1],
         dataBuffer: Buffer.from(regExMatches[2], 'base64')
+        // dataBuffer: new Buffer.alloc(5000, regExMatches[2], 'base64')
     }
     const fileName = uuid.v4() + imageData.imageType;
     const filePath = path.resolve(__dirname, '../../src/server/static', folder, fileName);
-    
-    fs.writeFile(filePath, imageData.dataBuffer, {
+    const uriPath = path.resolve(__dirname, '../../src/server/static', folder, 'uri.txt');
+
+    fs.writeFileSync(filePath, Buffer.from(regExMatches[2], 'base64'), {
         encoding: "base64",
     }, (err) => {
         if (err) {
@@ -22,15 +24,16 @@ function writeFile(uri, folder) {
         }
         console.log("File written successfully");
     })
+
     return fileName;
 }
 
 const generateJwt = (data) => {
     return jwt.sign(
-      data,
-      process.env.SECRET_KEY,
-      { expiresIn: '24h' }
+        data,
+        process.env.SECRET_KEY,
+        { expiresIn: '24h' }
     );
-  }
+}
 
 module.exports = { writeFile, generateJwt }

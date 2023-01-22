@@ -27,7 +27,6 @@ export function Gallery(props) {
     setMainMedia({ ...image });
   }
 
-  console.log(useContext(GalleryStyleContext))
   const { style, isOverlay, setIsOverlay } = useContext(GalleryStyleContext);
 
   if (!media || media.length == 0) {
@@ -35,16 +34,21 @@ export function Gallery(props) {
       noImgUrl,
       style.mainImg);
   }
-  // console.log('%cnewJobData:', 'color:green; font-size: 15px')
   const imgWidth = overlayImageSize.w;
   const imgHeight = mainMedia.height / (mainMedia.width / generalStyles.overlayImage.width)
-  const imgStyle = isOverlay ? {
+  const imgStyle = (isOverlay && props?.offsetY !== undefined) ? {
     ...generalStyles.overlayImage, resizeMode: 'contain',
     height: imgHeight
   } : style.mainImg;
 
   return (
-    <View style={isOverlay ? generalStyles.centerBlock({ width: imgWidth }) : null}>
+    <View style={(isOverlay && props?.offsetY !== undefined) ?
+      generalStyles.centerBlock({
+        width: imgWidth,
+        height: imgHeight,
+        offsetY: props.offsetY
+      })
+      : null}>
       {createImageComponent(
         photoFolderUrl + mainMedia.fileName,
         imgStyle

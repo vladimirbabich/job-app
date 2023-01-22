@@ -21,10 +21,10 @@ app.use(errorHandler);
 const start = async () => {
   try {
     await sequelize.authenticate();
-    // await sequelize.drop({ force: true });//only if  need to insert default test data into DB
+    await sequelize.drop({ force: true });//only if  need to insert default test data into DB
     console.log("All tables dropped!");
-    // await sequelize.sync({ force: true });
-    // testDB();
+    await sequelize.sync({ force: true });
+    testDB();
     app.listen(PORT, () => {
       console.log('server started on: ' + PORT);
     })

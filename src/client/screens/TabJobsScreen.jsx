@@ -26,6 +26,7 @@ const scrollSize = {
 
 export default function TabJobsScreen() {
   const [data, setData] = useState([]);
+  const [contentOffset, setContentOffset] = useState({ y: 0 });
   const [openedJobId, setOpenedJobId] = useState(-1);//if>=0 -> overlayMode with gallery of medias from jobArray[openedJobId]
   const [isOverlay, setIsOverlay] = useState(false);
 
@@ -40,14 +41,13 @@ export default function TabJobsScreen() {
   }, []);
 
   useEffect(() => {
-    openedJobId != -1 ? setIsOverlay(true) : setIsOverlay(false) 
+    openedJobId != -1 ? setIsOverlay(true) : setIsOverlay(false)
   }, [openedJobId]);
 
   function handleCartClick(jobId) {
     if (!data)
       console.log('NO DATA! Somehow data is empty, this means that you dont see any imgs in JOB carts')
     const index = data.map(e => e.id).indexOf(jobId);
-
     //if job has media/s OR it`s Overlay component
     if (index == -1 || data[index]?.media != undefined) {
       setOpenedJobId(jobId);
@@ -66,19 +66,32 @@ export default function TabJobsScreen() {
       </View>
     );
   }
-  function showOverlay(openedJobId) {
+  function showOverlay(openedJobId, offset) {
     return (
       <GalleryStyleContext.Provider value={{ style: galleryStyle, isOverlay }}>
-        <Overlay data={data} openedJobId={openedJobId} onClick={handleCartClick} />
+        <Overlay
+          data={data}
+          contentOffsetY={offset}
+          openedJobId={openedJobId}
+          onClick={handleCartClick} />
       </GalleryStyleContext.Provider>
     )
   }
 
   return (
-    <ScrollView scrollEnabled={!isOverlay} contentContainerStyle={generalStyles.screenScroll}>
-      {(openedJobId > -1) ? showOverlay(openedJobId) : null}
+    <ScrollView
+      scrollEnabled={!isOverlay}
+      onScroll={(e) => {
+        setContentOffset({ y: e.nativeEvent.contentOffset.y });
+      }}
+      contentContainerStyle={generalStyles.screenScroll}>
+      {(openedJobId > -1) ? showOverlay(openedJobId, contentOffset.y) : null}
       <Text style={generalStyles.title}>Available jobs:</Text>
-      <GalleryStyleContext.Provider value={{ style: previewStyle, isOverlay, setIsOverlay }}>
+      <GalleryStyleContext.Provider value={{
+        style: previewStyle,
+        isOverlay,
+        setIsOverlay
+      }}>
         {data.map((el => {
           return (
             <Job job={el} key={el.id} onClick={handleCartClick} />

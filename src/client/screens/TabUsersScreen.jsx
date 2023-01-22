@@ -19,10 +19,6 @@ export default function TabUsersScreen() {
   }, []);
 
   useEffect(() => {
-    // console.log(usersUI)
-  }, [usersUI]);
-
-  useEffect(() => {
     const arr = users.filter(el => {
       for (const item of filter) {
         if (el.skills.indexOf(item) > -1)

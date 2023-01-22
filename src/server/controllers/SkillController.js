@@ -8,7 +8,6 @@ class SkillController {
 
     if (skillsDB.length > 0) {
       skillsDB.map(async (el) => {
-        // console.log(el)
         if (!el.name == name) {
           const newDBSkill = await Skill.create({ name })
           return res.json(newDBSkill);

@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Pressable, StyleSheet, Image, TouchableOpacity, TextInput, View, Text } from 'react-native';
 import generalStyles, { colors, mainWidth } from '../../../generalStyles';
+const jwt = require('jsonwebtoken')
 
 import { CustomButton } from './CustomButton';
 import { Gallery } from './Gallery';
 import { Avatar } from './Avatar';
+import { GlobalContext } from '../../../App';
 
 const JOBSETTINGSFONTSIZE = 25;
 const WORKLISTFONTSIZE = 16;
 
 export default function Job(props) {
+
+  let globalContext = useContext(GlobalContext);
+  const userId = jwt.decode(globalContext.jwtToken).id;
+
   const fixedWorkList = props.job.workList.replaceAll(/\n/gm, ' ');
   let tempWL = fixedWorkList.length > 80 ?
     fixedWorkList.substring(0, 80) + '...' :
@@ -21,7 +27,6 @@ export default function Job(props) {
   const deadlineJSX = job.deadline ?
     <Text style={styles.deadline} >Deadline: {job.deadline.split('T')[0]}</Text> :
     <Text style={styles.deadline} >Deadline not specified</Text>;
-  console.log(job)
   const workAddressJSX = job.workAddress ?
     <Text style={styles.workAddress} >Address: {job.workAddress}</Text> :
     <Text style={styles.workAddress} >Address not specified</Text>;
@@ -41,37 +46,41 @@ export default function Job(props) {
     if (props.job.extraInfo) setExtraBtnBool(true);
   }, []);
 
+  return (userId == job.id) ? null :
 
-  return (
-    <TouchableOpacity style={styles.job} onPress={showExtra}>
-      {/* <Pressable id='extraInfo' style={styles.btnExtra} onPress={showExtra}> */}
+    (
+      <TouchableOpacity style={styles.job} onPress={showExtra}>
+        {/* <Pressable id='extraInfo' style={styles.btnExtra} onPress={showExtra}> */}
 
-      {/* <View style={styles.header}>
+        {/* <View style={styles.header}>
       </View> */}
-      <View style={styles.middle}>
-        <View style={styles.leftSide}>
-          <Text style={styles.jobID} >Order №{props.job.id}</Text>
-          <TouchableOpacity style={styles.gallery} onPress={() => {
-            props.onClick(props.job.id)
-          }}>
-            <Gallery media={props.job.media} key={job.id} />
-          </TouchableOpacity>
-          <Avatar id={props.job.userId} />
+        <View style={styles.middle}>
+          <View style={styles.leftSide}>
+            <Text style={styles.jobID} >Order №{job.id}</Text>
+            <TouchableOpacity style={styles.gallery} onPress={() => {
+              props.onClick(job.id)
+            }}>
+              <Gallery media={job.media} key={job.id} />
+            </TouchableOpacity>
+            <Avatar id={job.userId} />
+          </View>
+          <View style={styles.description}>
+            <Text style={styles.workList} >{workListUI}</Text>
+            {priceJSX}
+            {workAddressJSX}
+            {deadlineJSX}
+
+            <CustomButton
+              title='Offer your services'
+              btnStyle={generalStyles.btnSmall}
+              textStyle={generalStyles.btnTxtSmall}
+              callback={() => { console.log('Offer your services'); }} />
+
+
+          </View>
         </View>
-        <View style={styles.description}>
-          <Text style={styles.workList} >{workListUI}</Text>
-          {priceJSX}
-          {workAddressJSX}
-          {deadlineJSX}
-          <CustomButton
-            title='Offer your services'
-            btnStyle={generalStyles.btnSmall}
-            textStyle={generalStyles.btnTxtSmall}
-            callback={() => { console.log('Offer your services'); }} />
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
 }
 
 

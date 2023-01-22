@@ -19,7 +19,6 @@ import {
 
 export default function TabAccountScreen() {
   let globalContext = useContext(GlobalContext);
-  console.log(globalContext)
   const userId = jwt.decode(globalContext.jwtToken).id;
   //screen states
   const [account, setAccount] = useState();//raw data of an acc from server
@@ -34,10 +33,6 @@ export default function TabAccountScreen() {
   //textUpdater state
   const [renderTU, setRenderTU] = useState(false);
   const [currentProperty, setCurrentProperty] = useState();
-
-  useEffect(() => {
-    console.log(allSkills)
-  }, [allSkills]);
 
   useEffect(() => {
     if (globalContext.jwtToken) {
@@ -66,16 +61,10 @@ export default function TabAccountScreen() {
   const handleCloseSessionClick = () => {
     AsyncStorage.clear();
     globalContext.setJwtToken(null)
-    // console.log(RNExitApp.exitApp)
-    // RNExitApp.exitApp();
   }
 
   const updateTextValue = ({ key, value }) => {
-    // console.log(key, value)
-    // console.log(account[key])
-
     if (value != account[key]) {
-      console.log('!=')
       axios.get(`${updateUserUrl}?id=${userId}&${key}=${value}`)
         .then((result) => {
           setAccountUI(prev => {
@@ -89,7 +78,6 @@ export default function TabAccountScreen() {
     setRenderTU(!renderTU);
   }
   const toggleRenderTU = ({ key, value }) => {
-    // console.log(key, value)
     setCurrentProperty({ key, value })
     setRenderTU(!renderTU);
   }
@@ -159,7 +147,6 @@ export default function TabAccountScreen() {
             title='🖊'
             btnStyle={styles.redactorBtn}
             callback={() => {
-              console.log('Change');
               if (isDropdown) {//if drop down closing ->update screen and DB
                 setAccountUI(prev => {
                   return { ...prev, skills: currentSkills }
@@ -183,7 +170,7 @@ export default function TabAccountScreen() {
         {showDropdown(isDropdown)}
         <View style={{ flexFlow: 'row wrap' }}>
           {accountUI.skills.map((el, i) =>
-            <Text key={el} style={styles.skill}>- {el}</Text>)}
+            <Text key={el} style={styles.skill}>{el}</Text>)}
         </View>
       </View>
       <CustomButton
