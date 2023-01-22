@@ -8,6 +8,8 @@ Used libraries:
 - postgreSQL
 - sequelize
 - and others ¯\\_(ツ)_/¯
+# Youtube
+https://youtube.com/shorts/3u4EuGOwJ58?feature=share
 # Functionality  
 #### Registration Screen
 - registration & login by using jwt
